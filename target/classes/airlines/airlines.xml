@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+  -->
+<root>
+    <airline>
+        <name>Delta Air Lines</name>
+        <iata>DL</iata>
+        <icao>DAL</icao>
+        <headquarters>Atlanta, GA</headquarters>
+        <valuation>USD 41510000000</valuation>
+        <private>false</private>
+        <hubs>EHAM,KBOS,KCVG,KDTW,KATL,KJFK,KLGA,KLAX,KMSP,LFPG,KSLC,KSEA,RJAA</hubs>
+        <subsidiaries>FLG</subsidiaries>
+        <shares>843010000</shares>
+        <ceo>Richard H. Anderson</ceo>
+        <country>US</country>
+        <subsidiary>false</subsidiary>
+        <earnings>USD 10540000000</earnings>
+        <costs>USD 7140000000</costs>
+        <cash>USD 11643000000</cash>
+        <dividends>.0084</dividends>
+        <reputation>96</reputation>
+        <aggressiveness>72</aggressiveness>
+        <faPay>USD 36000</faPay>
+        <mechPay>USD 65000</mechPay>
+        <pilotPay>USD 92000</pilotPay>
+        <codeshares>ASA,GLO,HAL,GIA,OAL,VIR,VOZ</codeshares>
+        <style>Standard,Legacy</style>
+        <alliance>
+            <name>SkyTeam</name>
+        </alliance>
+        <fleet>
+            <subfleet>
+                <type>Airbus A319-100</type>
+                <leased>2</leased>
+                <owned>55</owned>
+                <age>12.4</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>12</first>
+                    <business>0</business>
+                    <ecoplus>18</ecoplus>
+                    <economy>96</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Airbus A320-200</type>
+                <leased>19</leased>
+                <owned>50</owned>
+                <age>19.3</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>12</first>
+                    <business>0</business>
+                    <ecoplus>18</ecoplus>
+                    <economy>120</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Airbus A321-200</type>
+                <leased>0</leased>
+                <owned>0</owned>
+                <age>12.4</age>
+                <onOrder>45</onOrder>
+                <config>
+                    <first>20</first>
+                    <business>0</business>
+                    <ecoplus>23</ecoplus>
+                    <economy>149</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Airbus A330-200</type>
+                <leased>0</leased>
+                <owned>11</owned>
+                <age>9.2</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>34</business>
+                    <ecoplus>32</ecoplus>
+                    <economy>168</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Airbus A330-300</type>
+                <leased>0</leased>
+                <owned>21</owned>
+                <age>8.8</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>34</business>
+                    <ecoplus>32</ecoplus>
+                    <economy>227</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 717-200</type>
+                <leased>88</leased>
+                <owned>0</owned>
+                <age>12.6</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>12</first>
+                    <business>0</business>
+                    <ecoplus>15</ecoplus>
+                    <economy>83</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 737-700</type>
+                <leased>0</leased>
+                <owned>10</owned>
+                <age>5.4</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>12</first>
+                    <business>0</business>
+                    <ecoplus>18</ecoplus>
+                    <economy>94</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 737-800</type>
+                <leased>0</leased>
+                <owned>73</owned>
+                <age>13.4</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>16</first>
+                    <business>0</business>
+                    <ecoplus>18</ecoplus>
+                    <economy>126</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 737-900ER</type>
+                <leased>8</leased>
+                <owned>15</owned>
+                <age>0.5</age>
+                <onOrder>73</onOrder>
+                <config>
+                    <first>20</first>
+                    <business>0</business>
+                    <ecoplus>21</ecoplus>
+                    <economy>139</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 747-400</type>
+                <leased>12</leased>
+                <owned>4</owned>
+                <age>20.6</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>48</business>
+                    <ecoplus>42</ecoplus>
+                    <economy>286</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 757-200</type>
+                <leased>36</leased>
+                <owned>98</owned>
+                <age>20.0</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>26</first>
+                    <business>0</business>
+                    <ecoplus>26</ecoplus>
+                    <economy>132</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 757-300</type>
+                <leased>0</leased>
+                <owned>16</owned>
+                <age>11.3</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>24</first>
+                    <business>0</business>
+                    <ecoplus>26</ecoplus>
+                    <economy>184</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 767-300</type>
+                <leased>5</leased>
+                <owned>11</owned>
+                <age>23.4</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>30</first>
+                    <business>0</business>
+                    <ecoplus>28</ecoplus>
+                    <economy>203</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 767-300ER</type>
+                <leased>7</leased>
+                <owned>51</owned>
+                <age>18.2</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>26</business>
+                    <ecoplus>29</ecoplus>
+                    <economy>171</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 767-400ER</type>
+                <leased>0</leased>
+                <owned>21</owned>
+                <age>13.3</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>40</business>
+                    <ecoplus>28</ecoplus>
+                    <economy>178</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 777-200ER</type>
+                <leased>0</leased>
+                <owned>8</owned>
+                <age>14.4</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>37</business>
+                    <ecoplus>36</ecoplus>
+                    <economy>218</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 777-200LR</type>
+                <leased>0</leased>
+                <owned>10</owned>
+                <age>5.2</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>37</business>
+                    <ecoplus>36</ecoplus>
+                    <economy>218</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 787-8</type>
+                <leased>0</leased>
+                <owned>0</owned>
+                <age>0.0</age>
+                <onOrder>18</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>36</business>
+                    <ecoplus>70</ecoplus>
+                    <economy>113</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>McDonnell Douglas MD-88</type>
+                <leased>41</leased>
+                <owned>76</owned>
+                <age>24.0</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>16</first>
+                    <business>0</business>
+                    <ecoplus>15</ecoplus>
+                    <economy>118</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>McDonnell Douglas MD-90-30</type>
+                <leased>8</leased>
+                <owned>57</owned>
+                <age>17.4</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>16</first>
+                    <business>0</business>
+                    <ecoplus>15</ecoplus>
+                    <economy>129</economy>
+                </config>
+            </subfleet>
+        </fleet>
+        <routes>
+            <route>
+                <flightnumber>0745</flightnumber>
+                <departs>KDTW</departs>
+                <arrives>KSFO</arrives>
+                <frequency>7</frequency>
+                <departure>08:40</departure>
+                <aircrafttype>Boeing 757-300</aircrafttype>
+            </route>
+        </routes>
+        <slots>
+            <slot>
+                <airport>KDCA</airport>
+                <exemption>true</exemption>
+                <daily>4</daily>
+            </slot>
+            <slot>
+                <airport>KJFK</airport>
+                <exemption>false</exemption>
+                <daily>414</daily>
+            </slot>
+            <slot>
+                <airport>KLGA</airport>
+                <exemption>false</exemption>
+                <daily>556</daily>
+            </slot>
+        </slots>
+    </airline>
+    <airline>
+        <name>United Airlines</name>
+        <iata>UA</iata>
+        <icao>UAL</icao>
+        <headquarters>Chicago, IL</headquarters>
+        <valuation>USD 26610000000</valuation>
+        <private>false</private>
+        <hubs>ORD,SFO,EWR,IAD</hubs>
+        <subsidiaries>UCA</subsidiaries>
+        <shares>6326920</shares>
+        <ceo>Jeff Smisek</ceo>
+        <country>US</country>
+        <subsidiary>false</subsidiary>
+        <earnings>USD 38300000000</earnings>
+        <costs>USD 37030000000</costs>
+        <cash>USD 5121000000</cash>
+        <dividends>0.0</dividends>
+        <reputation>85</reputation>
+        <aggressiveness>40</aggressiveness>
+        <faPay>USD 39126</faPay>
+        <pilotPay>USD 120783</pilotPay>
+        <mechPay>USD 69374</mechPay>
+        <codeshares>EIN,TAO,DLA,KAP,AZU,EDW,GWI,GLA,HAL,MKU,JAI,SIL</codeshares>
+        <alliance>
+            <name>Star Alliance</name>
+        </alliance>
+    </airline>
+</root>

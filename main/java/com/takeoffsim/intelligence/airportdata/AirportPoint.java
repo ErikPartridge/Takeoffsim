@@ -1,0 +1,56 @@
+/*
+ * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ */
+
+package com.takeoffsim.intelligence.airportdata;
+
+import com.javadocmd.simplelatlng.LatLng;
+import com.javadocmd.simplelatlng.LatLngTool;
+import com.javadocmd.simplelatlng.util.LengthUnit;
+import com.takeoffsim.airport.Airport;
+import org.apache.commons.math3.ml.clustering.Clusterable;
+
+/**
+ * Created by Erik in 11, 2014.
+ */
+public class AirportPoint implements Clusterable {
+
+    private double[] data;
+
+    private Airport airport;
+
+    @Override
+    public double[] getPoint() {
+        return getData();
+    }
+
+    public AirportPoint(Airport apt, Airport hub){
+        this.setAirport(apt);
+        setData(new double[4]);
+        getData()[0] = 1/ LatLngTool.distance(new LatLng(apt.getLatitude(), apt.getLongitude()), new LatLng(hub.getLatitude(), hub.getLongitude()), LengthUnit.NAUTICAL_MILE);
+        getData()[1] = getAirport().getAllocatedDemand();
+        getData()[2] = getAirport().getNumFlights();
+        if(hub.getCountry().equals(apt.getCountry())){
+            getData()[3] = 1;
+        }else{
+            getData()[3] = .666666666666667d;
+        }
+    }
+
+
+    public double[] getData() {
+        return data;
+    }
+
+    public void setData(double[] data) {
+        this.data = data;
+    }
+
+    public Airport getAirport() {
+        return airport;
+    }
+
+    public void setAirport(Airport airport) {
+        this.airport = airport;
+    }
+}
