@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Airplane>
+    <!--- Prices in USD, units are ft or lbs or nm -->
+    <Name>Airbus A318-111</Name>
+    <Manufacturer>Airbus</Manufacturer>
+    <ListPrice>70100000</ListPrice>
+    <IntroToService>15-1-02</IntroToService>
+    <MaxPaxCapacity>132</MaxPaxCapacity>
+    <CargoCapacity>749</CargoCapacity>
+    <OEW>87100</OEW>
+    <MZFW>120200</MZFW>
+    <MLW>127200</MLW>
+    <MTOW>149900</MTOW>
+    <SFC>0.340</SFC>
+    <WingletsAvailable>true</Winglets>
+    <Speed>444</Speed>
+    <Engines>
+        <Engine>
+            <Manufacturer>CFM International</Manufacturer>
+            <Type>CFM56-5B8</Type>
+        </Engine>
+    </Engines>
+<Airplane>

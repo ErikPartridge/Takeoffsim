@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <Airplane>
+    <!--- Prices in USD, units are ft or lbs or nm -->
+        <Name>Airbus A320-214</Name>
+        <Manufacturer>Airbus</Manufacturer>
+        <ListPrice>91500000</ListPrice>
+        <IntroToService>28-3-1988</IntroToService>
+        <MaxPaxCapacity>189</MaxPaxCapacity>
+        <CargoCapacity>1321.12</CargoCapacity>
+        <OEW>94000</OEW>
+        <MZFW>138000</MZFW>
+        <MLW>150000</MLW>
+        <MTOW>170000</MTOW>
+        <SFC>.330</SFC>
+        <WingletsAvailable>true</WingletsAvailable>
+        <Speeed>444</Speed>
+        <Engines>
+            <Engine>
+                <Manufacturer>CFM International</Manufacturer>
+                <Type>CFM56-5B4</Type>
+            </Engine>
+        </Engines>
+</Airplane>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+  -->
+
+<Region>
+	<Name>RhodeIsland</Name>
+	<SubRegion>
+		<SubName>Bristol</SubName>
+		<Population>49220</Population>
+		<Income>71086</Income>
+		<Latitude>41.701614</Latitude>
+		<Longitude>-71.289286</Longitude>
+	</SubRegion>
+	<SubRegion>
+		<SubName>Kent</SubName>
+		<Population>165035</Population>
+		<Income>61884</Income>
+		<Latitude>41.668949</Latitude>
+		<Longitude>-71.577634</Longitude>
+	</SubRegion>
+	<SubRegion>
+		<SubName>Newport</SubName>
+		<Population>82397</Population>
+		<Income>69826</Income>
+		<Latitude>41.502504</Latitude>
+		<Longitude>-71.283689</Longitude>
+	</SubRegion>
+	<SubRegion>
+		<SubName>Providence</SubName>
+		<Population>628600</Population>
+		<Income>49213</Income>
+		<Latitude>41.869765</Latitude>
+		<Longitude>-71.578626</Longitude>
+	</SubRegion>
+	<SubRegion>
+		<SubName>Washington</SubName>
+		<Population>126259</Population>
+		<Income>72391</Income>
+		<Latitude>41.400981</Latitude>
+		<Longitude>-71.617598</Longitude>
+	</SubRegion>
+</Region>

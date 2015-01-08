@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Airplane>
+    <!--- Prices in USD, units are ft or lbs or nm -->
+    <Name>Airbus A321-111</Name>
+    <Manufacturer>Airbus</Manufacturer>
+    <ListPrice>107300000</ListPrice>
+    <IntroToService>24-11-88</IntroToService>
+    <MaxPaxCapacity>220</MaxPaxCapacity>
+    <CargoCapacity>1827</CargoCapacity>
+    <OEW>106900</OEW>
+    <MZFW>162700</MZFW>
+    <MLW>172000</MLW>
+    <MTOW>206000</MTOW>
+    <SFC>.35</SFC>
+    <WingletsAvailable>true</Winglets>
+    <Speed>444</Speed>
+    <Engines>
+        <Engine>
+            <Manufacturer>CFM International</Manufacturer>
+            <Type>CFM56-5B1</Type>
+        </Engine>
+    </Engines>
+<Airplane>

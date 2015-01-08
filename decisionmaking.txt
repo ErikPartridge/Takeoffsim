@@ -1,0 +1,26 @@
+for each defined, constant period of time
+
+	get a list of possible options
+	sort possible options in terms of risk/reward
+	filter to get reasonable options (top 12?)
+	if any are negative, remove them
+	if there are none remaining, break
+	otherwise, continue
+	calculate capital
+	calculate cost of each option
+	get combination with highest capital, but below available capital
+	end
+
+//Execute every week
+public List<Actions> decision(){
+	options().
+}
+
+private Stream<Action> options();
+
+
+
+
+
+	
+	

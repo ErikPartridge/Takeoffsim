@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <Airplane>
+    <!--- Prices in USD, units are ft or lbs or nm -->
+        <Name>Boeing 737-700 w/7B26</Name>
+        <Manufacturer>Boeing</Manufacturer>
+        <ListPrice>70900000</ListPrice>
+        <IntroToService>01-11-93</IntroToService>
+        <MaxPaxCapacity>148</MaxPaxCapacity>
+        <CargoCapacity>966</CargoCapacity>
+        <OEW>84100</OEW>
+        <MZFW>121000</MZFW>
+        <MLW>128928</MLW>
+        <MTOW>154500</MTOW>
+        <BPH>0.38</BPH>
+        <WingletsAvailable>true</Winglets>
+        <Speed>447</Speed>
+        <Engines>
+            <Engine>
+                <Manufacturer>CFM International</Manufacturer>
+                <Type>CFM56-7B26</Type>
+            </Engine>
+        </Engines>
+    <Airplane>

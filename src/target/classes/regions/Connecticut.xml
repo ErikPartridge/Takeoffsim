@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+  ~ Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+  -->
+
+<Region>
+	<Name>Connecticut</Name>
+	<SubRegion>
+		<SubName>Fairfield</SubName>
+		<Population>939904</Population>
+		<Income>82614</Income>
+		<Latitude>41.22742</Latitude>
+		<Longitude>-73.366988</Longitude>
+	</SubRegion>
+	<SubRegion>
+		<SubName>Hartford</SubName>
+		<Population>898272</Population>
+		<Income>64752</Income>
+		<Latitude>41.806053</Latitude>
+		<Longitude>-72.732916</Longitude>
+	</SubRegion>
+	<SubRegion>
+		<SubName>Litchfield</SubName>
+		<Population>186924</Population>
+		<Income>71345</Income>
+		<Latitude>41.791883</Latitude>
+		<Longitude>-73.235404</Longitude>
+	</SubRegion>
+	<SubRegion>
+		<SubName>Middlesex</SubName>
+		<Population>165562</Population>
+		<Income>76659</Income>
+		<Latitude>41.433003</Latitude>
+		<Longitude>-72.52278</Longitude>
+	</SubRegion>
+	<SubRegion>
+		<SubName>NewHaven</SubName>
+		<Population>862287</Population>
+		<Income>62234</Income>
+		<Latitude>0.0</Latitude>
+		<Longitude>0.0</Longitude>
+	</SubRegion>
+	<SubRegion>
+		<SubName>NewLondon</SubName>
+		<Population>274150</Population>
+		<Income>68310</Income>
+		<Latitude>0.0</Latitude>
+		<Longitude>0.0</Longitude>
+	</SubRegion>
+	<SubRegion>
+		<SubName>Tolland</SubName>
+		<Population>151377</Population>
+		<Income>80887</Income>
+		<Latitude>41.858081</Latitude>
+		<Longitude>-72.340978</Longitude>
+	</SubRegion>
+	<SubRegion>
+		<SubName>Windham</SubName>
+		<Population>117604</Population>
+		<Income>58489</Income>
+		<Latitude>41.824999</Latitude>
+		<Longitude>-71.990702</Longitude>
+	</SubRegion>
+</Region>

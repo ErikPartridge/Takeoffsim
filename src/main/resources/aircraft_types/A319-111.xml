@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Airplane>
+    <!--- Prices in USD, units are ft or lbs or nm -->
+    <Name>Airbus A319-111</Name>
+    <Manufacturer>Airbus</Manufacturer>
+    <ListPrice>83600000</ListPrice>
+    <IntroToService>25-4-96</IntroToService>
+    <MaxPaxCapacity>156</MaxPaxCapacity>
+    <CargoCapacity>975</CargoCapacity>
+    <OEW>89900</OEW>
+    <MZFW>129000</MZFW>
+    <MLW>138000</MLW>
+    <MTOW>166000</MTOW>
+    <SFC>0.32</SFC>
+    <WingletsAvailable>true</Winglets>
+    <Speed>444</Speed>
+    <Engines>
+        <Engine>
+            <Manufacturer>CFM International</Manufacturer>
+            <Type>CFM56-5B5</Type>
+        </Engine>
+    </Engines>
+<Airplane>
