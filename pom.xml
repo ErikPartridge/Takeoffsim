@@ -13,13 +13,6 @@
     <organization>
         <name>TakeoffSim</name>
     </organization>
-    <repositories>
-        <repository>
-            <id>project.local</id>
-            <name>project</name>
-            <url>file:/home/erik/.m2/repository</url>
-        </repository>
-    </repositories>
     <dependencies>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -100,6 +93,8 @@
             <groupId>org.openforecast</groupId>
             <artifactId>OpenForecast</artifactId>
             <version>0.5.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/main/resources/OpenForecast-0.5.0.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>com.github.mkolisnyk</groupId>
