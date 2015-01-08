@@ -1,2 +1,6 @@
 TakeoffSim.iml
 .idea
+target/TakeoffSim-0.3.2.jar
+target/TakeoffSim-0.3.3a-jar-with-dependencies.jar
+target/TakeoffSim-0.3.2-jar-with-dependencies.jar
+target/TakeoffSim-0.3.3a.jar
