@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /** (c) Erik Malmstrom-Partridge 2014
@@ -13,13 +13,14 @@ import com.takeoffsim.models.economics.Entity;
 import java.io.Serializable;
 
 
+@Deprecated
 public class Slot implements Serializable{
 
-    private int hour;
+    private final int hour;
 
-    private int week;
+    private final int week;
 
-    private int year;
+    private final int year;
 
     private Entity owner;
 
@@ -27,6 +28,7 @@ public class Slot implements Serializable{
         this.hour = hour;
         this.week = week;
         this.owner = owner;
+        this.year = year;
     }
 
 
@@ -36,26 +38,12 @@ public class Slot implements Serializable{
     public int getHour() {
         return hour;
     }
-
-    /**
-     * @param hour the hour to set
-     */
-    public void setHour(int hour) {
-        this.hour = hour;
-    }
-
+    
     /**
      * @return the week
      */
     public int getWeek() {
         return week;
-    }
-
-    /**
-     * @param week the week to set
-     */
-    public void setWeek(int week) {
-        this.week = week;
     }
 
     /**
