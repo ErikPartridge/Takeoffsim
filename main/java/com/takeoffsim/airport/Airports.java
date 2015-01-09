@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -10,16 +10,19 @@ package com.takeoffsim.airport;
 
 
 import com.google.common.collect.HashBiMap;
+import com.jcabi.aspects.Cacheable;
+import lombok.extern.apachecommons.CommonsLog;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import static com.google.common.collect.HashBiMap.create;
 
-
+@CommonsLog
 public final class Airports implements Serializable {
     //List of all the airports. Lot of memory
 
@@ -31,7 +34,7 @@ public final class Airports implements Serializable {
     private Airports() {
     }
 
-    @Nullable
+    @Nullable @Cacheable(lifetime = 30, unit = TimeUnit.SECONDS)
     public static Airport getAirport(String name) {
         return airports.get(name);
     }

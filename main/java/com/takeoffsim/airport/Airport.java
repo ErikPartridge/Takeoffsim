@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -16,6 +16,7 @@ import com.takeoffsim.models.messages.TryTakeoff;
 import com.takeoffsim.models.world.Country;
 import com.takeoffsim.models.world.Region;
 import lombok.NonNull;
+import lombok.extern.apachecommons.CommonsLog;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -27,6 +28,7 @@ import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
+@CommonsLog
 public class Airport extends UntypedActor implements Serializable, Comparable<Airport> {
 
     static final long serialVersionUID = -1591041241L;
