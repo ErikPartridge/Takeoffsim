@@ -1,16 +1,16 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 package com.takeoffsim.airport;
 
+import com.jcabi.aspects.Cacheable;
+import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 
-/**
- * Created by Erik on 9/11/14.
- */
+@Data
 public class Runway implements Serializable{
 
     private final double METERS_TO_FEET = 3.28084;
@@ -75,7 +75,8 @@ public class Runway implements Serializable{
     public boolean isAvailable(){
         return this.available;
     }
-
+    
+    @Cacheable(forever = true)
     public double length(){
         return this.length;
     }
