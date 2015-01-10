@@ -1,16 +1,19 @@
+/*
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
+ */
+
 package com.takeoffsim.views.server;
 
 import fi.iki.elonen.NanoHTTPD;
 import lombok.extern.apachecommons.CommonsLog;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Map;
 
-/**
- * Copyright Erik Partridge, 2015. All rights reserved.
- */
 @CommonsLog
 public class Server extends NanoHTTPD {
 
@@ -26,6 +29,11 @@ public class Server extends NanoHTTPD {
         super(hostname, port);
     }
 
+    /**
+     * Serves the results of trying to view a page
+     * @param session the http session
+     * @return a response
+     */
     @Override
     public Response serve(IHTTPSession session){
         Map<String, String> params = session.getParms();
@@ -45,14 +53,31 @@ public class Server extends NanoHTTPD {
         Response response = new Response(Response.Status.ACCEPTED, getMimeType(trimmed), getResource(trimmed));
         return response;
     }
-    
+
+    /**
+     * * 
+     * @param url the url for the resource
+     * @return an inputstream for the resource
+     */
     public final InputStream getResource(String url){
         switch(url){
-            case "/" : return null;
-            default : return stringToInputStream("<b>Page not found</b>");
+            default : return resourceAtPath(url);
         }
     }
 
+    /**
+     * * 
+     * @param path the path to render the static page from
+     * @return the static page's InputStream (FileInputStream)
+     */
+    public final InputStream resourceAtPath(String path){
+        try{
+            return new FileInputStream("/home/erik/Takeoffsim/themes/TakeoffSim-Themes/default/" + path);
+        }catch (IOException e){
+            log.error(e);
+            return stringToInputStream("<b>Could not find " + path);
+        }
+    }
     /**
      * *
      * @param in non-null string
@@ -61,12 +86,14 @@ public class Server extends NanoHTTPD {
     public static InputStream stringToInputStream(String in){
         return new ByteArrayInputStream(in.getBytes(Charset.defaultCharset()));
     }
-    
-    protected final InputStream getHtml(String url){
-        InputStream in = new ByteArrayInputStream(url.getBytes(Charset.defaultCharset()));
-        return in;
-    }
 
+
+    /**
+     * *
+     * @param url the url to the resource
+     * @return the formal mime type
+     * @throws SecurityException if the page should never be viewed by users
+     */
     protected final String getMimeType(String url) throws SecurityException{
         if(url.endsWith(".jpg") || url.endsWith(".jpeg")){
             return "image/jpeg";
