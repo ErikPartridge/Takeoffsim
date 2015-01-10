@@ -49,6 +49,7 @@ public class Server extends NanoHTTPD {
             log.error("Tried to access a protected file.");
             return new Response(Response.Status.FORBIDDEN, "text/text", "You tried to access a forbidden file");
         }
+        
         //If it's valid, parse it.
         Response response = new Response(Response.Status.ACCEPTED, getMimeType(trimmed), getResource(trimmed));
         return response;
