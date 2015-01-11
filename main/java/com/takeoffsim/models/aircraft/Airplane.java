@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -8,26 +8,20 @@
 
 package com.takeoffsim.models.aircraft;
 
-import akka.actor.UntypedActorWithStash;
-import akka.pattern.Patterns;
+import com.takeoffsim.airport.Airport;
 import com.takeoffsim.models.airline.Airline;
 import com.takeoffsim.models.airline.Flight;
-import com.takeoffsim.airport.Airport;
 import com.takeoffsim.models.economics.Company;
-import com.takeoffsim.models.messages.*;
 import com.takeoffsim.models.world.Time;
 import lombok.Data;
 import lombok.extern.apachecommons.CommonsLog;
 import org.jetbrains.annotations.NotNull;
 import org.joda.money.Money;
-import scala.concurrent.Await;
-import scala.concurrent.duration.FiniteDuration;
 
 import java.io.Serializable;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author Erik
@@ -35,7 +29,7 @@ import java.util.concurrent.TimeUnit;
  */
 @CommonsLog
 @Data
-public class Airplane extends UntypedActorWithStash implements Serializable, Comparable {
+public class Airplane implements Serializable, Comparable {
 
     static final long serialVersionUID = 314214341233L;
     private final int msn;
@@ -182,6 +176,7 @@ public class Airplane extends UntypedActorWithStash implements Serializable, Com
         return comp;
     }
 
+    /**
     @Override
     public void onReceive(Object o) throws Exception {
         if(o instanceof TakeoffMessage){
@@ -232,6 +227,7 @@ public class Airplane extends UntypedActorWithStash implements Serializable, Com
             }
         }
     }
+    */
 
     public void executeACheck() {
         final AircraftTypeMaintenance mp = this.getType().getMaintenanceProfile();
