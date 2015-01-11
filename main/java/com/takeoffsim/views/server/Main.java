@@ -6,7 +6,11 @@ package com.takeoffsim.views.server;
 
 import com.jcabi.aspects.Async;
 import com.jcabi.aspects.Timeable;
+import com.takeoffsim.airport.Airports;
 import com.takeoffsim.main.Config;
+import com.takeoffsim.models.world.Countries;
+import com.takeoffsim.services.xml.CountryLoader;
+import com.takeoffsim.services.xml.TAPAirport;
 import javafx.application.Application;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
@@ -34,6 +38,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        new CountryLoader().createCountries();
+        System.out.println(Countries.getCountries().size());
+        new TAPAirport().createAirports();
+        System.out.println(Airports.getAirports().size());
         System.out.println(Config.themePath());
         diagnostics();
         if(!Platform.isSupported(ConditionalFeature.WEB)){

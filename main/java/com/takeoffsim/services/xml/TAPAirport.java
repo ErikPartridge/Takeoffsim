@@ -1,12 +1,14 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 package com.takeoffsim.services.xml;
 
 import com.takeoffsim.airport.Airport;
-import com.takeoffsim.threads.TAPAirportThread;
-import com.takeoffsim.threads.ThreadManager;
+import com.takeoffsim.airport.AirportBuilder;
+import com.takeoffsim.airport.Airports;
+import com.takeoffsim.airport.Runway;
+import com.takeoffsim.models.world.Countries;
 import lombok.extern.apachecommons.CommonsLog;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -18,6 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.FileSystemException;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,20 +32,77 @@ public class TAPAirport {
 
     public void createAirports() {
         try{
-            List<Element> airports = new ArrayList<>();
-            airports.addAll(createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/north_america.xml")));
-            airports.addAll(createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/africa.xml")));
-            airports.addAll(createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/asia.xml")));
-            airports.addAll(createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/europe.xml")));
-            airports.addAll(createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/south_america.xml")));
-            airports.addAll(createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/oceania.xml")));
-
-            for(int i = 0; i < 6; i++){
-                ThreadManager.submit(new TAPAirportThread());
-            }
-
+            createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/north_america.xml"));
+            createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/africa.xml"));
+            createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/asia.xml"));
+            createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/europe.xml"));
+            createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/south_america.xml"));
+            createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/oceania.xml"));
         }catch(FileSystemException fse){
             System.exit(150);
+        }
+    }
+
+
+    public void makeAirport(Element e) {
+        AirportBuilder builder = new AirportBuilder();
+        builder = builder.setName(e.getAttribute("name").getValue());
+        builder = builder.setIata(e.getAttribute("iata").getValue());
+        builder = builder.setIcao(e.getAttribute("icao").getValue());
+        builder = builder.setInternational(e.getAttribute("type").getValue().contains("International"));
+        String gmt = e.getChild("town").getAttribute("GMT").getValue();
+        ZoneId zoneId = null;
+        if (gmt.equals("00:00:00")) {
+            zoneId = ZoneId.of("GMT");
+        } else if (gmt.charAt(0) != '-') {
+            gmt = "+" + gmt;
+            zoneId = ZoneId.of(gmt);
+        } else {
+            zoneId = ZoneId.of(gmt);
+        }
+        builder = builder.setTimeZone(zoneId);
+        builder = builder.setCountry(Countries.getTapCountry(e.getChild("town").getAttributeValue("country")));
+        Element degrees = e.getChild("coordinates");
+        builder = builder.setLatitude(latitudeFromString(degrees.getChild("latitude").getAttributeValue("value")));
+        builder = builder.setLongitude(longitudeFromString(degrees.getChild("longitude").getAttributeValue("value")));
+        int gates = 0;
+        Element terminals = e.getChild("terminals");
+        for (Element element : terminals.getChildren()) {
+            gates += Integer.parseInt(element.getAttribute("gates").getValue());
+        }
+        builder = builder.setGates(gates);
+        builder = builder.setDelayFactor(0);
+        builder = builder.setDemandBonus(0);
+        builder = builder.setSlotControlled(false);
+        Airport apt = builder.createAirport();
+        ArrayList<Runway> runways = new ArrayList<>();
+        for (Element r : e.getChild("runways").getChildren()) {
+            String title = r.getAttributeValue("name");
+            int length = Integer.parseInt(r.getAttributeValue("length"));
+            String surface = r.getAttributeValue("surface");
+            if (title.equals("E/W")) {
+                title = "09/27";
+            } else if (title.equals("N/S")) {
+                title = "18/36";
+            } else if (title.contains("ESE")) {
+                title = "11/29";
+            } else if (title.contains("NW")) {
+                title = "12/30";
+            }
+            if (r.getAttribute("type") != null) {
+                Runway helipad = new Runway(title, length, surface, apt, true);
+                runways.add(helipad);
+
+            } else {
+                Runway runway = new Runway(title, length, surface, apt);
+                runways.add(runway);
+            }
+        }
+        apt.setRunways(runways);
+        if (!apt.getIcao().equals("")) {
+            Airports.put(apt.getIcao(), apt);
+        } else {
+            Airports.put(apt.getIata(), apt);
         }
     }
 
@@ -52,7 +112,7 @@ public class TAPAirport {
      * @return A list of all the airports in the region defined by the xml document
      */
     @Nullable
-    public List<Element> createAllAirports(InputStream f) throws FileSystemException {
+    public void createAllAirports(InputStream f) throws FileSystemException {
         Document doc = null;
         try {
             doc = new SAXBuilder().build(f);
@@ -66,7 +126,9 @@ public class TAPAirport {
         Element root = doc.getRootElement();
         ArrayList<Airport> results = new ArrayList<>();
         List<Element> airports = root.getChildren();
-        return airports;
+        for(Element e: airports){
+            makeAirport(e);
+        }
     }
 
     private double latitudeFromString(@NotNull String s) {

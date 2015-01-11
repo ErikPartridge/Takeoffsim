@@ -11,12 +11,11 @@ import com.mitchellbosecke.pebble.error.PebbleException;
 import com.mitchellbosecke.pebble.loader.StringLoader;
 import com.mitchellbosecke.pebble.template.PebbleTemplate;
 import com.takeoffsim.airport.Airport;
+import com.takeoffsim.airport.Airports;
 import lombok.extern.apachecommons.CommonsLog;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @CommonsLog
 public class Engine {
@@ -27,7 +26,10 @@ public class Engine {
         PebbleEngine engine = new PebbleEngine(loader);
         PebbleTemplate template = engine.getTemplate(file);
         Writer out = new StringWriter();
-        template.evaluate(out);
+        Map<String, Object> context = new HashMap<>();
+        context.put("airports", Airports.sortedValuesList());
+        template.evaluate(out, context);
+        System.out.println(out.toString());
         return Server.stringToInputStream(out.toString());
     }
     
