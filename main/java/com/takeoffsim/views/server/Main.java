@@ -6,9 +6,7 @@ package com.takeoffsim.views.server;
 
 import com.jcabi.aspects.Async;
 import com.jcabi.aspects.Timeable;
-import com.takeoffsim.airport.Airports;
 import com.takeoffsim.main.Config;
-import com.takeoffsim.models.world.Countries;
 import com.takeoffsim.services.xml.CountryLoader;
 import com.takeoffsim.services.xml.TAPAirport;
 import javafx.application.Application;
@@ -39,10 +37,8 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         new CountryLoader().createCountries();
-        System.out.println(Countries.getCountries().size());
         new TAPAirport().createAirports();
-        System.out.println(Airports.getAirports().size());
-        System.out.println(Config.themePath());
+        log.trace(Config.themePath());
         diagnostics();
         if(!Platform.isSupported(ConditionalFeature.WEB)){
             log.fatal("Web support is not enabled in this version of JavaFX");
@@ -102,8 +98,10 @@ public class Main extends Application {
     public static String back(){
         int index = engine.getHistory().getCurrentIndex();
         ObservableList<WebHistory.Entry> entries = engine.getHistory().getEntries();
-        if(index > 0){
+        if(index > 0 && index < entries.size() -1){
             return entries.get(index + 1).getUrl();
+        }else if(index == entries.size() - 1 && entries.size() > 1){
+            return entries.get(index - 1).getUrl();
         }else{
             return "http://localhost:40973/landing.html";
         }

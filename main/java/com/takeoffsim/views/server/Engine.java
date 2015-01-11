@@ -29,7 +29,6 @@ public class Engine {
         Map<String, Object> context = new HashMap<>();
         context.put("airports", Airports.sortedValuesList());
         template.evaluate(out, context);
-        System.out.println(out.toString());
         return Server.stringToInputStream(out.toString());
     }
     
