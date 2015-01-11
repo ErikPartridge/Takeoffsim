@@ -34,6 +34,8 @@ public class Main extends Application {
     
     private static WebEngine engine;
 
+    public static Server server;
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         new CountryLoader().createCountries();
@@ -45,7 +47,7 @@ public class Main extends Application {
             System.exit(-1);
         }
         
-        Server server = new Server();
+        server = new Server();
         server.start();
         view = new WebView();
         engine = view.getEngine();

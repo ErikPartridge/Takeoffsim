@@ -53,7 +53,7 @@ public class Server extends NanoHTTPD {
         //If it's valid, parse it.
         Response response;
         try{
-            response = new Response(Response.Status.ACCEPTED, getMimeType(trimmed), getResource(trimmed));
+            response = new Response(Response.Status.ACCEPTED, getMimeType(trimmed), getResource(trimmed, params));
         }catch(Exception e){
             log.error(e);
             response = new Response(Response.Status.NOT_FOUND, "text/html","<b>Could not find</b> <a href=\"" + Main.back() + "\">back" + "</a>");
@@ -67,9 +67,10 @@ public class Server extends NanoHTTPD {
      * @param url the url for the resource
      * @return an inputstream for the resource
      */
-    public final InputStream getResource(String url) throws Exception{
+    public final InputStream getResource(String url, Map<String, String> params) throws Exception{
         switch(url){
-            case "/create-airline.html" : return Engine.createAirline();
+            case "/create-airline.html" : return Engine.createAirlineView();
+            case "/create-ceo.html" : return Engine.createCeoView(params);
         }
         return resourceAtPath(url);
     }
