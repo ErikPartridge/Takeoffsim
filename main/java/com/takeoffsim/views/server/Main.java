@@ -4,14 +4,18 @@
 
 package com.takeoffsim.views.server;
 
+import com.jcabi.aspects.Async;
 import com.jcabi.aspects.Timeable;
+import com.takeoffsim.main.Config;
 import javafx.application.Application;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebHistory;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import lombok.extern.apachecommons.CommonsLog;
@@ -30,6 +34,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        System.out.println(Config.themePath());
         diagnostics();
         if(!Platform.isSupported(ConditionalFeature.WEB)){
             log.fatal("Web support is not enabled in this version of JavaFX");
@@ -42,9 +47,10 @@ public class Main extends Application {
         engine = view.getEngine();
         engine.load("http://localhost:40973/landing.html");
         engine.locationProperty().addListener(new ChangeListener<String>() {
-            @Override @Timeable(limit = 5, unit = TimeUnit.SECONDS)
+            @Override
+            @Timeable(limit = 5, unit = TimeUnit.SECONDS)
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if(!newValue.contains("http://localhost")){
+                if (!newValue.contains("http://localhost")) {
                     Platform.runLater(() -> engine.load(oldValue));
                     /*
                     if(Desktop.isDesktopSupported()){
@@ -57,6 +63,8 @@ public class Main extends Application {
                 }
             }
         });
+        view.setPrefWidth(1920);
+        view.setPrefHeight(1200);
         Scene scene = new Scene(view);
         //Don't let them leave the program
         primaryStage.setScene(scene);
@@ -70,7 +78,8 @@ public class Main extends Application {
     public static void load(String url){
         engine.load(url);
     }
-    
+
+    @Async
     public void diagnostics(){
         log.info(System.getProperties());
         log.info("Desktop supported? " + Desktop.isDesktopSupported());
@@ -79,6 +88,16 @@ public class Main extends Application {
             log.info("Is connected to the web? " + InetAddress.getByName("takeoffsim.com").isReachable(1000));
         }catch(IOException e){
             log.info("Is connected to the web? false");
+        }
+    }
+    
+    public static String back(){
+        int index = engine.getHistory().getCurrentIndex();
+        ObservableList<WebHistory.Entry> entries = engine.getHistory().getEntries();
+        if(index > 0){
+            return entries.get(index + 1).getUrl();
+        }else{
+            return "http://localhost:40973/landing.html";
         }
     }
     

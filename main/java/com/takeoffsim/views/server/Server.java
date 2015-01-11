@@ -51,7 +51,14 @@ public class Server extends NanoHTTPD {
         }
         
         //If it's valid, parse it.
-        Response response = new Response(Response.Status.ACCEPTED, getMimeType(trimmed), getResource(trimmed));
+        Response response;
+        try{
+            response = new Response(Response.Status.ACCEPTED, getMimeType(trimmed), getResource(trimmed));
+        }catch(Exception e){
+            log.error(e);
+            response = new Response(Response.Status.NOT_FOUND, "text/html","<b>Could not find</b> <a href=\"" + Main.back() + "\">back" + "</a>");
+        }
+
         return response;
     }
 
@@ -60,10 +67,11 @@ public class Server extends NanoHTTPD {
      * @param url the url for the resource
      * @return an inputstream for the resource
      */
-    public final InputStream getResource(String url){
+    public final InputStream getResource(String url) throws Exception{
         switch(url){
-            default : return resourceAtPath(url);
+            case "/create-airline.html" : return Engine.createAirline();
         }
+        return resourceAtPath(url);
     }
 
     /**
@@ -76,7 +84,8 @@ public class Server extends NanoHTTPD {
             return new FileInputStream("/home/erik/Takeoffsim/themes/TakeoffSim-Themes/default/" + path);
         }catch (IOException e){
             log.error(e);
-            return stringToInputStream("<b>Could not find " + path);
+            
+            return stringToInputStream("<b>Could not find " + path + "</b> <a href=\"" + Main.back() + "\">back" + "</a>");
         }
     }
     /**
