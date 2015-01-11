@@ -8,11 +8,8 @@
 
 package com.takeoffsim.airport;
 
-import akka.actor.UntypedActor;
 import com.takeoffsim.models.airline.Airline;
 import com.takeoffsim.models.airline.Flight;
-import com.takeoffsim.models.messages.TryLanding;
-import com.takeoffsim.models.messages.TryTakeoff;
 import com.takeoffsim.models.world.Country;
 import com.takeoffsim.models.world.Region;
 import lombok.NonNull;
@@ -29,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
 @CommonsLog
-public class Airport extends UntypedActor implements Serializable, Comparable<Airport> {
+public class Airport implements Serializable, Comparable<Airport> {
 
     static final long serialVersionUID = -1591041241L;
     //An airport, and everything needed to make it function w/accessors.
@@ -51,8 +48,7 @@ public class Airport extends UntypedActor implements Serializable, Comparable<Ai
     @NonNull
     private ArrayList<Region> regions = new ArrayList<>();
     private boolean slotControlled;
-    @NotNull
-    private ArrayList<Slot> slots = new ArrayList<>(600);
+
     private double allocatedDemand;
     @NotNull
     private ArrayList<Gate> gates = new ArrayList<>();
@@ -63,6 +59,7 @@ public class Airport extends UntypedActor implements Serializable, Comparable<Ai
     @NotNull
     private ArrayList<Runway> runways = new ArrayList<>();
 
+    /*
     @Override
     public void onReceive(Object o) throws Exception {
         if(o instanceof TryTakeoff){
@@ -94,7 +91,7 @@ public class Airport extends UntypedActor implements Serializable, Comparable<Ai
                 getSender().tell(false, this.getSelf());
             }
         }
-    }
+    }*/
 
     public Airport() {
         setName("Not initialized");
@@ -239,15 +236,6 @@ public class Airport extends UntypedActor implements Serializable, Comparable<Ai
 
     public synchronized void setSlotControlled(boolean slotControlled) {
         this.slotControlled = slotControlled;
-    }
-
-    @NotNull
-    public synchronized ArrayList<Slot> getSlots() {
-        return slots;
-    }
-
-    public synchronized void setSlots(@NotNull ArrayList<Slot> slots) {
-        this.slots = slots;
     }
 
     public synchronized double getAllocatedDemand() {

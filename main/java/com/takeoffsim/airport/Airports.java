@@ -17,6 +17,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -63,6 +64,17 @@ public final class Airports implements Serializable {
             list.add(apt);
         }
         return list;
+    }
+
+    public static List<Airport> sortedValuesList(){
+         List<Airport> cloned = cloneAirports();
+         cloned.sort(new Comparator<Airport>() {
+             @Override
+             public int compare(Airport o1, Airport o2) {
+                 return o1.getIcao().compareTo(o1.getIcao());
+             }
+         });
+        return cloned;
     }
 
 }
