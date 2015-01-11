@@ -168,6 +168,14 @@
                 </execution>
             </executions>
         </plugin>
+            <plugin>
+                <groupId>com.zenjava</groupId>
+                <artifactId>javafx-maven-plugin</artifactId>
+                <version>8.1.2</version>
+                <configuration>
+                    <mainClass>com.takeoffsim.views.server.Main</mainClass>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
     <pluginRepositories>
