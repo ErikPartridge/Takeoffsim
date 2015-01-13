@@ -11,6 +11,7 @@ import org.joda.money.Money;
 import org.uncommons.maths.random.MersenneTwisterRNG;
 
 import java.io.Serializable;
+import java.math.RoundingMode;
 
 /**
  * Created by erik on 1/12/15.
@@ -39,7 +40,7 @@ public class Investor implements Serializable{
         double calibrated = median * ((generousity + 8) / 12);
         MersenneTwisterRNG rand = new MersenneTwisterRNG();
         calibrated = calibrated * rand.nextGaussian();
-        investment = Money.of(CurrencyUnit.USD, calibrated);
+        investment = Money.of(CurrencyUnit.USD, calibrated, RoundingMode.CEILING);
         return investment;
     }
 
