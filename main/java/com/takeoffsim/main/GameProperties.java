@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -18,6 +18,8 @@ public class GameProperties {
 
     private static String unit;
 
+    private static int investorDifficulty = 4;
+
 
     /**
      * @return the nameOfSim
@@ -34,4 +36,12 @@ public class GameProperties {
         nameOfSim = nos;
     }
 
+    public static int getInvestorDifficulty(){
+        return investorDifficulty;
+    }
+
+    public static void setInvestorDifficulty(int diff){
+        investorDifficulty = diff;
+    }
 }
+
