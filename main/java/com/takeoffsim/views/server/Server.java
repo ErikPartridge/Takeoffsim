@@ -12,7 +12,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.util.List;
 import java.util.Map;
 
 @CommonsLog
@@ -37,9 +36,9 @@ public class Server extends NanoHTTPD {
      */
     @Override
     public Response serve(IHTTPSession session){
-        Map<String, List<String>> params = decodeParameters(session.getQueryParameterString());
         //Which file are they trying to access
         String uri = session.getUri();
+        Map<String, String> files = session.getParms();
         String trimmed = uri.replaceFirst("localhost:40973", "").replace("http://", "").replace("127.0.0.1:40973","");
         trimmed = trimmed.split("\\?")[0];
         //Don't let them get the source code!
@@ -54,7 +53,7 @@ public class Server extends NanoHTTPD {
         //If it's valid, parse it.
         Response response;
         try{
-            response = new Response(Response.Status.ACCEPTED, getMimeType(trimmed), getResource(trimmed, params));
+            response = new Response(Response.Status.ACCEPTED, getMimeType(trimmed), getResource(trimmed, files));
         }catch(Exception e){
             log.error(e);
             response = new Response(Response.Status.NOT_FOUND, "text/html","<b>Could not find</b> <a href=\"" + Main.back() + "\">back" + "</a>");
@@ -66,10 +65,10 @@ public class Server extends NanoHTTPD {
     /**
      * * 
      * @param url the url for the resource
+     * @param params
      * @return an inputstream for the resource
      */
-    public final InputStream getResource(String url, Map<String, List<String>> params) throws Exception{
-        System.out.println(params);
+    public final InputStream getResource(String url, Map<String, String> params) throws Exception{
         switch(url){
             case "/create-airline.html" : return Engine.createAirlineView();
             case "/create-ceo.html" : return Engine.createCeoView(params);

@@ -6,7 +6,6 @@ package com.takeoffsim.views.server;
 
 import com.google.common.base.Charsets;
 import com.google.common.io.Files;
-import com.jcabi.aspects.Async;
 import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.error.PebbleException;
 import com.mitchellbosecke.pebble.loader.StringLoader;
@@ -23,7 +22,6 @@ import com.takeoffsim.models.people.GeneratePerson;
 import com.takeoffsim.models.people.Investor;
 import com.takeoffsim.services.xml.AirlineLoader;
 import com.takeoffsim.services.xml.RegionLoader;
-import com.takeoffsim.threads.ThreadManager;
 import lombok.extern.apachecommons.CommonsLog;
 import org.apache.commons.lang.RandomStringUtils;
 import org.joda.money.CurrencyUnit;
@@ -31,7 +29,6 @@ import org.joda.money.Money;
 import org.uncommons.maths.random.MersenneTwisterRNG;
 
 import java.io.*;
-import java.security.InvalidParameterException;
 import java.util.*;
 
 @CommonsLog
@@ -55,28 +52,34 @@ public class Engine {
         template.evaluate(out, context);
         return Server.stringToInputStream(out.toString());
     }
-    public static InputStream createCeoView(Map<String, List<String>> params) throws PebbleException, IOException{
-        ThreadManager.submit(() -> createAirline(params));
-        System.out.println(Main.server.resourceAtPath("/create-ceo.html"));
+    public static InputStream createCeoView(Map<String, String> params) throws PebbleException, IOException{
+        createAirline(params);
         return Main.server.resourceAtPath("create-ceo.html");
     }
 
-    @Async
-    private static void createAirline(Map<String, List<String>> params) throws InvalidParameterException{
+    private static void createAirline(Map<String, String> params){
         Airline mine = new Airline();
-        Airline existingIcao = Airlines.get(params.get("icaocode").get(0));
-        Airlines.getMap().remove(params.get("icaocode").get(0));
-        Airline existingIata = Airlines.get(params.get("iatacode").get(0));
-        Airlines.getMap().remove(params.get("iatacode").get(0));
-        mine.setIcao(params.get("icaocode").get(0));
-        mine.setIata(params.get("iatacode").get(0));
-        mine.setName(params.get("name").get(0));
+        /*Airline existingIcao = Airlines.get(params.get("icaocode"));
+        System.out.println("ERROR2");
+        if(existingIcao != null){
+            reselectIcao(existingIcao);
+        }
+        Airlines.getMap().remove(params.get("icaocode"));
+        Airline existingIata = Airlines.get(params.get("iatacode"));
+        if(existingIata != null){
+            reselectIcao(existingIcao);
+        }*/
+        Airlines.getMap().remove(params.get("iatacode"));
+        mine.setIcao(params.get("icaocode"));
+        mine.setIata(params.get("iatacode"));
+        mine.setName(params.get("name"));
         mine.setFleet(new Fleet(mine.getIcao(), new ArrayList<Subfleet>()));
         mine.setHuman(true);
         Airlines.put(mine.getIcao(), mine);
+        System.out.println("put my airline");
     }
 
-    private void reselectIcao(Airline a){
+    private static void reselectIcao(Airline a){
         int count = 0;
         while(Airlines.get(a.getIcao()) != null && count < 500){
             a.setIcao(RandomStringUtils.randomAlphabetic(3));
@@ -87,7 +90,7 @@ public class Engine {
         }
     }
 
-    private void reselectIata(Airline a){
+    private static void reselectIata(Airline a){
         int count = 500;
         a.setIata(RandomStringUtils.randomAlphanumeric(2));
     }
@@ -99,38 +102,38 @@ public class Engine {
         return airports;
     }
 
-    public static InputStream createWorldLoadView(Map<String, List<String>> params) {
-        ThreadManager.submit(() -> createCeo(params));
+    public static InputStream createWorldLoadView(Map<String, String> params) {
+        createCeo(params);
         return Main.server.resourceAtPath("create-world.html");
     }
 
-    public static InputStream creationResultsView(Map<String, List<String>> params) throws IOException, PebbleException {
-        System.out.println(params);
-        GameProperties.setNameOfSim(params.get("name").get(0));
-        switch(params.get("difficulty").get(0)){
+    public static InputStream creationResultsView(Map<String, String> params) throws IOException, PebbleException {
+        GameProperties.setNameOfSim(params.get("name"));
+        switch(params.get("difficulty")){
             case "Realistic": GameProperties.setInvestorDifficulty(5); break;
             case "Insane": GameProperties.setInvestorDifficulty(4); break;
             case "Difficult": GameProperties.setInvestorDifficulty(3); break;
             case "Moderate": GameProperties.setInvestorDifficulty(2); break;
             case "Easy": GameProperties.setInvestorDifficulty(1); break;
         }
-        System.out.println("it's the switch");
         MersenneTwisterRNG rand = new MersenneTwisterRNG();
         int numInvestors = rand.nextInt(7) + 2;
-        System.out.println("Got here");
-        double median = (130000000 - 10000000 * GameProperties.getInvestorDifficulty()) / numInvestors;
+        double median = (1300000000.0 - 1000000.0 * GameProperties.getInvestorDifficulty()) / numInvestors;
+        System.out.println("Should be ~" +median);
         List<Investor> investors = new ArrayList<>();
         Money totalInvestment = Money.zero(CurrencyUnit.USD);
         for(int i = 0; i < numInvestors; i++){
             investors.add(GeneratePerson.createInvestor());
         }
         for(Investor i : investors){
-            totalInvestment.plus(i.invest(median));
+            totalInvestment = totalInvestment.plus(i.invest(median));
         }
-        System.out.println("Got 2");
-        String ceo = Airlines.humanAirline().getCeo();
-        System.out.println("It's not the airlines");
+        String ceo = "CEO";
+        if (Airlines.humanAirline() != null) {
+            ceo = Airlines.humanAirline().getCeo();
+        }
         String airline = Airlines.humanAirline().getName();
+
 
         File file = new File(Config.themePath() + "creation-results.html");
         Map<String, Object> context = new TreeMap<>();
@@ -143,7 +146,8 @@ public class Engine {
     }
 
 
-    private static void createCeo(Map<String, List<String>> params){
-
+    private static void createCeo(Map<String, String> params){
+        String name = params.get("first") + " " + params.get("last");
+        Airlines.humanAirline().setCeo(name);
     }
 }
