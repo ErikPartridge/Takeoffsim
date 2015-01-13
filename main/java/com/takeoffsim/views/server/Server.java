@@ -12,6 +12,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.List;
 import java.util.Map;
 
 @CommonsLog
@@ -36,7 +37,7 @@ public class Server extends NanoHTTPD {
      */
     @Override
     public Response serve(IHTTPSession session){
-        Map<String, String> params = session.getParms();
+        Map<String, List<String>> params = decodeParameters(session.getQueryParameterString());
         //Which file are they trying to access
         String uri = session.getUri();
         String trimmed = uri.replaceFirst("localhost:40973", "").replace("http://", "").replace("127.0.0.1:40973","");
@@ -67,10 +68,13 @@ public class Server extends NanoHTTPD {
      * @param url the url for the resource
      * @return an inputstream for the resource
      */
-    public final InputStream getResource(String url, Map<String, String> params) throws Exception{
+    public final InputStream getResource(String url, Map<String, List<String>> params) throws Exception{
+        System.out.println(params);
         switch(url){
             case "/create-airline.html" : return Engine.createAirlineView();
             case "/create-ceo.html" : return Engine.createCeoView(params);
+            case "/create-world.html": return Engine.createWorldLoadView(params);
+            case "/creation-results.html": return Engine.creationResultsView(params);
         }
         return resourceAtPath(url);
     }
