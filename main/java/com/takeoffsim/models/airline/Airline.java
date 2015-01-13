@@ -41,7 +41,7 @@ import static com.google.common.collect.HashBiMap.create;
 public class Airline extends Company implements Serializable {
 
     static final long serialVersionUID = 2093027591L;
-    @NotNull
+
     private ArrayList<Airport> hubs = new ArrayList<>();
 
     private Fleet fleet;
@@ -106,7 +106,6 @@ public class Airline extends Company implements Serializable {
     /**
      * Where are its hubs- Delta has DTW, ATL, MSP, JFK, SLC
      */
-    @NotNull
     public synchronized ArrayList<Airport> getHubs() {
         return hubs;
     }
