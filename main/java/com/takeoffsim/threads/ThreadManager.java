@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 package com.takeoffsim.threads;
@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
 public class ThreadManager {
 
 
-    private static ExecutorService exe = Executors.newFixedThreadPool(6);
+    private static ExecutorService exe = Executors.newFixedThreadPool(4);
 
     public static void submit(Runnable runnable){
         exe.submit(runnable);
