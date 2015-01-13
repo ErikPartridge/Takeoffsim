@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -9,16 +9,17 @@
 package com.takeoffsim.models.airline;
 
 
+import com.takeoffsim.intelligence.intelligence.scheduler.AircraftScheduler;
 import com.takeoffsim.models.aircraft.AircraftTypeMaintenance;
 import com.takeoffsim.models.aircraft.Airplane;
 import com.takeoffsim.models.economics.UsedAircraftMarket;
-import com.takeoffsim.intelligence.intelligence.scheduler.AircraftScheduler;
 import com.takeoffsim.models.people.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -134,6 +135,24 @@ public final class Airlines implements Serializable {
         // choose Tools | Templates.
     }
 
+    public static List<Airline> humanAirlines(){
+        List<Airline> airlineList = new ArrayList<>();
+        for(Airline a: airlines.values()){
+            if(a.isHuman()){
+                airlineList.add(a);
+            }
+        }
+        return airlineList;
+    }
+
+    @Nullable
+    public static Airline humanAirline(){
+        for(Airline a: airlines.values()){
+            if(a.isHuman())
+                return a;
+        }
+        return null;
+    }
     /**
      *
      * @param a the airline/fire to hire staff for

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -13,9 +13,8 @@ actually do anything beyond that.
 package com.takeoffsim.models.airline;
 
 import com.google.common.collect.HashBiMap;
-import com.takeoffsim.models.airline.enums.*;
 import com.takeoffsim.airport.Airport;
-import com.takeoffsim.airport.Slot;
+import com.takeoffsim.models.airline.enums.*;
 import com.takeoffsim.models.economics.Company;
 import com.takeoffsim.models.people.Executive;
 import com.takeoffsim.models.people.FlightAttendant;
@@ -70,8 +69,6 @@ public class Airline extends Company implements Serializable {
     private ArrayList<Executive> executives;
 
     private ArrayList<Route> routes;
-
-    private ArrayList<Slot> slots;
 
     private boolean human;
 
@@ -235,14 +232,6 @@ public class Airline extends Company implements Serializable {
 
     public synchronized void setRoutes(ArrayList<Route> routes) {
         this.routes = routes;
-    }
-
-    public synchronized ArrayList<Slot> getSlots() {
-        return slots;
-    }
-
-    public synchronized void setSlots(ArrayList<Slot> slots) {
-        this.slots = slots;
     }
 
     public synchronized boolean isHuman() {
