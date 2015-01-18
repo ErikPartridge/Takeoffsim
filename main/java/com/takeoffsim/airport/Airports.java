@@ -9,7 +9,6 @@
 package com.takeoffsim.airport;
 
 
-import com.google.common.collect.HashBiMap;
 import com.jcabi.aspects.Cacheable;
 import lombok.extern.apachecommons.CommonsLog;
 import org.jetbrains.annotations.NotNull;
@@ -19,9 +18,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.TimeUnit;
-
-import static com.google.common.collect.HashBiMap.create;
 
 @CommonsLog
 public final class Airports implements Serializable {
@@ -29,7 +27,7 @@ public final class Airports implements Serializable {
 
     static final long serialVersionUID = 14141298797799L;
 
-    private static HashBiMap<String, Airport> airports = create(10000);
+    private static ConcurrentSkipListMap<String, Airport> airports = new ConcurrentSkipListMap<>();
 
 
     private Airports() {
@@ -41,10 +39,11 @@ public final class Airports implements Serializable {
     }
 
     public static void put(String id, Airport o) {
-        airports.put(id, o);
+        if(id.matches("[A-Z]*"))
+            airports.put(id, o);
     }
 
-    public static HashBiMap<String, Airport> getAirports() {
+    public static ConcurrentSkipListMap<String, Airport> getAirports() {
         return airports;
     }
 

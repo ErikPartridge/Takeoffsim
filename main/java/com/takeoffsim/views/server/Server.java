@@ -70,10 +70,10 @@ public class Server extends NanoHTTPD {
      */
     public final InputStream getResource(String url, Map<String, String> params) throws Exception{
         switch(url){
-            case "/create-airline.html" : return Engine.createAirlineView();
-            case "/create-ceo.html" : return Engine.createCeoView(params);
-            case "/create-world.html": return Engine.createWorldLoadView(params);
-            case "/creation-results.html": return Engine.creationResultsView(params);
+            case "/create-airline.html" : return LoadPageGenerator.createAirlineView();
+            case "/create-ceo.html" : return LoadPageGenerator.createCeoView(params);
+            case "/create-world.html": return LoadPageGenerator.createWorldLoadView(params);
+            case "/creation-results.html": return LoadPageGenerator.creationResultsView(params);
         }
         return resourceAtPath(url);
     }

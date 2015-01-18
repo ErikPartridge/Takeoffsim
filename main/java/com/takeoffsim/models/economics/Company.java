@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -8,6 +8,7 @@
 
 package com.takeoffsim.models.economics;
 
+import com.takeoffsim.airport.Gate;
 import com.takeoffsim.models.airline.Airline;
 import com.takeoffsim.models.world.Country;
 import lombok.extern.apachecommons.CommonsLog;
@@ -20,7 +21,6 @@ import org.joda.money.Money;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import com.takeoffsim.airport.Gate;
 
 @CommonsLog
 public class Company implements Serializable, Entity {
@@ -47,11 +47,11 @@ public class Company implements Serializable, Entity {
 
     private Country country;
 
-    private Money earnings;
+    private Money earnings = Money.zero(CurrencyUnit.USD);
 
-    private Money costs;
+    private Money costs = Money.zero(CurrencyUnit.USD);
 
-    private Money cash;
+    private Money cash = Money.zero(CurrencyUnit.USD);
 
     private double earningsPerShare;
 
