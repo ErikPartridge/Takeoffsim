@@ -132,7 +132,6 @@ public class LoadPageGenerator {
         mine.setFleet(new Fleet(mine.getIcao(), new ArrayList<Subfleet>()));
         mine.setHuman(true);
         Airlines.put(mine.getIcao(), mine);
-        System.out.println("put my airline");
     }
 
     private static void reselectIcao(Airline a){

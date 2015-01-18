@@ -4,6 +4,7 @@
 
 package com.takeoffsim.views.server;
 
+import com.jcabi.aspects.Async;
 import fi.iki.elonen.NanoHTTPD;
 import lombok.extern.apachecommons.CommonsLog;
 
@@ -68,12 +69,16 @@ public class Server extends NanoHTTPD {
      * @param params
      * @return an inputstream for the resource
      */
+    @Async
     public final InputStream getResource(String url, Map<String, String> params) throws Exception{
         switch(url){
             case "/create-airline.html" : return LoadPageGenerator.createAirlineView();
             case "/create-ceo.html" : return LoadPageGenerator.createCeoView(params);
             case "/create-world.html": return LoadPageGenerator.createWorldLoadView(params);
             case "/creation-results.html": return LoadPageGenerator.creationResultsView(params);
+            case "/airline-index.html": return getResource("/airline-landing.html", null);
+            case "/airline-landing.html": return AirlinePageGenerator.getAirlineIndex();
+            case "/exit" :
         }
         return resourceAtPath(url);
     }
