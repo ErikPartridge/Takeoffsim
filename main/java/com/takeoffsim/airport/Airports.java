@@ -18,7 +18,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.ConcurrentSkipListMap;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 @CommonsLog
@@ -27,7 +27,7 @@ public final class Airports implements Serializable {
 
     static final long serialVersionUID = 14141298797799L;
 
-    private static ConcurrentSkipListMap<String, Airport> airports = new ConcurrentSkipListMap<>();
+    private static ConcurrentHashMap<String, Airport> airports = new ConcurrentHashMap<>();
 
 
     private Airports() {
@@ -43,7 +43,7 @@ public final class Airports implements Serializable {
             airports.put(id, o);
     }
 
-    public static ConcurrentSkipListMap<String, Airport> getAirports() {
+    public static ConcurrentHashMap<String, Airport> getAirports() {
         return airports;
     }
 

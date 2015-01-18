@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!--
   ~ Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
   -->
@@ -2327,19 +2328,6 @@
 	</coordinates>
 	<runways>
 		<runway name="09/27" length="5400" surface="Asphalt" />
-	</runways>
-</airport>
-<airport name="N Helipad" icao="RKDD" iata="" >
-	<town town="Liancort Rocks" country="165" timezone="America/Detroit"/>
-	<terminals>
-		<terminal name="Terminal A" gates="1" />
-	</terminals>
-	<coordinates>
-		<latitude value="37.2394444444"/>
-		<longitude value="131.868888889"/>
-	</coordinates>
-	<runways>
-		<runway name="09/27" length="5000" surface="Asphalt" />
 	</runways>
 </airport>
 <airport name="Mokpo Airport" icao="RKJM" iata="MPK" >
@@ -6788,18 +6776,18 @@
 		<runway name="09/27" length="8300" surface="Asphalt" />
 	</runways>
 </airport>
-<airport name="Goroka Airport" icao="AYGA" iata="" >
-	<town town="Goronka" country="280" timezone="America/Detroit"/>
+<airport name="Goroka Airport" icao="AYGA" iata="GKA" >
+	<town town="Goronka" country="280" timezone="Australia/Sydney"/>
 	<terminals>
-		<terminal name="Terminal A" gates="20" />
+		<terminal name="Terminal A" gates="3" />
 	</terminals>
 	<coordinates>
 		<latitude value="-6.0816898346"/>
 		<longitude value="145.391998291"/>
 	</coordinates>
 	<runways>
-		<runway name="RL" length="80" surface="Asphalt" />
-		<runway name="LR" length="80" surface="Asphalt" />
+		<runway name="17R/15L" length="5400" surface="Asphalt" />
+		<runway name="17L/35R" length="3983" surface="Asphalt" />
 	</runways>
 </airport>
 <airport name="Kimbe Airport" icao="AYHK" iata="HKN" >
@@ -11103,19 +11091,6 @@
 	</coordinates>
 	<runways>
 		<runway name="09/27" length="5400" surface="Asphalt" />
-	</runways>
-</airport>
-<airport name="Funter Bay Seaplane Base" icao="PANR" iata="FNR" >
-	<town town="Funter Bay" country="122" timezone="America/Anchorage"/>
-	<terminals>
-		<terminal name="Terminal A" gates="1" />
-	</terminals>
-	<coordinates>
-		<latitude value="58.2543983459"/>
-		<longitude value="-134.897994995"/>
-	</coordinates>
-	<runways>
-		<runway name="NESW" length="80" surface="Asphalt" />
 	</runways>
 </airport>
 <airport name="Annette Island Airport" icao="PANT" iata="ANN" >

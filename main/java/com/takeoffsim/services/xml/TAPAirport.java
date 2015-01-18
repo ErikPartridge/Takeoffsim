@@ -23,6 +23,7 @@ import java.nio.file.FileSystemException;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TimeZone;
 
 /**
  * Created by Erik on 9/11/14.
@@ -38,7 +39,9 @@ public class TAPAirport {
             createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/europe.xml"));
             createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/south_america.xml"));
             createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/oceania.xml"));
+            createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/missing.xml"));
         }catch(FileSystemException fse){
+            log.fatal(fse);
             System.exit(150);
         }
     }
@@ -49,17 +52,36 @@ public class TAPAirport {
         builder = builder.setName(e.getAttribute("name").getValue());
         builder = builder.setIata(e.getAttribute("iata").getValue());
         builder = builder.setIcao(e.getAttribute("icao").getValue());
-        builder = builder.setInternational(e.getAttribute("type").getValue().contains("International"));
-        String gmt = e.getChild("town").getAttribute("GMT").getValue();
-        ZoneId zoneId = null;
-        if (gmt.equals("00:00:00")) {
-            zoneId = ZoneId.of("GMT");
-        } else if (gmt.charAt(0) != '-') {
-            gmt = "+" + gmt;
-            zoneId = ZoneId.of(gmt);
-        } else {
-            zoneId = ZoneId.of(gmt);
+        try {
+            builder = builder.setInternational(e.getAttribute("type").getValue().contains("International"));
+        }catch(NullPointerException ex){
+            Element terminals = e.getChild("terminals");
+            int gates = 0;
+            for (Element element : terminals.getChildren()) {
+                gates += Integer.parseInt(element.getAttribute("gates").getValue());
+            }
+            if(gates > 20){
+                builder.setInternational(true);
+            }else{
+                builder.setInternational(false);
+            }
         }
+        ZoneId zoneId = null;
+        try {
+            String gmt = e.getChild("town").getAttribute("GMT").getValue();
+            if (gmt.equals("00:00:00")) {
+                zoneId = ZoneId.of("GMT");
+            } else if (gmt.charAt(0) != '-') {
+                gmt = "+" + gmt;
+                zoneId = ZoneId.of(gmt);
+            } else {
+                zoneId = ZoneId.of(gmt);
+            }
+        }catch(NullPointerException ex){
+            log.trace(ex);
+            zoneId = TimeZone.getTimeZone(e.getChild("town").getAttributeValue("timezone")).toZoneId();
+        }
+
         builder = builder.setTimeZone(zoneId);
         builder = builder.setCountry(Countries.getTapCountry(e.getChild("town").getAttributeValue("country")));
         Element degrees = e.getChild("coordinates");
@@ -94,6 +116,7 @@ public class TAPAirport {
                 runways.add(helipad);
 
             } else {
+                System.out.println(apt.getName());
                 Runway runway = new Runway(title, length, surface, apt);
                 runways.add(runway);
             }
@@ -132,6 +155,9 @@ public class TAPAirport {
     }
 
     private double latitudeFromString(@NotNull String s) {
+        if(s.matches("^-?\\d*.\\d*")){
+            return Double.parseDouble(s);
+        }
         double degrees = Double.parseDouble(s.split("\\D")[0]);
         degrees += Double.parseDouble(s.split("\\D")[1]) / 60.0;
         degrees += Double.parseDouble(s.split("\\D")[2]) / 3600.00;
@@ -142,6 +168,9 @@ public class TAPAirport {
     }
 
     private double longitudeFromString(@NotNull String s) {
+        if(s.matches("^-?\\d*.\\d*")){
+            return Double.parseDouble(s);
+        }
         double degrees = Double.parseDouble(s.split("\\D")[0]);
         degrees += Double.parseDouble(s.split("\\D")[1]) / 60.0;
         degrees += Double.parseDouble(s.split("\\D")[2]) / 3600.00;

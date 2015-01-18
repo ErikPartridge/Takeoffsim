@@ -6,9 +6,11 @@ package com.takeoffsim.views.server;
 
 import com.jcabi.aspects.Async;
 import com.jcabi.aspects.Timeable;
+import com.takeoffsim.demand.RouteDemand;
 import com.takeoffsim.main.Config;
 import com.takeoffsim.services.xml.CountryLoader;
 import com.takeoffsim.services.xml.TAPAirport;
+import com.takeoffsim.threads.ThreadManager;
 import javafx.application.Application;
 import javafx.application.ConditionalFeature;
 import javafx.application.Platform;
@@ -46,7 +48,13 @@ public class Main extends Application {
             log.fatal("Web support is not enabled in this version of JavaFX");
             System.exit(-1);
         }
-        
+        ThreadManager.submit(new Runnable() {
+            @Override
+            public void run() {
+                RouteDemand.launch();
+            }
+        });
+
         server = new Server();
         server.start();
         view = new WebView();
