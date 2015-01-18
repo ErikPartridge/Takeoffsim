@@ -15,7 +15,7 @@ class MaintenanceMessage {
 
     private final String type;
 
-    public MaintenanceMessage(Airplane airplane, String type) {
+    MaintenanceMessage(Airplane airplane, String type) {
         this.airplane = airplane;
         this.type = type;
     }

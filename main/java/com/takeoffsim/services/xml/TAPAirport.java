@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.nio.file.FileSystemException;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -80,9 +81,8 @@ public class TAPAirport {
         builder = builder.setGates(gates);
         builder = builder.setDelayFactor();
         builder = builder.setDemandBonus();
-        builder = builder.setSlotControlled();
         Airport apt = builder.createAirport();
-        ArrayList<Runway> runways = new ArrayList<>();
+        Collection<Runway> runways = new ArrayList<>();
         for (Element r : e.getChild("runways").getChildren()) {
             String title = r.getAttributeValue("name");
             int length = Integer.parseInt(r.getAttributeValue("length"));
@@ -121,10 +121,7 @@ public class TAPAirport {
         Document doc;
         try {
             doc = new SAXBuilder().build(f);
-        } catch (JDOMException e) {
-            log.error(e);
-            return;
-        } catch (IOException e) {
+        } catch (JDOMException | IOException e) {
             log.error(e);
             return;
         }

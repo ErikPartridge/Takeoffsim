@@ -96,7 +96,7 @@ class Route implements Serializable {
     }
 
     public Collection<Flight> makeWeeklyFlights(LocalDate firstDayOfWeek){
-        List<Flight> flts = new ArrayList<>(7);
+        Collection<Flight> flts = new ArrayList<>(7);
         for(int i = 0; i < operates.length; i++){
             if(operates[i]){
                 flts.add(new Flight(0, firstDayOfWeek.plusDays(i), this));

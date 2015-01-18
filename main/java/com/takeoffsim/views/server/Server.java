@@ -5,13 +5,11 @@
 package com.takeoffsim.views.server;
 
 import com.jcabi.aspects.Async;
+import com.mitchellbosecke.pebble.error.PebbleException;
 import fi.iki.elonen.NanoHTTPD;
 import lombok.extern.apachecommons.CommonsLog;
 
-import java.io.ByteArrayInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.util.Map;
 
@@ -46,7 +44,7 @@ public class Server extends NanoHTTPD {
         String mimeType = "";
         try{
             mimeType = getMimeType(trimmed);
-        }catch (SecurityException e){
+        }catch (SecurityException ignored){
             log.error("Tried to access a protected file.");
             return new Response(Response.Status.FORBIDDEN, "text/text", "You tried to access a forbidden file");
         }
@@ -55,10 +53,10 @@ public class Server extends NanoHTTPD {
         Response response;
         try{
             response = new Response(Response.Status.ACCEPTED, mimeType, getResource(trimmed, files));
-        } catch (SecurityException e) {
+        } catch (SecurityException | PebbleException | IOException e) {
             log.error(e);
             response = new Response(Response.Status.BAD_REQUEST, "text/html","<b>Could not find</b> <a href=\"" + Main.back() + "\">back" + "</a>");
-        } catch (Exception e){
+        } catch (RuntimeException e){
             log.error(e);
             response = new Response(Response.Status.NOT_FOUND, "text/html","<b>Could not find</b> <a href=\"" + Main.back() + "\">back" + "</a>");
         }
@@ -94,9 +92,8 @@ public class Server extends NanoHTTPD {
     public final InputStream resourceAtPath(String path){
         try{
             return new FileInputStream("/home/erik/Takeoffsim/themes/TakeoffSim-Themes/default/" + path);
-        }catch (IOException e){
+        }catch (FileNotFoundException e){
             log.error(e);
-            
             return stringToInputStream("<b>Could not find " + path + "</b> <a href=\"" + Main.back() + "\">back" + "</a>");
         }
     }
@@ -129,11 +126,7 @@ public class Server extends NanoHTTPD {
             return "image/png";
         }else if(url.endsWith(".svg")){
             return "image/svg+xml";
-        }else if(url.endsWith(".java") || url.endsWith(".jar")){
-            throw new SecurityException("Protected");
-        }else if(url.endsWith(".xml") || url.endsWith(".yml")){
-            throw new SecurityException("Protected");
-        }else if(url.endsWith(".class")){
+        }else if(url.endsWith(".java") || url.endsWith(".jar") || url.endsWith(".xml") || url.endsWith(".yml") || url.endsWith(".class")){
             throw new SecurityException("Protected");
         }else if(url.endsWith(".pdf")) {
             return "application/pdf";

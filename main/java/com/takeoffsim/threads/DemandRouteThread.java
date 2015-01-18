@@ -10,18 +10,18 @@ import com.takeoffsim.models.airline.GlobalRoutes;
 
 import java.security.SecureRandom;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Erik in 11, 2014.
  */
 public class DemandRouteThread extends Thread {
 
+    @SuppressWarnings("StaticNonFinalField")
     private static List<GlobalRoute> routes;
 
     public DemandRouteThread(){
-        for(GlobalRoute route : GlobalRoutes.globalRoutes.values()){
-            routes.add(route);
-        }
+        routes.addAll(GlobalRoutes.globalRoutes.values().stream().collect(Collectors.toList()));
     }
 
     public void run(){

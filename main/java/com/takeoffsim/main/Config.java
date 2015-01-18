@@ -10,7 +10,6 @@ package com.takeoffsim.main;
 
 
 import com.jcabi.aspects.Cacheable;
-import com.takeoffsim.services.Serialize;
 import lombok.extern.apachecommons.CommonsLog;
 
 import java.io.IOException;
@@ -22,23 +21,22 @@ import java.util.concurrent.TimeUnit;
 @CommonsLog
 public final class Config {
 
+    @SuppressWarnings("StaticNonFinalField")
     public static String nameOfSim;
 
     private Config() {
     }
 
 
+    @SuppressWarnings("MethodReturnAlwaysConstant")
     public static String themePath(){return "/home/erik/Takeoffsim/themes/TakeoffSim-Themes/default/";}
-    public static String getPath() {
-        return Serialize.homeDirectory();
-    }
-    
+
     @Cacheable(lifetime = 70, unit = TimeUnit.SECONDS, forever = false)
     public static boolean isWebConnected(){
         try{
             InetAddress ip = Inet4Address.getByName("takeoffsim.com");
             return ip.isReachable(450);
-        } catch (UnknownHostException e) {
+        } catch (UnknownHostException ignored) {
             log.info("TakeoffSim is down. time to call the web guy.");
             return false;
         } catch(IOException ignored){

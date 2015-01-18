@@ -49,7 +49,7 @@ public class Main extends Application {
             log.fatal("Web support is not enabled in this version of JavaFX");
             System.exit(-1);
         }
-        ThreadManager.submit(() -> RouteDemand.launch());
+        ThreadManager.submit(RouteDemand::launch);
 
         SERVER.start();
         ENGINE.load("http://localhost:40973/landing.html");

@@ -11,6 +11,7 @@ package com.takeoffsim.main;
 /**
  * @author Erik
  */
+@SuppressWarnings("StaticNonFinalField")
 public final class GameProperties {
 
 

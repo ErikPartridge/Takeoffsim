@@ -16,11 +16,12 @@ import java.util.List;
  */
 class AirlineUpdateThread{
 
+    @SuppressWarnings("StaticNonFinalField")
     private static List<Airline> airlines = null;
 
     private LocalDateTime time = null;
 
-    public AirlineUpdateThread() {
+    AirlineUpdateThread() {
         if(airlines == null)
             airlines = Airlines.cloneAirlines();
         if(time == null)
@@ -29,7 +30,7 @@ class AirlineUpdateThread{
 
     public void run() {
         while(!airlines.isEmpty()){
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException("aheh");
         }
     }
 

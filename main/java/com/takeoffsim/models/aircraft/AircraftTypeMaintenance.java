@@ -15,7 +15,6 @@ import java.io.Serializable;
 /**
  * @author Erik
 */
-@SuppressWarnings("ClassNamePrefixedWithPackageName")
 @CommonsLog
 @Data
 public class AircraftTypeMaintenance implements Serializable {

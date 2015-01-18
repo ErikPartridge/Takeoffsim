@@ -44,7 +44,7 @@ public class Airport implements Serializable, Comparable<Airport> {
     private ZoneId timeZone;
     @NotNull
     @NonNull
-    private final ArrayList<Region> regions = new ArrayList<>();
+    private final List<Region> regions = new ArrayList<>();
     private boolean slotControlled;
 
     private double allocatedDemand;
@@ -52,10 +52,10 @@ public class Airport implements Serializable, Comparable<Airport> {
     private final ArrayList<Gate> gates = new ArrayList<>();
     private GateBuilder builder;
     @NotNull
-    private ArrayList<Airline> serves = new ArrayList<>();
+    private final List<Airline> serves = new ArrayList<>();
 
     @NotNull
-    private ArrayList<Runway> runways = new ArrayList<>();
+    private final List<Runway> runways = new ArrayList<>();
 
     /*
     @Override
@@ -220,8 +220,8 @@ public class Airport implements Serializable, Comparable<Airport> {
     }
 
     @NotNull
-    synchronized ArrayList<Region> getRegions() {
-        return regions;
+    synchronized List<Region> getRegions() {
+        return Collections.unmodifiableList(regions);
     }
 
     public synchronized boolean isSlotControlled() {
@@ -241,8 +241,8 @@ public class Airport implements Serializable, Comparable<Airport> {
     }
 
     @NotNull
-    public synchronized List<Gate> getGates() {
-        return gates;
+    public synchronized Collection<Gate> getGates() {
+        return Collections.unmodifiableList(gates);
     }
 
     synchronized GateBuilder getBuilder() {
@@ -254,13 +254,13 @@ public class Airport implements Serializable, Comparable<Airport> {
     }
 
     @NotNull
-    public synchronized List<Airline> getServes() {
-        return serves;
+    public synchronized Collection<Airline> getServes() {
+        return Collections.unmodifiableList(serves);
     }
 
     @NotNull
-    public synchronized ArrayList<Runway> getRunways() {
-        return runways;
+    public synchronized List<Runway> getRunways() {
+        return Collections.unmodifiableList(runways);
     }
 
     public Collection<Flight> getFlightsByAirline(Airline airline, ChronoLocalDate date){
@@ -273,12 +273,12 @@ public class Airport implements Serializable, Comparable<Airport> {
     private static class FlightConsumer implements Consumer<Flight> {
         private final Airline airline;
         private final ChronoLocalDate date;
-        private final List<Flight> result;
+        private final Collection<Flight> result = new ArrayList<>();
 
-        public FlightConsumer(Airline airline, ChronoLocalDate date, List<Flight> result) {
+        private FlightConsumer(Airline airline, ChronoLocalDate date, Collection<Flight> result) {
             this.airline = airline;
             this.date = date;
-            this.result = result;
+            this.result.addAll(result);
         }
 
         @Override
@@ -286,6 +286,15 @@ public class Airport implements Serializable, Comparable<Airport> {
             if(t.getAirline().equals(airline) && t.getDepartsGmt().toLocalDate().isEqual(date)){
                 result.add(t);
             }
+        }
+
+        @Override
+        public String toString() {
+            return "FlightConsumer{" +
+                    "airline=" + airline +
+                    ", date=" + date +
+                    ", result=" + result +
+                    '}';
         }
     }
 

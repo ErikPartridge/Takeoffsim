@@ -42,7 +42,7 @@ class CityLoader {
         loadFromList(elements);
     }
 
-    void loadFromList(List<Element> e){
+    void loadFromList(Iterable<Element> e){
         e.forEach(new ElementConsumer());
 
     }
@@ -60,7 +60,7 @@ class CityLoader {
                 City city = new City(name, latitude, longitude, population, country);
                 try {
                     country.addCity(city);
-                } catch (NullPointerException ptr) {
+                } catch (NullPointerException ignored) {
                     log.error("Could not find country with code : " + t.getChildTextTrim("country"));
                 }
             }

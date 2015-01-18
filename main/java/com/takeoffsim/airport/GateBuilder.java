@@ -14,11 +14,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * @author Erik
  */
-public class GateBuilder implements Serializable {
+class GateBuilder implements Serializable {
 
     @NonNull
     private final Airport airport;
@@ -26,7 +27,7 @@ public class GateBuilder implements Serializable {
     private int gateNumber = 1;
 
 
-    public GateBuilder(Airport apt) {
+    GateBuilder(Airport apt) {
         this.airport = apt;
     }
 
@@ -39,7 +40,7 @@ public class GateBuilder implements Serializable {
     @NotNull
     public Iterable<Gate> makeGates(int number) {
         int gatesToMake = number;
-        ArrayList<Gate> gates = new ArrayList<>();
+        Collection<Gate> gates = new ArrayList<>();
         while (gatesToMake > 0) {
             Gate gate = new Gate(null, gateNumber, airport);
             gates.add(gate);

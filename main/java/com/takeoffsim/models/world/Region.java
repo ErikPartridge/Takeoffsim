@@ -22,10 +22,10 @@ import java.util.List;
  * @author Erik
  */
 public class Region implements Serializable {
-    private ArrayList<City> cities = new ArrayList<>();
+    private List<City> cities = new ArrayList<>();
 
     @NonNull
-    private ArrayList<Airport> airportsInRegion = new ArrayList<>();
+    private List<Airport> airportsInRegion = new ArrayList<>();
 
     private String name;
 
@@ -56,16 +56,9 @@ public class Region implements Serializable {
      * @return the points
      */
     public Iterable<City> getPoints() {
-        return cities;
+        return Collections.unmodifiableList(cities);
     }
 
-
-    /**
-     * @param cities the cities to set
-     */
-    public void setPoints(ArrayList<City> cities) {
-        this.cities = cities;
-    }
 
 
     /**
@@ -73,14 +66,6 @@ public class Region implements Serializable {
      */
     public List<Airport> getAirportsInRegion() {
         return Collections.unmodifiableList(airportsInRegion);
-    }
-
-
-    /**
-     * @param airportsInRegion the airportsInRegion to set
-     */
-    public void setAirportsInRegion(ArrayList<Airport> airportsInRegion) {
-        this.airportsInRegion = airportsInRegion;
     }
 
     public void addPoints(Collection<City> points) {

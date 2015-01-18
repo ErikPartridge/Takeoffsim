@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 @CommonsLog
 final class HistoryManager {
 
-    private static boolean isExecuting = false;
+    public static boolean isExecuting = false;
     /**
      * The path to the archives folder. OS Specific. Default is for linux.
      */
@@ -41,7 +41,6 @@ final class HistoryManager {
     public static void writeAirlineHistory(History<Airline> history){
         isExecuting = true;
         File folder = new File(path + "/" + Config.nameOfSim + "/airline");
-        //noinspection ResultOfMethodCallIgnored
         folder.mkdirs();
         File file = new File(path + "/" + Config.nameOfSim + "/" + "airlines/" + history.getObject().getIcao() + "-" + history.getTimeStamp().toString() + "zip");
         try{
@@ -66,16 +65,15 @@ final class HistoryManager {
             log.error("Path for the airline history folder is not valid: " + path + "/" + Config.nameOfSim + "/airline/");
         }
         assert folder != null;
-        List<File> files = Arrays.asList(folder.listFiles());
+        @SuppressWarnings("ConstantConditions") List<File> files = Arrays.asList(folder.listFiles());
         //TODO
         String regex = a.getIcao() + "-" + "\\\\s+";
 
         return null;
     }
 
-    private static List<File> filter(List<File> files, String regex){
-        Collection<File> actualFiles = files.stream().filter(f -> f.isFile()).collect(Collectors.toList());
-        List<File> good = actualFiles.stream().filter(f -> f.getName().matches(regex)).collect(Collectors.toList());
-        return good;
+    private static List<File> filter(Collection<File> files, String regex){
+        Collection<File> actualFiles = files.stream().filter(File::isFile).collect(Collectors.toList());
+        return actualFiles.stream().filter(f -> f.getName().matches(regex)).collect(Collectors.toList());
     }
 }

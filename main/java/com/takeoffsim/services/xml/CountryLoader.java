@@ -61,10 +61,10 @@ public class CountryLoader {
     }
 
     private static class ElementConsumer implements Consumer<Element> {
-        private final Map<String, String> alpha;
+        private final Map<String, String> alpha = new HashMap<>();
 
-        public ElementConsumer(Map<String, String> alpha) {
-            this.alpha = alpha;
+        private ElementConsumer(Map<String, String> alpha) {
+            this.alpha.putAll(alpha);
         }
 
         @Override
@@ -96,6 +96,13 @@ public class CountryLoader {
                 log.debug("Null for alpha3 of " + t.getAttributeValue("shortname"));
             }
     }
+
+        @Override
+        public String toString() {
+            return "ElementConsumer{" +
+                    "alpha=" + alpha +
+                    '}';
+        }
     }
 }
 

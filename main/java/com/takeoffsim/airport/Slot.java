@@ -24,7 +24,7 @@ class Slot implements Serializable{
 
     private Entity owner;
 
-    public Slot(int hour, int week, int year, Entity owner) {
+    Slot(int hour, int week, int year, Entity owner) {
         this.hour = hour;
         this.week = week;
         this.owner = owner;

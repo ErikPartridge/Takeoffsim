@@ -15,16 +15,16 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Erik
  */
-@SuppressWarnings("ReturnOfCollectionOrArrayField")
 public class GlobalRoute implements Serializable {
     //All the options to get from point a to point b
-    private ArrayList<ConnectingRoute> connectingFlights = new ArrayList<>();
+    private final List<ConnectingRoute> connectingFlights = new ArrayList<>();
 
-    private ArrayList<Route> nonstops = new ArrayList<>();
+    private final List<Route> nonstops = new ArrayList<>();
 
     private int availableDemand;
 
@@ -43,8 +43,8 @@ public class GlobalRoute implements Serializable {
     /**
      * @return the connectingFlights
      */
-    public ArrayList<ConnectingRoute> getConnectingFlights() {
-        return connectingFlights;
+    public List<ConnectingRoute> getConnectingFlights() {
+        return Collections.unmodifiableList(connectingFlights);
     }
 
 

@@ -19,7 +19,7 @@ class TryTakeoff{
     private final Airport airport;
 
 
-    public final String message = "I would like to takeoff from this airport";
+    private final String message = "I would like to takeoff from this airport";
 
     private TryTakeoff(Airplane airplane, Airport apt){
         this.airplane = airplane;

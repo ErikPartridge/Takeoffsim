@@ -28,7 +28,7 @@ public final class Airports implements Serializable {
 
     static final long serialVersionUID = 14141298797799L;
 
-    private static final ConcurrentHashMap<String, Airport> airports = new ConcurrentHashMap<>();
+    private static final Map<String, Airport> airports = new ConcurrentHashMap<>();
 
 
     private Airports() {

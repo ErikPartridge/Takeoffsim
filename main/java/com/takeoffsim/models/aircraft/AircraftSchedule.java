@@ -16,7 +16,6 @@ import java.util.List;
 /**
  * Created by Erik in 09, 2014.
  */
-@SuppressWarnings({"ClassNamePrefixedWithPackageName", "AccessingNonPublicFieldOfAnotherObject"})
 public class AircraftSchedule {
 
     private Airplane airplane;
@@ -140,6 +139,7 @@ public class AircraftSchedule {
      * @param flights the list of flights to set the list to.
      */
     public void setFlights(ArrayList<Flight> flights) {
+        //noinspection AssignmentToCollectionOrArrayFieldFromParameter
         this.flights = flights;
     }
 
@@ -162,10 +162,9 @@ public class AircraftSchedule {
     /**
      *
      * @param f the flight to remove from the set of flights
-     * @return if the action was successful
      */
-    public boolean remove(Flight f){
-        return this.flights.remove(f);
+    public void remove(Flight f){
+        this.flights.remove(f);
     }
 
     @Override
@@ -175,8 +174,8 @@ public class AircraftSchedule {
 
         AircraftSchedule that = (AircraftSchedule) obj;
 
-        if (airplane != null ? !airplane.equals(that.airplane) : that.airplane != null) return false;
-        return !(flights != null ? !flights.equals(that.flights) : that.flights != null);
+        if (airplane != null ? !airplane.equals(that.getAirplane()) : that.getAirplane() != null) return false;
+        return !(flights != null ? !flights.equals(that.getFlights()) : that.getFlights() != null);
 
     }
 

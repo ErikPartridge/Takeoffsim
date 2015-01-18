@@ -18,6 +18,7 @@ import java.util.Random;
  */
 public class AllocateDemandThread extends Thread {
 
+    @SuppressWarnings("StaticNonFinalField")
     private static List<Region> regionsToGo = null;
 
     public AllocateDemandThread(){

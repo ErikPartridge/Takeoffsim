@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public final class Countries {
 
     @NotNull
-    private static final ConcurrentHashMap<String, Country> countries = new ConcurrentHashMap<>();
+    private static final Map<String, Country> countries = new ConcurrentHashMap<>();
 
     @NotNull
     private static final Map<String, Country> tapCodes = new ConcurrentHashMap<>();

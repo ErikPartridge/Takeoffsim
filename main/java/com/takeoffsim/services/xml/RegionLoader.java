@@ -40,7 +40,7 @@ public class RegionLoader {
             return null;
         }
         List<Element> list = doc.getRootElement().getChildren();
-        ArrayList<Region> regions = new ArrayList<>();
+        Collection<Region> regions = new ArrayList<>();
         for (Element e : list) {
             String name = e.getChildTextTrim("Name");
             Region region = new Region(name);
@@ -54,7 +54,7 @@ public class RegionLoader {
 
     Collection<City> citiesInRegion(Element element) {
         List<Element> elements = element.getChildren();
-        ArrayList<City> cities = new ArrayList<>();
+        Collection<City> cities = new ArrayList<>();
         elements.stream().filter(e -> !e.getName().equals("Name")).forEach(e -> {
             String name = e.getChildTextTrim("SubName");
             int population = Integer.parseInt(e.getChildTextTrim("Population"));

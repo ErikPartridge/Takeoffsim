@@ -37,16 +37,8 @@ public final class AirportBuilder {
 
     private int gates;
 
-    private boolean slotControlled;
-
 
     public AirportBuilder() {
-    }
-
-    @NotNull
-    public AirportBuilder setSlotControlled() {
-        this.slotControlled = false;
-        return this;
     }
 
     @NotNull

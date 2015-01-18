@@ -99,6 +99,7 @@ class FleetManager {
         array[8] = 0.0;
         array[9] = 0.0;
         for (int i = 0; i < types.length; i++) {
+            //noinspection ConstantConditions
             array[10 + i] = airline.getFleet().getSubFleet(types[i].getIcao()) == null ? 0.0 : airline.getFleet().getSubFleet(types[i].getIcao()).getAircraft().values().size();
         }
         log.trace("Made data :" + Arrays.toString(array));
@@ -124,7 +125,7 @@ class FleetManager {
     }
 
     public int downsizeAmount(){
-        return 0;
+        throw new UnsupportedOperationException("Failed");
     }
     @NotNull
     @Override

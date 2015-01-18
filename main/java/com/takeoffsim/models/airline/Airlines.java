@@ -65,11 +65,8 @@ public final class Airlines implements Serializable {
         nonHumanAirlines.parallel().forEach(a -> new AircraftScheduler(a).schedule());
         nonHumanAirlines.parallel().forEach(Airlines::hire);
         nonHumanAirlines.parallel().forEach(Airlines::maintenance);
-        nonHumanAirlines.parallel().forEach(Airlines::evaluateOldRoutes);
         nonHumanAirlines.parallel().forEach(Airlines::acquirePlanes);
-        nonHumanAirlines.parallel().forEach(Airlines::evaluateOldRoutes);
         nonHumanAirlines.parallel().forEach(Airlines::sellPlanes);
-        nonHumanAirlines.parallel().forEach(Airlines::createNewRoutes);
     }
     /**
      * @param icao The icao code of the airline to get
@@ -134,7 +131,7 @@ public final class Airlines implements Serializable {
     }
 
     public static List<Airline> humanAirlines(){
-        return airlines.values().stream().filter(a -> a.isHuman()).collect(Collectors.toList());
+        return airlines.values().stream().filter(Airline::isHuman).collect(Collectors.toList());
     }
 
     @Cacheable(lifetime = 5, unit = TimeUnit.SECONDS)
@@ -226,11 +223,8 @@ public final class Airlines implements Serializable {
             }
         });
 
-        a.getFleet().getFleet().forEach(sf -> sf.getAircraft().values().forEach(new Consumer<Airplane>() {
-            @Override
-            public void accept(Airplane t) {
-                //TODO
-            }
+        a.getFleet().getFleet().forEach(sf -> sf.getAircraft().values().forEach(t -> {
+            //TODO
         }));
 
     }
@@ -253,27 +247,6 @@ public final class Airlines implements Serializable {
      * @throws UnsupportedOperationException
      */
     static void acquirePlanes(Airline a) {
-
-    }
-
-    /**
-     * @throws UnsupportedOperationException
-     */
-    public static void invest(Airline a) {
-
-    }
-
-    /**
-     * @throws UnsupportedOperationException
-     */
-    static void evaluateOldRoutes(Airline a) {
-
-    }
-
-    /**
-     * @throws UnsupportedOperationException
-     */
-    static void createNewRoutes(Airline a) {
 
     }
 

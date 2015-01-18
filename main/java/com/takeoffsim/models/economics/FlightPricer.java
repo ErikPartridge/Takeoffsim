@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 class FlightPricer {
     private final Flight flight;
 
-    public FlightPricer(Flight f) {
+    FlightPricer(Flight f) {
         this.flight = f;
     }
 

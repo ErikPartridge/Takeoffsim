@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -29,7 +30,7 @@ import java.util.Collection;
 class ChooseFlight {
 
 
-    public void chooseFlight(@NotNull Airport departs, @NotNull Airport arrives, LocalDate day) {
+    public void chooseFlight(@NotNull Airport departs, @NotNull Airport arrives, @SuppressWarnings("TypeMayBeWeakened") LocalDate day) {
 
         //What airlines serve it
         Iterable<Airline> serves = getOverlap(departs.getServes(), arrives.getServes());
@@ -52,7 +53,6 @@ class ChooseFlight {
     }
 
 
-    @SuppressWarnings("QuestionableName")
     @NotNull
     private Iterable<Airline> getOverlap(@NotNull Collection<Airline> one, @NotNull Collection<Airline> two) {
         ArrayList<Airline> overlap = new ArrayList<>();
@@ -60,7 +60,6 @@ class ChooseFlight {
         return overlap;
     }
 
-    @SuppressWarnings("QuestionableName")
     private int getLayover(@NotNull Flight one, @NotNull Flight two) {
         LocalDateTime dept = two.getDepartsGmt();
         LocalDateTime arr = one.getArrivesGmt();
@@ -77,7 +76,7 @@ class ChooseFlight {
         }
     }
 
-    private ArrayList<Flight> getFlightsByAirline(@NotNull Airport departs, @NotNull Airport arrives, @NotNull Airline airline, LocalDate day) {
+    private ArrayList<Flight> getFlightsByAirline(@NotNull Airport departs, @NotNull Airport arrives, @NotNull Airline airline, ChronoLocalDate day) {
         Collection<Flight> flightsToHub = new ArrayList<>(5);
         ArrayList<Flight> flightsFromHub = new ArrayList<>(5);
         ArrayList<Flight> nonstops = new ArrayList<>();
@@ -106,7 +105,7 @@ class ChooseFlight {
         return made;
     }
 
-    private ArrayList<Flight> flightsToHub(@NotNull Airport departs, @NotNull Airport arrives, @NotNull Airline airline, LocalDate day) {
+    private ArrayList<Flight> flightsToHub(@NotNull Airport departs, @NotNull Airport arrives, @NotNull Airline airline, ChronoLocalDate day) {
         Collection<Flight> flightsToHub = new ArrayList<>(5);
         ArrayList<Flight> flightsFromHub = new ArrayList<>(5);
         try {
@@ -116,7 +115,7 @@ class ChooseFlight {
                 }
                 return f;
             });
-        }catch (Exception e){
+        }catch (RuntimeException e){
             log.error(e);
         }
         arrives.getFlightsByAirline(airline, day).stream().filter((f) -> (airline.getHubs().contains(f.getRoute().getDeparts()) && f.getRoute().getArrives().equals(arrives))).forEach(flightsFromHub::add);

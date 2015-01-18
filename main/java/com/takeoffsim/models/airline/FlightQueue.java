@@ -16,6 +16,7 @@ import java.util.PriorityQueue;
 import java.util.stream.Stream;
 
 
+@SuppressWarnings("ReturnOfCollectionOrArrayField")
 final class FlightQueue {
 
 
@@ -32,7 +33,6 @@ final class FlightQueue {
 
     @NotNull
     public static PriorityQueue<Flight> getQueue() {
-        //noinspection ReturnOfCollectionOrArrayField
         return toDepart;
 
     }

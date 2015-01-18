@@ -12,6 +12,7 @@ import com.takeoffsim.airport.Airport;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -19,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public final class GlobalRoutes {
 
-    public static final ConcurrentHashMap<String, GlobalRoute> globalRoutes = new ConcurrentHashMap<>(24000);
+    public static final Map<String, GlobalRoute> globalRoutes = new ConcurrentHashMap<>(24000);
 
     private GlobalRoutes() {
     }

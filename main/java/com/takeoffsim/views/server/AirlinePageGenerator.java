@@ -28,7 +28,6 @@ final class AirlinePageGenerator {
     public static InputStream getAirlineIndex() throws PebbleException, IOException{
         File file = new File(Config.themePath() + "airline-landing.html");
         Map<String,Object> context = new HashMap<>();
-        //noinspection ConstantConditions
         context.put("name", Airlines.humanAirline().getName());
         return getInputStream(file, context);
     }

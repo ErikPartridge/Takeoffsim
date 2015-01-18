@@ -54,7 +54,7 @@ public final class Companies implements Serializable {
     }
 
     static void bill(Company c){
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("no payment today");
     }
 
 }

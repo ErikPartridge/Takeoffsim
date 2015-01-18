@@ -35,13 +35,12 @@ import java.util.logging.Logger;
  * @since 0.3 alpha
  */
 
-@SuppressWarnings("ClassNamePrefixedWithPackageName")
 @CommonsLog
 public class Airline extends Company implements Serializable {
 
     static final long serialVersionUID = 2093027591L;
 
-    private final ArrayList<Airport> hubs = new ArrayList<>();
+    private final List<Airport> hubs = new ArrayList<>();
 
     private Fleet fleet;
 
@@ -59,15 +58,15 @@ public class Airline extends Company implements Serializable {
 
     private Money pilotPay;
 
-    private List<FlightAttendant> flightAttendants = new ArrayList<>();
+    private final List<FlightAttendant> flightAttendants = new ArrayList<>();
 
-    private List<Pilot> pilots = new ArrayList<>();
+    private final List<Pilot> pilots = new ArrayList<>();
 
-    private List<Mechanic> mechanics = new ArrayList<>();
+    private final List<Mechanic> mechanics = new ArrayList<>();
 
-    private List<Executive> executives = new ArrayList<>();
+    private final List<Executive> executives = new ArrayList<>();
 
-    private List<Route> routes = new ArrayList<>();
+    private final List<Route> routes = new ArrayList<>();
 
     private boolean human;
 
@@ -105,7 +104,7 @@ public class Airline extends Company implements Serializable {
     /**
      * Where are its hubs- Delta has DTW, ATL, MSP, JFK, SLC
      */
-    public synchronized List<Airport> getHubs() {
+    public synchronized Collection<Airport> getHubs() {
         return Collections.unmodifiableList(hubs);
     }
 
@@ -207,7 +206,7 @@ public class Airline extends Company implements Serializable {
         return Collections.unmodifiableList(executives);
     }
 
-    public synchronized List<Route> getRoutes() {
+    public synchronized Collection<Route> getRoutes() {
         return Collections.unmodifiableList(routes);
     }
 

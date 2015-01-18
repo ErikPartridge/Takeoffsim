@@ -25,7 +25,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-@SuppressWarnings("AccessingNonPublicFieldOfAnotherObject")
+@SuppressWarnings({"AccessingNonPublicFieldOfAnotherObject", "TypeMayBeWeakened"})
 @CommonsLog
 public class Company implements Serializable, Entity {
     static final long serialVersionUID = -606077089004L;
@@ -63,7 +63,7 @@ public class Company implements Serializable, Entity {
 
     private List<Airline> subsidiaries = new ArrayList<>();
 
-    private List<Contract> contracts = new ArrayList<>();
+    private final List<Contract> contracts = new ArrayList<>();
 
     private List<Gate> gatesOwned = new ArrayList<>();
 
@@ -79,7 +79,7 @@ public class Company implements Serializable, Entity {
         super();
     }
 
-    private Company(ArrayList<Stock> holdings, long numShares, Stock corporateStock, boolean isSubsidiary, String ceo, String headquarters, Money valuation, Country country, Money costs, double earningsPerShare, double dividend, ArrayList<Airline> subsidiaries, Money cash, Money earnings) {
+    private Company(List<Stock> holdings, long numShares, Stock corporateStock, boolean isSubsidiary, String ceo, String headquarters, Money valuation, Country country, Money costs, double earningsPerShare, double dividend, List<Airline> subsidiaries, Money cash, Money earnings) {
         holdings.addAll(holdings);
         shares = new ArrayList<>();
         shares.add(new Stock(this,numShares));
@@ -184,8 +184,8 @@ public class Company implements Serializable, Entity {
         result = 31 * result + (cash != null ? cash.hashCode() : 0);
         long temp = Double.doubleToLongBits(earningsPerShare);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
-        temp = Double.doubleToLongBits(dividend);
-        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        long l = Double.doubleToLongBits(dividend);
+        result = 31 * result + (int) (l ^ (l >>> 32));
         result = 31 * result + (subsidiaries != null ? subsidiaries.hashCode() : 0);
         return result;
     }
@@ -193,10 +193,6 @@ public class Company implements Serializable, Entity {
     @NotNull
     Collection<Stock> getHoldings() {
         return Collections.unmodifiableList(holdings);
-    }
-
-    public void setHoldings(@NotNull ArrayList<Stock> holdings) {
-        this.holdings = holdings;
     }
 
     Stock getCorporateStock() {
@@ -299,9 +295,6 @@ public class Company implements Serializable, Entity {
         return Collections.unmodifiableList(subsidiaries);
     }
 
-    public void setSubsidiaries(ArrayList<Airline> subsidiaries) {
-        this.subsidiaries = subsidiaries;
-    }
 
     @SuppressWarnings("InstanceMethodNamingConvention")
     public void pay(Money money){
@@ -328,7 +321,7 @@ public class Company implements Serializable, Entity {
     public double getFunds(){
         return this.getCash().getAmount().doubleValue();
     }
-    public List<Contract> getContracts() {
+    public Collection<Contract> getContracts() {
         return Collections.unmodifiableList(contracts);
     }
 
@@ -344,9 +337,5 @@ public class Company implements Serializable, Entity {
 
     protected Iterable<Gate> getGates(){
         return Collections.unmodifiableList(gatesOwned);
-    }
-
-    public void setGates(ArrayList<Gate> gates){
-        this.gatesOwned = gates;
     }
 }

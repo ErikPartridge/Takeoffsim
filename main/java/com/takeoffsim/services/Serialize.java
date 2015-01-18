@@ -16,9 +16,11 @@ import lombok.extern.apachecommons.CommonsLog;
 import java.io.*;
 import java.util.Optional;
 
+@SuppressWarnings("ResultOfMethodCallIgnored")
 @CommonsLog
 public class Serialize {
 
+    @SuppressWarnings("StaticNonFinalField")
     private static boolean isExecuting = false;
     private Serialize() {
     }
@@ -32,7 +34,6 @@ public class Serialize {
         File file = null;
         if(isMac()){
             File directory = new File(homeDirectory() + "saves/" + Config.nameOfSim + "/");
-            //noinspection ResultOfMethodCallIgnored
             directory.mkdirs();
             file = new File(homeDirectory() + "saves/" + Config.nameOfSim + "/" + "Airports.tss");
         }else if(isWindows()){
@@ -81,6 +82,7 @@ public class Serialize {
         } catch (IOException ex) {
             log.error(ex.getMessage());
         }
+        //noinspection ConstantConditions
         return Optional.of(out);
     }
 

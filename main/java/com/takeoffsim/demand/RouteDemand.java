@@ -55,7 +55,6 @@ public final class RouteDemand implements Serializable {
      */
     private static ForecastingModel getModel() {
         //Get an input stream
-        CSVBuilder csv = null;
         Scanner scanner = new Scanner(RouteDemand.class.getClassLoader().getResourceAsStream("forecaster_training/training.csv"));
         File file = null;
         //Need a temporary file for CSV constructor
@@ -78,6 +77,7 @@ public final class RouteDemand implements Serializable {
             out.write(scanner.nextLine());
         }
         //Build the CSVBuilder
+        CSVBuilder csv = null;
         try {
             csv = new CSVBuilder(file);
         } catch (FileNotFoundException ex) {
@@ -96,7 +96,6 @@ public final class RouteDemand implements Serializable {
         //Build the forecasting model
         ForecastingModel fm = getBestForecast(ds, MAD);
         fm.init(ds);
-        //noinspection ResultOfMethodCallIgnored
         file.delete();
         return fm;
     }

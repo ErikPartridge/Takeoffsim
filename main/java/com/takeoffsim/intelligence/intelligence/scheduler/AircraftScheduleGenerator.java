@@ -25,7 +25,7 @@ class AircraftScheduleGenerator implements CandidateFactory<AircraftSchedule> {
 
     private final List<Airplane> airplanes = new ArrayList<>();
 
-    public AircraftScheduleGenerator(Iterable<Flight> fs, Iterable<Airplane> planes){
+    AircraftScheduleGenerator(Iterable<Flight> fs, Iterable<Airplane> planes){
         fs.forEach(flights::add);
         planes.forEach(airplanes::add);
     }
@@ -33,7 +33,7 @@ class AircraftScheduleGenerator implements CandidateFactory<AircraftSchedule> {
     public List<AircraftSchedule> generateInitialPopulation(int populationSize, Random rng) {
         List<AircraftSchedule> schedules = new ArrayList<>();
 
-        List<Airplane> usedAirplanes = new ArrayList<>();
+        Collection<Airplane> usedAirplanes = new ArrayList<>();
         List<Flight> usedFlights = new ArrayList<>();
 
         for(int i = 0; i < populationSize; i ++){
@@ -95,13 +95,13 @@ class AircraftScheduleGenerator implements CandidateFactory<AircraftSchedule> {
     }
 
     private static class FlightConsumer implements Consumer<Flight> {
-        private final Collection<Flight> usedFlights;
-        private final List<AircraftSchedule> newSchedules;
+        private final Collection<Flight> usedFlights = new ArrayList<>();
+        private final List<AircraftSchedule> newSchedules = new ArrayList<>();
         private final Random rng;
 
-        public FlightConsumer(Collection<Flight> usedFlights, List<AircraftSchedule> newSchedules, Random rng) {
-            this.usedFlights = usedFlights;
-            this.newSchedules = newSchedules;
+        private FlightConsumer(Collection<Flight> usedFlights, Collection<AircraftSchedule> newSchedules, Random rng) {
+            this.usedFlights.addAll(usedFlights);
+            this.newSchedules.addAll(newSchedules);
             this.rng = rng;
         }
 
@@ -109,6 +109,15 @@ class AircraftScheduleGenerator implements CandidateFactory<AircraftSchedule> {
         public void accept(Flight t) {
             usedFlights.add(t);
             newSchedules.get(rng.nextInt(newSchedules.size())).addFlight(t);
+        }
+
+        @Override
+        public String toString() {
+            return "FlightConsumer{" +
+                    "usedFlights=" + usedFlights +
+                    ", newSchedules=" + newSchedules +
+                    ", rng=" + rng +
+                    '}';
         }
     }
 }

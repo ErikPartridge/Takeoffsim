@@ -26,6 +26,7 @@ import org.joda.money.Money;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -60,10 +61,7 @@ public class AirlineLoader {
         org.jdom2.Document doc;
         try {
             doc = new SAXBuilder().build(is);
-        } catch (JDOMException e) {
-            log.error(e);
-            return;
-        } catch (IOException e) {
+        } catch (JDOMException | IOException e) {
             log.error(e);
             return;
         }
@@ -101,8 +99,8 @@ public class AirlineLoader {
         return element.getChildTextTrim(child);
     }
 
-    private ArrayList<Airline> getCodeShares(String sharers) {
-        ArrayList<Airline> airlines = new ArrayList<>();
+    private Collection<Airline> getCodeShares(String sharers) {
+        List<Airline> airlines = new ArrayList<>();
         String[] split = sharers.split(",");
         for (String str : split) {
             airlines.add(Airlines.getAirline("str"));
@@ -111,8 +109,8 @@ public class AirlineLoader {
     }
 
     @NotNull
-    private ArrayList<Airport> getHubs(String apts) {
-        ArrayList<Airport> hubs = new ArrayList<>();
+    private Collection<Airport> getHubs(String apts) {
+        List<Airport> hubs = new ArrayList<>();
         String[] hubList = apts.trim().split(",");
         for (String apt : hubList) {
             Airport a = getAirport(apt);

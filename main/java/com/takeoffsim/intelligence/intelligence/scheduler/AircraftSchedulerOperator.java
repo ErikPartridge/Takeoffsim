@@ -19,10 +19,9 @@ class AircraftSchedulerOperator implements EvolutionaryOperator<AircraftSchedule
 
     @Override
     public List<AircraftSchedule> apply(final List<AircraftSchedule> selectedCandidates, Random rng) {
-        List<AircraftSchedule> candidates = selectedCandidates;
-        ArrayList<Flight> removedFlights = new ArrayList<>();
-        candidates.forEach(c -> removedFlights.add(c.removeRandom()));
-        candidates.forEach(c -> c.addFlight(removedFlights.remove(rng.nextInt(removedFlights.size()))));
-        return candidates;
+        List<Flight> removedFlights = new ArrayList<>();
+        selectedCandidates.forEach(c -> removedFlights.add(c.removeRandom()));
+        selectedCandidates.forEach(c -> c.addFlight(removedFlights.remove(rng.nextInt(removedFlights.size()))));
+        return selectedCandidates;
     }
 }

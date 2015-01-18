@@ -15,13 +15,13 @@ import java.time.LocalDateTime;
 
 
 public final class TimeUtils {
-    public static final int MIN_PER_DAY = 1440;
+    private static final int MIN_PER_DAY = 1440;
 
 
     private TimeUtils() {
     }
 
-    private static int minutesBetween(@SuppressWarnings("QuestionableName") @NotNull LocalDateTime one, @NotNull LocalDateTime two) {
+    private static int minutesBetween(@NotNull LocalDateTime one, @NotNull LocalDateTime two) {
         int minutes = 0;
         int dayOne = one.getDayOfYear();
         int dayTwo = two.getDayOfYear();

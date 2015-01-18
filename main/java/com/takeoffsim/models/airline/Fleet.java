@@ -16,6 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -38,7 +39,7 @@ class Fleet implements Serializable {
      * @param aln   the icao of the airline
      * @param fleet the fleet of this airline
      */
-    public Fleet(String aln, List<Subfleet> fleet) {
+    public Fleet(String aln, Collection<Subfleet> fleet) {
         this.airline = Airlines.getAirline(aln);
         this.fleet.addAll(fleet);
     }

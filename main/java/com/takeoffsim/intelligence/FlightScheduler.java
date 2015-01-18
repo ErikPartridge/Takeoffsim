@@ -21,7 +21,7 @@ class FlightScheduler {
 
     private final LocalDate firstDay;
 
-    public FlightScheduler(Airline airline, LocalDate firstDay) {
+    FlightScheduler(Airline airline, LocalDate firstDay) {
         this.airline = airline;
         this.firstDay = firstDay;
     }

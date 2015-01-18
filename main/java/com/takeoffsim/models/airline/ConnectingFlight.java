@@ -36,7 +36,6 @@ class ConnectingFlight implements Serializable {
      * @param one the first flight
      * @param two the second flight
      */
-    @SuppressWarnings("QuestionableName")
     public ConnectingFlight(@NotNull Flight one, @NotNull Flight two) {
         this.price = one.getRoute().getEcoPrice() * one.getAirline().getConnectionRate() + two.getRoute().getEcoPrice() * two.getAirline().getConnectionRate();
         this.time = TimeUtils.layover(one, two);

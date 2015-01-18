@@ -31,14 +31,14 @@ public class Subfleet implements Serializable {
     @NonNull
     private final AircraftType acfType;
 
-    private HashMap<String, Airplane> aircraft = new HashMap<>();
+    private Map<String, Airplane> aircraft = new HashMap<>();
 
-    private ArrayList<Route> routesForType = new ArrayList<>();
+    private List<Route> routesForType = new ArrayList<>();
 
     private ArrayList<Delivery> orders = new ArrayList<>();
 
 
-    private Subfleet(String arln, AircraftType acf, int lease, int own, HashMap<String, Airplane> members) {
+    private Subfleet(String arln, AircraftType acf, int lease, int own, Map<String, Airplane> members) {
         this.acfType = acf;
         this.aircraft.putAll(members);
     }

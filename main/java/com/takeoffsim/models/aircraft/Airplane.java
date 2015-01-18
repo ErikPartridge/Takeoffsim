@@ -16,6 +16,7 @@ import com.takeoffsim.models.world.Time;
 import lombok.Data;
 import lombok.extern.apachecommons.CommonsLog;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.joda.money.Money;
 
 import java.io.Serializable;
@@ -52,6 +53,7 @@ public class Airplane implements Serializable, Comparable {
     private Airline operator;
     private LocalDateTime until;
     private boolean forSale;
+    @Nullable
     private Flight activeFlight;
 
 
@@ -71,7 +73,6 @@ public class Airplane implements Serializable, Comparable {
      * @param hours        Hours flown in its lifetime
      * @param owner        Who owns it/operates it
      */
-    @SuppressWarnings("ConstructorWithTooManyParameters")
     private Airplane(String registration, @NotNull AircraftType type, Engine engine, int fin, double age,
                      boolean leased, double aCheck, double bCheck, double cCheck,
                      Airport location, int cycles, double hours, @NotNull Company owner, int msn) {
@@ -171,8 +172,7 @@ public class Airplane implements Serializable, Comparable {
             return -1;
         else {
             Airplane a = (Airplane) o;
-            int comp;
-            comp = this.getType() != a.getType() ? this.getType().getName().compareTo(a.getType().getName()) : (int) Math.round(a.getAge() - this.getAge() * 1000);
+            int comp = this.getType() != a.getType() ? this.getType().getName().compareTo(a.getType().getName()) : (int) Math.round(a.getAge() - this.getAge() * 1000);
             return comp;
         }
     }

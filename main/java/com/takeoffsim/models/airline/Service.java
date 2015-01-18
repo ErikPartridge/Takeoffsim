@@ -15,8 +15,6 @@ public enum Service {
     FIRST(.05), BUSINESS(.2), ECONOMYPLUS(.15), ECONOMY(.6);
 
 
-    @SuppressWarnings("UnnecessaryLocalVariable")
     Service(double choosing) {
-        double percentChoosing = choosing;
     }
 }

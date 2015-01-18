@@ -20,6 +20,6 @@ class AircraftScheduleFitnessEvaluator implements FitnessEvaluator<AircraftSched
 
     @Override
     public boolean isNatural() {
-        return true;
+        throw new UnsupportedOperationException("Failed");
     }
 }

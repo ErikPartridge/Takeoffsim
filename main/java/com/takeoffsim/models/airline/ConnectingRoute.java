@@ -19,7 +19,7 @@ import java.util.List;
  * @author Erik
  */
 class ConnectingRoute {
-    private ArrayList<Route> routes = new ArrayList<>();
+    private final List<Route> routes = new ArrayList<>();
 
 
     /**

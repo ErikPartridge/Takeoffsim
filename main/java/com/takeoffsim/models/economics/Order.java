@@ -30,9 +30,8 @@ public class Order extends Contract{
     public Order(@NotNull Airline a, @NotNull AircraftType acf, int number, boolean payUpFront) {
         for (int i = 0; i < number; i++) {
             if(payUpFront){
-                Money cost = null;
-                cost = number > 40 ? acf.getPrice().dividedBy(1.40d, RoundingMode.CEILING) : acf.getPrice().dividedBy(1 + number / 100.0d, RoundingMode.CEILING);
-                Bills.bills.add(new Bill(a, acf.getManufacturer(), acf.getPrice(), Time.getDateTimeInstance()));
+                Money cost = number > 40 ? acf.getPrice().dividedBy(1.40d, RoundingMode.CEILING) : acf.getPrice().dividedBy(1 + number / 100.0d, RoundingMode.CEILING);
+                Bills.bills.add(new Bill(a, acf.getManufacturer(), cost, Time.getDateTimeInstance()));
             }else{
                 //TODO
             }

@@ -46,7 +46,7 @@ public class AircraftType implements Serializable {
     private Money price;
 
     @NotNull
-    private final ArrayList<EngineType> engineOptions = new ArrayList<>();
+    private final List<EngineType> engineOptions = new ArrayList<>();
 
     private int maxEconomySeats;
 
@@ -87,7 +87,6 @@ public class AircraftType implements Serializable {
      * @param oew                the operating empty weight
      * @param mzfw               the max zero fuel weight
      */
-    @SuppressWarnings("ConstructorWithTooManyParameters")
     private AircraftType(String name, int cruiseSpeed, int departureRunway, int arrivalRunway, String icao, int range, double price, byte numberOfEngines, int maxEconomySeats, int productionRate, AircraftManufacturer manufacturer, AircraftTypeMaintenance maintenanceProfile, double sfc, int mtow, int mlw, int oew, int mzfw) {
         this.icao = icao;
         this.setName(name);

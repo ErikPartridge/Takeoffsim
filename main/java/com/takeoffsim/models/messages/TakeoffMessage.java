@@ -21,7 +21,7 @@ final class TakeoffMessage {
     private final Flight flight;
 
 
-    public TakeoffMessage(Airport apt, Airplane ap, Flight flt){
+    TakeoffMessage(Airport apt, Airplane ap, Flight flt){
         this.airport = apt;
         this.airplane = ap;
         this.flight = flt;

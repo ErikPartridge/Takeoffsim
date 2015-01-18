@@ -65,7 +65,6 @@ public final class AircraftScheduler {
      *
      * @param as the aircraft schedule to set the times of the flights
      */
-    @SuppressWarnings("FeatureEnvy")
     void setTimes(AircraftSchedule as){
         //How much extra time between each flight?
         int flex = AircraftSchedule.LENGTH_OF_WEEK - as.getMinutes() - 6 * 60 - (as.getFlights().size() - 1) * as.getAirplane().getType().getTurntime();
@@ -88,7 +87,6 @@ public final class AircraftScheduler {
      * @param flights the list of flights to score
      * @return the score of this list of flights
      */
-    @SuppressWarnings("FeatureEnvy")
     private int scoreListFlight(List<Flight> flights){
         if(flights.size() == 0){
             return 0;
@@ -108,7 +106,6 @@ public final class AircraftScheduler {
      *
      * @param as the aircraft schedule to sort
      */
-    @SuppressWarnings("FeatureEnvy")
     void sortFlights(AircraftSchedule as){
         //The engine that puts the flights in order
         EvolutionEngine<List<Flight>> engine = new GenerationalEvolutionEngine<>(
@@ -143,7 +140,7 @@ public final class AircraftScheduler {
         final ArrayList<Flight> toSchedule = new ArrayList<>();
         //filter to only routes for this subfleet
         List<Airplane> airplanes = new ArrayList<>();
-        List<AircraftSchedule> finished = new ArrayList<>();
+        Collection<AircraftSchedule> finished = new ArrayList<>();
         //Fill out the airplanes
         airline.getFleet().getSubFleet(type.getIcao()).getAircraft().values().forEach(airplanes::add);
         //Fill out the flights
@@ -162,12 +159,7 @@ public final class AircraftScheduler {
         List<EvaluatedCandidate<AircraftSchedule>> end = engine.evolvePopulation(airplanes.size(), airplanes.size() / 2, new Stagnation(12, true, true));
 
         //If not good- cancel some flights... Probably should tell the airline's AI too.
-        fixSchedules(end.stream().parallel().filter(candidate -> candidate.getFitness() < 10));
-
-        //Fill the finished schedules list with good schedules!
-        end.stream().forEach(sc -> finished.add(sc.getCandidate()));
-
-        return finished;
+        return fixSchedules(end.stream().parallel().filter(candidate -> candidate.getFitness() < 10));
     }
 
     /**
@@ -175,7 +167,7 @@ public final class AircraftScheduler {
      * @param schedules the list of schedules to fix
      * @return a fixed list
      */
-    List<AircraftSchedule> fixSchedules(Stream<EvaluatedCandidate<AircraftSchedule>> schedules){
+    Collection<AircraftSchedule> fixSchedules(Stream<EvaluatedCandidate<AircraftSchedule>> schedules){
         List<AircraftSchedule> scheds = new ArrayList<>();
         schedules.parallel().forEach(s -> scheds.add(fixSchedule(s.getCandidate())));
         return scheds;
@@ -186,7 +178,6 @@ public final class AircraftScheduler {
      * @param schedule the schedule to fix
      * @return a schedule that is fixed
      */
-    @SuppressWarnings("FeatureEnvy")
     private AircraftSchedule fixSchedule(AircraftSchedule schedule){
         while(schedule.score() < 10.0d && schedule.getFlights().size() > 0){
             Flight f = schedule.removeRandom();
@@ -209,22 +200,21 @@ public final class AircraftScheduler {
 
     /**
      *
-     * @param f the flight to search for the return
+     * @param flt the flight to search for the return
      * @param s the schedule that contains the return
      * @return the soonest return
      * @throws InvalidParameterException if there is no return flight in the schedule
      */
-    @SuppressWarnings("FeatureEnvy")
-    private Flight getReturn(Flight f, AircraftSchedule s) {
+    private Flight getReturn(Flight flt, AircraftSchedule s) {
 
         Stream<Flight> allReturns = s.getFlights().stream().filter(t ->
-                 t.getRoute().getDeparts().equals(f.getRoute().getArrives()) && t.getRoute().getArrives().equals(f.getRoute().getDeparts()));
+                 t.getRoute().getDeparts().equals(flt.getRoute().getArrives()) && t.getRoute().getArrives().equals(flt.getRoute().getDeparts()));
 
 
         if(allReturns.count() == 1){
             return allReturns.findFirst().get();
         }else if(allReturns.count() == 0){
-            throw new InvalidParameterException(f.toString() + " does not have a return flight in the provided schedule");
+            throw new InvalidParameterException(flt.toString() + " does not have a return flight in the provided schedule");
         }else{
             return allReturns.findAny().get();
         }
@@ -257,13 +247,20 @@ public final class AircraftScheduler {
     private static class RoutePredicate implements Predicate<Route> {
         private final AircraftType type;
 
-        public RoutePredicate(AircraftType type) {
+        private RoutePredicate(AircraftType type) {
             this.type = type;
         }
 
         @Override
         public boolean test(Route t) {
             return t.getType().equals(type);
+        }
+
+        @Override
+        public String toString() {
+            return "RoutePredicate{" +
+                    "type=" + type +
+                    '}';
         }
     }
 }
