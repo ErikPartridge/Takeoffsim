@@ -40,7 +40,7 @@ class TryTakeoff{
         return "TryTakeoff{" +
                 "airplane=" + airplane +
                 ", airport=" + airport +
-                ", MESSAGE='" + MESSAGE + '\'' +
+                ", MESSAGE='" + message + '\'' +
                 '}';
     }
 }

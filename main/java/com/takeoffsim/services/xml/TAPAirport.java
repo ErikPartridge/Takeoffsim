@@ -51,20 +51,6 @@ public class TAPAirport {
         builder = builder.setName(e.getAttribute("name").getValue());
         builder = builder.setIata(e.getAttribute("iata").getValue());
         builder = builder.setIcao(e.getAttribute("icao").getValue());
-        try {
-            builder = builder.setInternational(e.getAttribute("type").getValue().contains("International"));
-        }catch(NullPointerException ignored){
-            Element terminals = e.getChild("terminals");
-            int gates = 0;
-            for (Element element : terminals.getChildren()) {
-                gates += Integer.parseInt(element.getAttribute("gates").getValue());
-            }
-            if(gates > 20){
-                builder.setInternational(true);
-            }else{
-                builder.setInternational(false);
-            }
-        }
         ZoneId zoneId;
         try {
             String gmt = e.getChild("town").getAttribute("GMT").getValue();
@@ -119,7 +105,7 @@ public class TAPAirport {
                 runways.add(runway);
             }
         }
-        apt.setRunways(runways);
+        apt.addRunways(runways);
         if (!apt.getIcao().equals("")) {
             Airports.put(apt.getIcao(), apt);
         } else {

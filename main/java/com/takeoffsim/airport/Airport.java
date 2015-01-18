@@ -288,5 +288,9 @@ public class Airport implements Serializable, Comparable<Airport> {
             }
         }
     }
+
+    public void addRunways(Collection<Runway> rwys){
+        runways.addAll(rwys);
+    }
 }
 

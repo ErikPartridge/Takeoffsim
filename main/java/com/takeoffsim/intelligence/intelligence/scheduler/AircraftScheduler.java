@@ -162,7 +162,7 @@ public final class AircraftScheduler {
         List<EvaluatedCandidate<AircraftSchedule>> end = engine.evolvePopulation(airplanes.size(), airplanes.size() / 2, new Stagnation(12, true, true));
 
         //If not good- cancel some flights... Probably should tell the airline's AI too.
-        fixSchedules(end.stream().parallel().filter(candidate -> candidate.getFitness() < 10);
+        fixSchedules(end.stream().parallel().filter(candidate -> candidate.getFitness() < 10));
 
         //Fill the finished schedules list with good schedules!
         end.stream().forEach(sc -> finished.add(sc.getCandidate()));
