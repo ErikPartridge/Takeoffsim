@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -11,15 +11,16 @@ package com.takeoffsim.demand;
 import com.javadocmd.simplelatlng.LatLng;
 import com.javadocmd.simplelatlng.LatLngTool;
 import com.javadocmd.simplelatlng.util.LengthUnit;
-import com.takeoffsim.models.airline.GlobalRoute;
 import com.takeoffsim.airport.Airport;
+import com.takeoffsim.models.airline.GlobalRoute;
+import com.takeoffsim.models.world.City;
 import com.takeoffsim.threads.AllocateDemandThread;
 import com.takeoffsim.threads.DemandRouteThread;
 import com.takeoffsim.threads.ThreadManager;
-import com.takeoffsim.models.world.City;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Erik
@@ -49,9 +50,8 @@ public class DemandCreator {
     /**
      * @param inRegion list of airports in the region
      * @param city     the city from which to allocate the demand
-     * @return the airports that are now processed
      */
-    public synchronized void allocateDemand(@NotNull ArrayList<Airport> inRegion, @NotNull final City city) {
+    public synchronized void allocateDemand(@NotNull List<Airport> inRegion, @NotNull final City city) {
         ArrayList<Double> scores = new ArrayList<>();
         double sumOfScores = 0;
 

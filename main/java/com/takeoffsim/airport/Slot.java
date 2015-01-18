@@ -14,7 +14,7 @@ import java.io.Serializable;
 
 
 @Deprecated
-public class Slot implements Serializable{
+class Slot implements Serializable{
 
     private final int hour;
 

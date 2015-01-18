@@ -9,6 +9,7 @@
 package com.takeoffsim.models.airline;
 
 
+import com.jcabi.aspects.Cacheable;
 import com.takeoffsim.intelligence.intelligence.scheduler.AircraftScheduler;
 import com.takeoffsim.models.aircraft.AircraftTypeMaintenance;
 import com.takeoffsim.models.aircraft.Airplane;
@@ -19,9 +20,13 @@ import org.jetbrains.annotations.Nullable;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -32,8 +37,8 @@ public final class Airlines implements Serializable {
     //List of all the airlines, single instance, has methods for getting airlines
 
     static final long serialVersionUID = 465599813L;
-    private static ConcurrentHashMap<String, Airline> airlines = new ConcurrentHashMap<>(400);
-    private static ConcurrentHashMap<String, String> icaos = new ConcurrentHashMap<>(400);
+    private static final Map<String, Airline> airlines = new ConcurrentHashMap<>(400);
+    private static final Map<String, String> icaos = new ConcurrentHashMap<>(400);
 
     private Airlines() {
     }
@@ -42,9 +47,9 @@ public final class Airlines implements Serializable {
      *
      * @return a clone of the airlines values
      */
-    public synchronized static ArrayList<Airline> cloneAirlines(){
+    public synchronized static List<Airline> cloneAirlines(){
         ArrayList<Airline> aln = new ArrayList<>(400);
-        airlines.values().stream().forEach(a -> aln.add(a));
+        airlines.values().stream().forEach(aln::add);
         return aln;
     }
 
@@ -87,17 +92,10 @@ public final class Airlines implements Serializable {
     /**
      * @return the icao/airline hashmap
      */
-    public static ConcurrentHashMap<String, Airline> getMap() {
-        return airlines;
+    public static Map<String, Airline> getMap() {
+        return Collections.unmodifiableMap(airlines);
     }
 
-    /**
-     * @param listOfAirlines sets the map to the parameter WARNING: only to be used when loading
-     */
-    @Deprecated
-    public static void setAirlines(ConcurrentHashMap<String, Airline> listOfAirlines) {
-        airlines = listOfAirlines;
-    }
 
     /**
      * @param airline the name of the airline
@@ -136,22 +134,16 @@ public final class Airlines implements Serializable {
     }
 
     public static List<Airline> humanAirlines(){
-        List<Airline> airlineList = new ArrayList<>();
-        for(Airline a: airlines.values()){
-            if(a.isHuman()){
-                airlineList.add(a);
-            }
-        }
-        return airlineList;
+        return airlines.values().stream().filter(a -> a.isHuman()).collect(Collectors.toList());
     }
 
-    @Nullable
+    @Cacheable(lifetime = 5, unit = TimeUnit.SECONDS)
     public static Airline humanAirline(){
         for(Airline a: airlines.values()){
             if(a.isHuman())
                 return a;
         }
-        return null;
+        throw new NullPointerException("No human airline");
     }
     /**
      *
@@ -198,12 +190,12 @@ public final class Airlines implements Serializable {
     /**
      *
      */
-    public static void maintenance(Airline a) {
+    static void maintenance(Airline a) {
         a.getFleet().getFleet().stream().parallel().forEach(sf ->
-                sf.getAircraft().values().stream().parallel().forEach(p -> maintain(p)));
+                sf.getAircraft().values().stream().parallel().forEach(Airlines::maintain));
     }
 
-    protected static void maintain(Airplane a){
+    private static void maintain(Airplane a){
         AircraftTypeMaintenance prof = a.getType().getMaintenanceProfile();
         if(a.getaCheck() > prof.getHoursA()){
             a.getOperator().pay(a.getType().getMaintenanceProfile().getPriceA());
@@ -220,30 +212,24 @@ public final class Airlines implements Serializable {
      *
      * @param a the airline to sell the aircraft of
      */
-    public static void sellPlanes(Airline a) {
+    static void sellPlanes(Airline a) {
 
         a.getFleet().getFleet().forEach(new Consumer<Subfleet>() {
             @Override
-            public void accept(Subfleet subfleet) {
-                if(subfleet.getAircraft().values().size() < 10
-                        && getPercentOfFleet(subfleet, a) < .05
-                        && subfleet.getOrders().size() != 0){
+            public void accept(Subfleet t) {
+                if(t.getAircraft().values().size() < 10
+                        && getPercentOfFleet(t, a) < .05
+                        && t.getOrders().size() != 0){
 
-                    subfleet.getAircraft().values().forEach(new Consumer<Airplane>() {
-                        @Override
-                        public void accept(Airplane airplane) {
-                            airplane.setForSale(true);
-                            UsedAircraftMarket.putOnSale(airplane);
-                        }
-                    });
+                    t.getAircraft().values().forEach(new AirplaneConsumer());
                 }
             }
         });
 
         a.getFleet().getFleet().forEach(sf -> sf.getAircraft().values().forEach(new Consumer<Airplane>() {
             @Override
-            public void accept(Airplane airplane) {
-
+            public void accept(Airplane t) {
+                //TODO
             }
         }));
 
@@ -266,7 +252,7 @@ public final class Airlines implements Serializable {
     /**
      * @throws UnsupportedOperationException
      */
-    public static void acquirePlanes(Airline a) {
+    static void acquirePlanes(Airline a) {
 
     }
 
@@ -280,14 +266,22 @@ public final class Airlines implements Serializable {
     /**
      * @throws UnsupportedOperationException
      */
-    public static void evaluateOldRoutes(Airline a) {
+    static void evaluateOldRoutes(Airline a) {
 
     }
 
     /**
      * @throws UnsupportedOperationException
      */
-    public static void createNewRoutes(Airline a) {
+    static void createNewRoutes(Airline a) {
 
+    }
+
+    private static class AirplaneConsumer implements Consumer<Airplane> {
+        @Override
+        public void accept(Airplane t) {
+            t.setForSale(true);
+            UsedAircraftMarket.putOnSale(t);
+        }
     }
 }

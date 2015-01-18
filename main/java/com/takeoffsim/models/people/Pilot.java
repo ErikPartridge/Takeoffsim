@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /** (c) Erik Malmstrom-Partridge 2014
@@ -13,7 +13,7 @@ import com.takeoffsim.models.economics.Company;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -24,7 +24,7 @@ import java.util.ArrayList;
 public class Pilot extends Employee implements Serializable{
 
 
-    private ArrayList<AircraftType> typeCertifications;
+    private List<AircraftType> typeCertifications;
 
     public Pilot(int sal, String fName, String last, int years, Company corp) {
         super(sal, fName, last, years, corp);

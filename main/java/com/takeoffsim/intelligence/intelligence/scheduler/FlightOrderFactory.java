@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 package com.takeoffsim.intelligence.intelligence.scheduler;
@@ -14,7 +14,7 @@ import java.util.Random;
 /**
  * Created by Erik in 11, 2014.
  */
-public class FlightOrderFactory extends AbstractCandidateFactory<List<Flight>> {
+class FlightOrderFactory extends AbstractCandidateFactory<List<Flight>> {
 
     private final List<Flight> startingList;
 
@@ -25,5 +25,12 @@ public class FlightOrderFactory extends AbstractCandidateFactory<List<Flight>> {
     public List<Flight> generateRandomCandidate(Random rng) {
         Collections.shuffle(startingList);
         return startingList;
+    }
+
+    @Override
+    public String toString() {
+        return "FlightOrderFactory{" +
+                "startingList=" + startingList +
+                '}';
     }
 }

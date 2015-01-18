@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 package com.takeoffsim.services.xml;
@@ -17,6 +17,7 @@ import org.jdom2.input.SAXBuilder;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @CommonsLog
@@ -27,7 +28,7 @@ public class RegionLoader {
         Regions.putAllRegions(makeRegions(is));
     }
 
-    public ArrayList<Region> makeRegions(InputStream is) {
+    Iterable<Region> makeRegions(InputStream is) {
         Document doc = null;
         try {
             doc = new SAXBuilder().build(is);
@@ -51,7 +52,7 @@ public class RegionLoader {
 
     }
 
-    public ArrayList<City> citiesInRegion(Element element) {
+    Collection<City> citiesInRegion(Element element) {
         List<Element> elements = element.getChildren();
         ArrayList<City> cities = new ArrayList<>();
         elements.stream().filter(e -> !e.getName().equals("Name")).forEach(e -> {

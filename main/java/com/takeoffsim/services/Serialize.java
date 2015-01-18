@@ -1,5 +1,5 @@
-/**
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+/*
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 
@@ -19,8 +19,8 @@ import java.util.Optional;
 @CommonsLog
 public class Serialize {
 
-    public static boolean isExecuting = false;
-    public Serialize() {
+    private static boolean isExecuting = false;
+    private Serialize() {
     }
 
 
@@ -32,6 +32,7 @@ public class Serialize {
         File file = null;
         if(isMac()){
             File directory = new File(homeDirectory() + "saves/" + Config.nameOfSim + "/");
+            //noinspection ResultOfMethodCallIgnored
             directory.mkdirs();
             file = new File(homeDirectory() + "saves/" + Config.nameOfSim + "/" + "Airports.tss");
         }else if(isWindows()){
@@ -47,15 +48,15 @@ public class Serialize {
         try{
             @Cleanup FileOutputStream fos = new FileOutputStream(file);
             out = setup(fos).get();
-        }catch (Exception e){
-            log.error(e.getMessage());
+        } catch (FileNotFoundException e) {
+            log.error(e);
         }
         assert out != null;
         for(Airport airport : Airports.getAirports().values()){
             try{
                 out.writeObject(airport);
                 log.trace("Wrote airport " + airport.getIcao());
-            }catch(Exception e){
+            } catch (IOException e) {
                 log.error(e);
             }
         }
@@ -87,7 +88,7 @@ public class Serialize {
      * @return if this operating system is Windows
      */
     @Cacheable(forever = true)
-    public static boolean isWindows(){
+    private static boolean isWindows(){
         return System.getProperty("os.name").startsWith("Windows");
     }
 
@@ -95,7 +96,7 @@ public class Serialize {
      * @return if this operating system is Mac
      */
     @Cacheable(forever = true)
-    public static boolean isMac(){
+    private static boolean isMac(){
         return System.getProperty("os.name").startsWith("Mac");
     }
 

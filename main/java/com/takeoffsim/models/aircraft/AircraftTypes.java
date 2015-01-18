@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -9,17 +9,14 @@
 package com.takeoffsim.models.aircraft;
 
 
-import com.google.common.collect.HashBiMap;
 import lombok.extern.apachecommons.CommonsLog;
-import org.apache.commons.math3.random.MersenneTwister;
+import org.apache.commons.math3.random.RandomGenerator;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
 This keeps a nice list of AircraftTypes, makes them accessible
@@ -30,15 +27,15 @@ This keeps a nice list of AircraftTypes, makes them accessible
  * @since 0.3 alpha
  */
 @CommonsLog
-public class AircraftTypes implements Serializable {
+public final class AircraftTypes implements Serializable {
 
-    static final long serialVerionUID = 893521325L;
+    static final long serialVersionUID = 893521325L;
 
 
     /**
      * a bi-directional map of strings to aircrafttypes
      */
-    private static HashBiMap<String, AircraftType> aircraftTypes = HashBiMap.create(400);
+    private static final Map<String, AircraftType> aircraftTypes = new ConcurrentHashMap<>(200);
     //This class runs a list and keeps methods. Only one instance;
 
 
@@ -62,15 +59,15 @@ public class AircraftTypes implements Serializable {
      * @param str the Mersenne Twister random number generator
      * @return the random aircraft type retrieved
      */
-    public static AircraftType getRandom(@NotNull MersenneTwister str) {
-        Set<AircraftType> s = aircraftTypes.values();
+    public static AircraftType getRandom(@NotNull RandomGenerator str) {
+        Collection<AircraftType> s = aircraftTypes.values();
         int max = s.size();
         List<AircraftType> l = new ArrayList<>(s);
         return l.get(str.nextInt(max));
     }
 
-    public static HashBiMap<String, AircraftType> getMap() {
-        return aircraftTypes;
+    public static Map<String, AircraftType> getMap() {
+        return Collections.unmodifiableMap(aircraftTypes);
     }
 
     /**

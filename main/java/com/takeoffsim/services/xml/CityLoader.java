@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 package com.takeoffsim.services.xml;
@@ -22,7 +22,7 @@ import java.util.function.Consumer;
  * Created by Erik .
  */
 @CommonsLog
-public class CityLoader {
+class CityLoader {
 
 
     public void loadCities() {
@@ -36,33 +36,34 @@ public class CityLoader {
             log.error(e);
         }
 
+        assert doc != null;
         Element root = doc.getRootElement();
         List<Element> elements = root.getChildren();
         loadFromList(elements);
     }
 
-    public void loadFromList(List<Element> e){
-        List<Element> elements = e;
-        elements.forEach(new Consumer<Element>() {
-            @Override
-            public void accept(Element element) {
-
-                if (!element.getChild("country").getTextTrim().equals("US")) {
-                    String name = element.getChild("name").getTextTrim();
-                    double latitude = Double.parseDouble(element.getChildTextTrim("latitude"));
-                    double longitude = Double.parseDouble(element.getChildTextTrim("longitude"));
-                    int population = Integer.parseInt(element.getChildTextTrim("population"));
-                    Country country = Countries.getCountry(element.getChildTextTrim("country"));
-                    City city = new City(name, latitude, longitude, population, country);
-                    try {
-                        country.addCity(city);
-                    } catch (NullPointerException ptr) {
-                        log.error("Could not find country with code : " + element.getChildTextTrim("country"));
-                    }
-                }
-            }
-        });
+    void loadFromList(List<Element> e){
+        e.forEach(new ElementConsumer());
 
     }
 
+    private static class ElementConsumer implements Consumer<Element> {
+        @Override
+        public void accept(Element t) {
+
+            if (!t.getChild("country").getTextTrim().equals("US")) {
+                String name = t.getChild("name").getTextTrim();
+                double latitude = Double.parseDouble(t.getChildTextTrim("latitude"));
+                double longitude = Double.parseDouble(t.getChildTextTrim("longitude"));
+                int population = Integer.parseInt(t.getChildTextTrim("population"));
+                Country country = Countries.getCountry(t.getChildTextTrim("country"));
+                City city = new City(name, latitude, longitude, population, country);
+                try {
+                    country.addCity(city);
+                } catch (NullPointerException ptr) {
+                    log.error("Could not find country with code : " + t.getChildTextTrim("country"));
+                }
+            }
+        }
+    }
 }

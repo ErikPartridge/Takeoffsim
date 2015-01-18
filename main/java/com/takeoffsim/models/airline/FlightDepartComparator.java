@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -13,7 +13,7 @@ import java.util.Comparator;
 /**
  * @author Erik
  */
-public class FlightDepartComparator implements Comparator {
+class FlightDepartComparator implements Comparator {
 
     @Override
     public int compare(Object o1, Object o2) {

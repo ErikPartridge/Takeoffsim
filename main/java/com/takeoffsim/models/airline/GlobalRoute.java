@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -14,10 +14,12 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * @author Erik
  */
+@SuppressWarnings("ReturnOfCollectionOrArrayField")
 public class GlobalRoute implements Serializable {
     //All the options to get from point a to point b
     private ArrayList<ConnectingRoute> connectingFlights = new ArrayList<>();
@@ -30,7 +32,7 @@ public class GlobalRoute implements Serializable {
 
     private Airport arrive;
 
-    private boolean finalized;
+    private final boolean finalized;
 
     public GlobalRoute(Airport depart, Airport arrive) {
         this.setDepart(depart);
@@ -47,26 +49,10 @@ public class GlobalRoute implements Serializable {
 
 
     /**
-     * @param connectingFlights the connectingFlights to set
-     */
-    public void setConnectingFlights(ArrayList<ConnectingRoute> connectingFlights) {
-        this.connectingFlights = connectingFlights;
-    }
-
-
-    /**
      * @return the nonstops
      */
-    public ArrayList<Route> getNonstops() {
-        return nonstops;
-    }
-
-
-    /**
-     * @param nonstops the nonstops to set
-     */
-    public void setNonstops(ArrayList<Route> nonstops) {
-        this.nonstops = nonstops;
+    public Iterable<Route> getNonstops() {
+        return Collections.unmodifiableList(nonstops);
     }
 
 
@@ -101,7 +87,7 @@ public class GlobalRoute implements Serializable {
         return depart;
     }
 
-    public void setDepart(Airport depart) {
+    void setDepart(Airport depart) {
         this.depart = depart;
     }
 
@@ -109,7 +95,7 @@ public class GlobalRoute implements Serializable {
         return arrive;
     }
 
-    public void setArrive(Airport arrive) {
+    void setArrive(Airport arrive) {
         this.arrive = arrive;
     }
 
@@ -117,9 +103,4 @@ public class GlobalRoute implements Serializable {
         return finalized;
     }
 
-
-
-    public void finalize() throws UnsupportedOperationException{
-        throw new UnsupportedOperationException("Fix this");
-    }
 }

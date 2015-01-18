@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -15,6 +15,7 @@ import lombok.extern.apachecommons.CommonsLog;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 
@@ -29,10 +30,10 @@ class Country {
     private String regex;
 
     @NotNull
-    private ArrayList<Country> banned = new ArrayList<>();
+    private List<Country> banned = new ArrayList<>();
 
     @NotNull
-    private ArrayList<City> cities = new ArrayList<>();
+    private Collection<City> cities = new ArrayList<>();
 
     private List<String> registrations;
 

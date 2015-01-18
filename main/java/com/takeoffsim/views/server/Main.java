@@ -27,19 +27,20 @@ import lombok.extern.apachecommons.CommonsLog;
 import java.awt.*;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 
 @CommonsLog
 public class Main extends Application {
     
-    private static WebView view;
+    private static final WebView VIEW = new WebView();
     
-    private static WebEngine engine;
+    private static final WebEngine ENGINE = VIEW.getEngine();
 
-    public static Server server;
+    public static final Server SERVER = new Server();
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws IOException {
         new CountryLoader().createCountries();
         new TAPAirport().createAirports();
         log.trace(Config.themePath());
@@ -48,73 +49,65 @@ public class Main extends Application {
             log.fatal("Web support is not enabled in this version of JavaFX");
             System.exit(-1);
         }
-        ThreadManager.submit(new Runnable() {
-            @Override
-            public void run() {
-                RouteDemand.launch();
-            }
-        });
+        ThreadManager.submit(() -> RouteDemand.launch());
 
-        server = new Server();
-        server.start();
-        view = new WebView();
-        engine = view.getEngine();
-        engine.load("http://localhost:40973/landing.html");
-        engine.locationProperty().addListener(new ChangeListener<String>() {
-            @Override
-            @Timeable(limit = 5, unit = TimeUnit.SECONDS)
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.contains("http://localhost")) {
-                    Platform.runLater(() -> engine.load(oldValue));
-                    /*
-                    if(Desktop.isDesktopSupported()){
-                        try{
-                            Desktop.getDesktop().browse(new URI("http://takeoffsim.com"));
-                        }catch (IOException | URISyntaxException e){
-                            log.debug(e);
-                        }
-                    }*/
-                }
-            }
-        });
-        view.setPrefWidth(1920);
-        view.setPrefHeight(1200);
-        Scene scene = new Scene(view);
+        SERVER.start();
+        ENGINE.load("http://localhost:40973/landing.html");
+        ENGINE.locationProperty().addListener(new StringChangeListener());
+        VIEW.setPrefWidth(1920);
+        VIEW.setPrefHeight(1200);
+        Scene scene = new Scene(VIEW);
         //Don't let them leave the program
         primaryStage.setScene(scene);
         primaryStage.show();
     }
     
     protected static String url(){
-        return engine.getLocation();
+        return ENGINE.getLocation();
     }
     
     public static void load(String url){
-        engine.load(url);
+        ENGINE.load(url);
     }
 
     @Async
-    public void diagnostics(){
+    void diagnostics(){
         log.info(System.getProperties());
         log.info("Desktop supported? " + Desktop.isDesktopSupported());
         log.info("Web enabled? " + Platform.isSupported(ConditionalFeature.WEB));
         try {
             log.info("Is connected to the web? " + InetAddress.getByName("takeoffsim.com").isReachable(1000));
-        }catch(IOException e){
+        } catch (UnknownHostException e) {
+            log.info(e);
+        } catch(IOException ignored){
             log.info("Is connected to the web? false");
         }
     }
     
     public static String back(){
-        int index = engine.getHistory().getCurrentIndex();
-        ObservableList<WebHistory.Entry> entries = engine.getHistory().getEntries();
+        int index = ENGINE.getHistory().getCurrentIndex();
+        ObservableList<WebHistory.Entry> entries = ENGINE.getHistory().getEntries();
         if(index > 0 && index < entries.size() -1){
             return entries.get(index + 1).getUrl();
-        }else if(index == entries.size() - 1 && entries.size() > 1){
-            return entries.get(index - 1).getUrl();
-        }else{
-            return "http://localhost:40973/landing.html";
+        }else
+            return index == entries.size() - 1 && entries.size() > 1 ? entries.get(index - 1).getUrl() : "http://localhost:40973/landing.html";
+    }
+
+    private static class StringChangeListener implements ChangeListener<String> {
+        @Override
+        @Timeable(limit = 5, unit = TimeUnit.SECONDS)
+        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+            if (!newValue.contains("http://localhost")) {
+                Platform.runLater(() -> ENGINE.load(oldValue));
+                /*
+                if(Desktop.isDesktopSupported()){
+                    try{
+                        Desktop.getDesktop().browse(new URI("http://takeoffsim.com"));
+                    }catch (IOException | URISyntaxException e){
+                        log.debug(e);
+                    }
+                }*/
+            }
         }
     }
-    
 }

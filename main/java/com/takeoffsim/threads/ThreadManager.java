@@ -10,10 +10,13 @@ import java.util.concurrent.Executors;
 /**
  * Created by Erik in 11, 2014.
  */
-public class ThreadManager {
+public final class ThreadManager {
 
 
-    private static ExecutorService exe = Executors.newFixedThreadPool(4);
+    private static final ExecutorService exe = Executors.newFixedThreadPool(4);
+
+    private ThreadManager() {
+    }
 
     public static void submit(Runnable runnable){
         exe.submit(runnable);

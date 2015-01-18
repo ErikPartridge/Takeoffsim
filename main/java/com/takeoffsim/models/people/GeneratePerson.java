@@ -18,34 +18,37 @@ import org.jfairy.producer.person.PersonProperties;
  */
 public final class GeneratePerson {
 
-    private static final Fairy fairy = Fairy.create();
+    private static final Fairy FAIRY = Fairy.create();
+
+    private GeneratePerson() {
+    }
 
     @Nullable
     public static FlightAttendant createFlightAttendant(@NotNull Airline a) {
-        Person person = fairy.person(PersonProperties.minAge(19));
+        Person person = FAIRY.person(PersonProperties.minAge(19));
         return new FlightAttendant(0, a.getFlightAttendantPay().getAmountMinorInt(), person.firstName(), person.lastName(), person.age(), a);
     }
 
     @Nullable
     public static Mechanic createMechanic(@NotNull Airline a) {
-        Person person = fairy.person(PersonProperties.minAge(19));
+        Person person = FAIRY.person(PersonProperties.minAge(19));
         return new Mechanic(a.getMechanicPay().getAmountMinorInt(), person.firstName(), person.lastName(), person.age(), a);
     }
 
     @Nullable
     public static Pilot createPilot(@NotNull Airline a) {
-        Person person = fairy.person(PersonProperties.minAge(19));
+        Person person = FAIRY.person(PersonProperties.minAge(19));
         return new Pilot(a.getMechanicPay().getAmountMinorInt(), person.firstName(), person.lastName(), person.age(), a);
     }
 
     @Nullable
     public static Executive createExecutive(@NotNull Company c) {
-        Person person = fairy.person(PersonProperties.minAge(19));
+        Person person = FAIRY.person(PersonProperties.minAge(19));
         return new Executive(100000, person.firstName(), person.lastName(), person.age(), c);
     }
 
     public static Investor createInvestor(){
-        Person person = fairy.person();
+        Person person = FAIRY.person();
         return new Investor(person.fullName());
     }
 

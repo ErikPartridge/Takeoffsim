@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -15,8 +15,8 @@ import org.jetbrains.annotations.NotNull;
 /**
  * @author Erik
  */
-public class FlightPricer {
-    Flight flight;
+class FlightPricer {
+    private final Flight flight;
 
     public FlightPricer(Flight f) {
         this.flight = f;
@@ -27,7 +27,7 @@ public class FlightPricer {
         return gauss.sample() * economyClass();
     }
 
-    public double economyClass() {
+    double economyClass() {
         double distance = flight.getRoute().getDistance();
         if (distance < 400) {
             return new NormalDistribution(.25, .05).sample() * distance;
@@ -35,11 +35,7 @@ public class FlightPricer {
         if (distance >= 400 && distance < 1000) {
             return new NormalDistribution(.2, .03).sample() * distance;
         }
-        if (distance >= 1000 && distance < 3000) {
-            return new NormalDistribution(.15, .05).sample() * distance;
-        } else {
-            return new NormalDistribution(.1, .02).sample() * distance;
-        }
+        return distance >= 1000 && distance < 3000 ? new NormalDistribution(.15, .05).sample() * distance : new NormalDistribution(.1, .02).sample() * distance;
     }
 
     public double ecoPlus() {

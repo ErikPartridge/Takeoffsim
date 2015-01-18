@@ -15,7 +15,6 @@ import org.jdom2.Element;
 import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,14 +46,14 @@ public class TAPAirport {
     }
 
 
-    public void makeAirport(Element e) {
+    void makeAirport(Element e) {
         AirportBuilder builder = new AirportBuilder();
         builder = builder.setName(e.getAttribute("name").getValue());
         builder = builder.setIata(e.getAttribute("iata").getValue());
         builder = builder.setIcao(e.getAttribute("icao").getValue());
         try {
             builder = builder.setInternational(e.getAttribute("type").getValue().contains("International"));
-        }catch(NullPointerException ex){
+        }catch(NullPointerException ignored){
             Element terminals = e.getChild("terminals");
             int gates = 0;
             for (Element element : terminals.getChildren()) {
@@ -66,7 +65,7 @@ public class TAPAirport {
                 builder.setInternational(false);
             }
         }
-        ZoneId zoneId = null;
+        ZoneId zoneId;
         try {
             String gmt = e.getChild("town").getAttribute("GMT").getValue();
             if (gmt.equals("00:00:00")) {
@@ -93,9 +92,9 @@ public class TAPAirport {
             gates += Integer.parseInt(element.getAttribute("gates").getValue());
         }
         builder = builder.setGates(gates);
-        builder = builder.setDelayFactor(0);
-        builder = builder.setDemandBonus(0);
-        builder = builder.setSlotControlled(false);
+        builder = builder.setDelayFactor();
+        builder = builder.setDemandBonus();
+        builder = builder.setSlotControlled();
         Airport apt = builder.createAirport();
         ArrayList<Runway> runways = new ArrayList<>();
         for (Element r : e.getChild("runways").getChildren()) {
@@ -116,7 +115,6 @@ public class TAPAirport {
                 runways.add(helipad);
 
             } else {
-                System.out.println(apt.getName());
                 Runway runway = new Runway(title, length, surface, apt);
                 runways.add(runway);
             }
@@ -132,26 +130,21 @@ public class TAPAirport {
     /**
      *
      * @param f The input stream of the xml document
-     * @return A list of all the airports in the region defined by the xml document
      */
-    @Nullable
-    public void createAllAirports(InputStream f) throws FileSystemException {
-        Document doc = null;
+    void createAllAirports(InputStream f) throws FileSystemException {
+        Document doc;
         try {
             doc = new SAXBuilder().build(f);
         } catch (JDOMException e) {
-            log.error("Got a JDOMException trying to load TAPAirport, returning null");
-            throw new FileSystemException("");
+            log.error(e);
+            return;
         } catch (IOException e) {
-            log.error("IOException trying to load TAPAirports, returning null");
-            throw new FileSystemException("");
+            log.error(e);
+            return;
         }
         Element root = doc.getRootElement();
-        ArrayList<Airport> results = new ArrayList<>();
         List<Element> airports = root.getChildren();
-        for(Element e: airports){
-            makeAirport(e);
-        }
+        airports.forEach(this::makeAirport);
     }
 
     private double latitudeFromString(@NotNull String s) {

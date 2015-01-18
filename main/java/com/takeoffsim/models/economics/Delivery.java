@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -57,7 +57,7 @@ public class Delivery implements Serializable {
     }
 
     public void deliver() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("No planes for bonzo");
     }
 
     @NotNull

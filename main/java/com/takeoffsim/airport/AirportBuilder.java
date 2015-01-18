@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -23,8 +23,6 @@ public final class AirportBuilder {
 
     private double longitude;
 
-    private boolean isInternational;
-
     private String icao;
 
     private String iata;
@@ -46,8 +44,8 @@ public final class AirportBuilder {
     }
 
     @NotNull
-    public AirportBuilder setSlotControlled(boolean slot) {
-        this.slotControlled = slot;
+    public AirportBuilder setSlotControlled() {
+        this.slotControlled = false;
         return this;
     }
 
@@ -94,15 +92,15 @@ public final class AirportBuilder {
 
 
     @NotNull
-    public AirportBuilder setDelayFactor(double delayFactor) {
-        this.delayFactor = delayFactor;
+    public AirportBuilder setDelayFactor() {
+        this.delayFactor = (double) 0;
         return this;
     }
 
 
     @NotNull
-    public AirportBuilder setDemandBonus(double demandBonus) {
-        this.demandBonus = demandBonus;
+    public AirportBuilder setDemandBonus() {
+        this.demandBonus = (double) 0;
         return this;
     }
 
@@ -110,13 +108,6 @@ public final class AirportBuilder {
     @NotNull
     public AirportBuilder setTimeZone(ZoneId timeZone) {
         this.timeZone = timeZone;
-        return this;
-    }
-
-
-    @NotNull
-    public AirportBuilder setInternational(boolean international) {
-        this.isInternational = international;
         return this;
     }
 

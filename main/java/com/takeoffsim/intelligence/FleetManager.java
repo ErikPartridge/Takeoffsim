@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -17,6 +17,7 @@ import lombok.extern.apachecommons.CommonsLog;
 import org.encog.ml.data.MLDataSet;
 import org.encog.ml.data.basic.BasicMLData;
 import org.encog.ml.data.basic.BasicMLDataSet;
+import org.encog.ml.train.MLTrain;
 import org.encog.neural.networks.training.pnn.TrainBasicPNN;
 import org.encog.neural.pnn.BasicPNN;
 import org.encog.neural.pnn.PNNKernelType;
@@ -24,20 +25,22 @@ import org.encog.neural.pnn.PNNOutputMode;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
+
 /**
  * @author Erik
  */
 @CommonsLog
-public class FleetManager {
-    Airline airline;
+class FleetManager {
+    private final Airline airline;
 
-    public FleetManager(Airline a) {
+    private FleetManager(Airline a) {
         this.airline = a;
     }
 
     public int expand() {
         log.trace("analyzing expand" + airline.getName());
-        double funds = airline.getFunds();
+        double funds = airline.getCash().getAmount().doubleValue();
         int fleet = airline.getFleet().getFleet().size();
         if (fleet == 0) {
             return 1;
@@ -68,7 +71,7 @@ public class FleetManager {
         MLDataSet data = DataSets.getDataSet(airline.getIcao() + "_expand_fleet");
         if (data == null)
             data = new BasicMLDataSet();
-        TrainBasicPNN trainer = new TrainBasicPNN(network, data);
+        MLTrain trainer = new TrainBasicPNN(network, data);
         for (int i = 0; i < 10; i++) {
             trainer.iteration();
         }
@@ -77,7 +80,7 @@ public class FleetManager {
         return (AircraftType) AircraftTypes.getMap().values().toArray()[index];
     }
 
-    public double[] getData() {
+    double[] getData() {
         AircraftType[] types = (AircraftType[]) AircraftTypes.getMap().values().toArray();
         double[] array = new double[25];
         array[0] = airline.getCash().getAmountMajorInt();
@@ -96,20 +99,15 @@ public class FleetManager {
         array[8] = 0.0;
         array[9] = 0.0;
         for (int i = 0; i < types.length; i++) {
-            if (airline.getFleet().getSubFleet(types[i].getIcao()) == null) {
-                array[10 + i] = 0.0;
-            } else {
-                array[10 + i] = airline.getFleet().getSubFleet(types[i].getIcao()).getAircraft().values().size();
-            }
+            array[10 + i] = airline.getFleet().getSubFleet(types[i].getIcao()) == null ? 0.0 : airline.getFleet().getSubFleet(types[i].getIcao()).getAircraft().values().size();
         }
-        log.trace("Made data :" + array);
+        log.trace("Made data :" + Arrays.toString(array));
         return array;
     }
 
     public int getNumber(AircraftType type) {
-        AircraftType acfType = type;
-        double available = airline.getFunds() * .2;
-        int num = (int) (acfType.getPrice().getAmountMajorInt() / available);
+        double available = airline.getCash().getAmount().doubleValue() * .2;
+        int num = (int) (type.getPrice().getAmountMajorInt() / available);
         num -= getOnOrder();
         if (num < 0) {
             num = 0;
@@ -117,7 +115,7 @@ public class FleetManager {
         return num;
     }
 
-    public int getOnOrder() {
+    int getOnOrder() {
         int sum = 0;
         for (Subfleet s : airline.getFleet().getFleet()) {
             sum += s.getOrders().size();

@@ -15,11 +15,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @CommonsLog
 public final class Airports implements Serializable {
@@ -27,7 +28,7 @@ public final class Airports implements Serializable {
 
     static final long serialVersionUID = 14141298797799L;
 
-    private static ConcurrentHashMap<String, Airport> airports = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, Airport> airports = new ConcurrentHashMap<>();
 
 
     private Airports() {
@@ -43,11 +44,11 @@ public final class Airports implements Serializable {
             airports.put(id, o);
     }
 
-    public static ConcurrentHashMap<String, Airport> getAirports() {
-        return airports;
+    public static Map<String, Airport> getAirports() {
+        return Collections.unmodifiableMap(airports);
     }
 
-    public static void putAll(@NotNull List<Airport> apts) {
+    public static void putAll(@NotNull Iterable<Airport> apts) {
         for (Airport airport : apts) {
             if (!airport.getIcao().equals("")) {
                 airports.put(airport.getIcao(), airport);
@@ -58,21 +59,12 @@ public final class Airports implements Serializable {
     }
 
     public static List<Airport> cloneAirports(){
-        List<Airport> list = new ArrayList<>();
-        for(Airport apt : airports.values()){
-            list.add(apt);
-        }
-        return list;
+        return airports.values().stream().collect(Collectors.toList());
     }
 
     public static List<Airport> sortedValuesList(){
          List<Airport> cloned = cloneAirports();
-         cloned.sort(new Comparator<Airport>() {
-             @Override
-             public int compare(Airport o1, Airport o2) {
-                 return o1.getIcao().compareTo(o1.getIcao());
-             }
-         });
+         cloned.sort((a,b) -> a.getIcao().compareTo(b.getIcao()));
         return cloned;
     }
 

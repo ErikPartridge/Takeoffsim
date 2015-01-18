@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -13,17 +13,18 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 
-public class Companies implements Serializable {
+public final class Companies implements Serializable {
 
 
     static final long serialVersionUID = -443008900668L;
 
 
-    static ConcurrentHashMap<String, Company> companies = new ConcurrentHashMap<>(400);
+    private static final Map<String, Company> companies = new ConcurrentHashMap<>(400);
 
 
     private Companies() {
@@ -52,8 +53,8 @@ public class Companies implements Serializable {
         return contracts;
     }
 
-    public static void bill(Company c){
-
+    static void bill(Company c){
+        throw new UnsupportedOperationException();
     }
 
 }

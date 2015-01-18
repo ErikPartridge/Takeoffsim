@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -11,19 +11,24 @@ package com.takeoffsim.models.world;
 import lombok.extern.apachecommons.CommonsLog;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Erik
  */
 @CommonsLog
-public class Countries {
+public final class Countries {
 
     @NotNull
-    private static ConcurrentHashMap<String, Country> countries = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, Country> countries = new ConcurrentHashMap<>();
 
     @NotNull
-    private static ConcurrentHashMap<String, Country> tapCodes = new ConcurrentHashMap<>();
+    private static final Map<String, Country> tapCodes = new ConcurrentHashMap<>();
+
+    private Countries() {
+    }
 
     public static Country getCountry(String s) {
         return countries.get(s);
@@ -43,8 +48,8 @@ public class Countries {
     }
 
     @NotNull
-    public static ConcurrentHashMap<String, Country> getCountries() {
-        return countries;
+    public static Map<String,Country> getCountries() {
+        return Collections.unmodifiableMap(countries);
     }
 
 }

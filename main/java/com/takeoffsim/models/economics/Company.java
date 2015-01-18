@@ -21,21 +21,25 @@ import org.joda.money.Money;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
+@SuppressWarnings("AccessingNonPublicFieldOfAnotherObject")
 @CommonsLog
 public class Company implements Serializable, Entity {
     static final long serialVersionUID = -606077089004L;
 
-    private static final RandomGenerator RNG = new MersenneTwister();
+    private static final RandomGenerator RANDOM = new MersenneTwister();
 
     @NotNull
-    private ArrayList<Stock> holdings = new ArrayList<Stock>();
+    private ArrayList<Stock> holdings = new ArrayList<>();
 
-    private final double FACTOR = (RNG.nextGaussian() / 2) + 1;
+    private final double factor = (RANDOM.nextGaussian() / 2) + 1;
 
     private Stock corporateStock;
 
-    private ArrayList<Stock> shares = new ArrayList<>();
+    private Collection<Stock> shares = new ArrayList<>();
 
     private boolean isSubsidiary;
 
@@ -57,26 +61,26 @@ public class Company implements Serializable, Entity {
 
     private double dividend;
 
-    private ArrayList<Airline> subsidiaries;
+    private List<Airline> subsidiaries = new ArrayList<>();
 
-    private ArrayList<Contract> contracts;
+    private List<Contract> contracts = new ArrayList<>();
 
-    private ArrayList<Gate> gatesOwned;
+    private List<Gate> gatesOwned = new ArrayList<>();
 
     private String name;
 
     private boolean isPrivate;
 
-    public static Log getLog() {
+    private static Log getLog() {
         return log;
     }
 
-    public Company(){
+    protected Company(){
         super();
     }
 
-    public Company(@NotNull ArrayList<Stock> holdings, long numShares, Stock corporateStock, boolean isSubsidiary, String ceo, String headquarters, Money valuation, Country country, Money costs, double earningsPerShare, double dividend, ArrayList<Airline> subsidiaries, Money cash, Money earnings) {
-        this.holdings = holdings;
+    private Company(ArrayList<Stock> holdings, long numShares, Stock corporateStock, boolean isSubsidiary, String ceo, String headquarters, Money valuation, Country country, Money costs, double earningsPerShare, double dividend, ArrayList<Airline> subsidiaries, Money cash, Money earnings) {
+        holdings.addAll(holdings);
         shares = new ArrayList<>();
         shares.add(new Stock(this,numShares));
         this.corporateStock = corporateStock;
@@ -91,7 +95,6 @@ public class Company implements Serializable, Entity {
         this.subsidiaries = subsidiaries;
         this.cash = cash;
         this.earnings = earnings;
-        this.setContracts(new ArrayList<>());
         this.gatesOwned = new ArrayList<>();
     }
 
@@ -125,11 +128,11 @@ public class Company implements Serializable, Entity {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Company)) return false;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Company)) return false;
 
-        Company company = (Company) o;
+        Company company = (Company) obj;
 
         if (Double.compare(company.dividend, dividend) != 0) return false;
         if (Double.compare(company.earningsPerShare, earningsPerShare) != 0) return false;
@@ -147,9 +150,8 @@ public class Company implements Serializable, Entity {
         if (!holdings.equals(company.holdings)) return false;
         if (subsidiaries != null ? !subsidiaries.equals(company.subsidiaries) : company.subsidiaries != null)
             return false;
-        if (valuation != null ? !valuation.equals(company.valuation) : company.valuation != null) return false;
+        return !(valuation != null ? !valuation.equals(company.valuation) : company.valuation != null);
 
-        return true;
     }public String getName(){
         return this.name;
     }
@@ -169,9 +171,7 @@ public class Company implements Serializable, Entity {
 
     @Override
     public int hashCode() {
-        int result;
-        long temp;
-        result = holdings.hashCode();
+        int result = holdings.hashCode();
         result = 31 * result + (corporateStock != null ? corporateStock.hashCode() : 0);
         result = 31 * result + (shares.size() ^ (shares.size() >>> 16));
         result = 31 * result + (isSubsidiary ? 1 : 0);
@@ -182,7 +182,7 @@ public class Company implements Serializable, Entity {
         result = 31 * result + (earnings != null ? earnings.hashCode() : 0);
         result = 31 * result + (costs != null ? costs.hashCode() : 0);
         result = 31 * result + (cash != null ? cash.hashCode() : 0);
-        temp = Double.doubleToLongBits(earningsPerShare);
+        long temp = Double.doubleToLongBits(earningsPerShare);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         temp = Double.doubleToLongBits(dividend);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
@@ -191,15 +191,15 @@ public class Company implements Serializable, Entity {
     }
 
     @NotNull
-    public ArrayList<Stock> getHoldings() {
-        return holdings;
+    Collection<Stock> getHoldings() {
+        return Collections.unmodifiableList(holdings);
     }
 
     public void setHoldings(@NotNull ArrayList<Stock> holdings) {
         this.holdings = holdings;
     }
 
-    public Stock getCorporateStock() {
+    Stock getCorporateStock() {
         return corporateStock;
     }
 
@@ -215,7 +215,7 @@ public class Company implements Serializable, Entity {
         return s;
     }
 
-    public boolean isSubsidiary() {
+    boolean isSubsidiary() {
         return isSubsidiary;
     }
 
@@ -231,7 +231,7 @@ public class Company implements Serializable, Entity {
         this.ceo = ceo;
     }
 
-    public String getHeadquarters() {
+    String getHeadquarters() {
         return headquarters;
     }
 
@@ -279,7 +279,7 @@ public class Company implements Serializable, Entity {
         this.cash = cash;
     }
 
-    public double getEarningsPerShare() {
+    double getEarningsPerShare() {
         return earningsPerShare;
     }
 
@@ -287,7 +287,7 @@ public class Company implements Serializable, Entity {
         this.earningsPerShare = earningsPerShare;
     }
 
-    public double getDividend() {
+    double getDividend() {
         return dividend;
     }
 
@@ -295,14 +295,15 @@ public class Company implements Serializable, Entity {
         this.dividend = dividend;
     }
 
-    public ArrayList<Airline> getSubsidiaries() {
-        return subsidiaries;
+    public List<Airline> getSubsidiaries() {
+        return Collections.unmodifiableList(subsidiaries);
     }
 
     public void setSubsidiaries(ArrayList<Airline> subsidiaries) {
         this.subsidiaries = subsidiaries;
     }
 
+    @SuppressWarnings("InstanceMethodNamingConvention")
     public void pay(Money money){
         cash.minus(money);
         costs.plus(money);
@@ -327,26 +328,22 @@ public class Company implements Serializable, Entity {
     public double getFunds(){
         return this.getCash().getAmount().doubleValue();
     }
-    public ArrayList<Contract> getContracts() {
-        return contracts;
-    }
-
-    public void setContracts(ArrayList<Contract> contracts) {
-        this.contracts = contracts;
+    public List<Contract> getContracts() {
+        return Collections.unmodifiableList(contracts);
     }
 
     public synchronized static Money value(Company c){
         return c.valueOfAssets().plus(c.getCash());
     }
 
-    public synchronized Money valueOfAssets(){
+    protected synchronized Money valueOfAssets(){
         Money money = Money.of(CurrencyUnit.USD, 0.0d);
         holdings.forEach(h -> money.plus(h.getCurrentPrice().multipliedBy(h.getShares())));
         return money;
     }
 
-    public ArrayList<Gate> getGates(){
-        return gatesOwned;
+    protected Iterable<Gate> getGates(){
+        return Collections.unmodifiableList(gatesOwned);
     }
 
     public void setGates(ArrayList<Gate> gates){

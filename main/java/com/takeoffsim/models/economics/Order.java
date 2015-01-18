@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -31,14 +31,10 @@ public class Order extends Contract{
         for (int i = 0; i < number; i++) {
             if(payUpFront){
                 Money cost = null;
-                if(number > 40){
-                    cost = acf.getPrice().dividedBy(1.40d, RoundingMode.CEILING);
-                }else{
-                    cost = acf.getPrice().dividedBy(1 + number / 100.0d, RoundingMode.CEILING);
-                }
+                cost = number > 40 ? acf.getPrice().dividedBy(1.40d, RoundingMode.CEILING) : acf.getPrice().dividedBy(1 + number / 100.0d, RoundingMode.CEILING);
                 Bills.bills.add(new Bill(a, acf.getManufacturer(), acf.getPrice(), Time.getDateTimeInstance()));
             }else{
-
+                //TODO
             }
             Delivery d = new Delivery(a, acf);
             acf.getManufacturer().toDeliver.add(d);

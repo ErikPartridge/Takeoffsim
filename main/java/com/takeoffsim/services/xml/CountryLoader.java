@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -32,7 +32,7 @@ public class CountryLoader {
 
     public void createCountries() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("tap_countries/countries.xml");
-        Document doc = null;
+        Document doc;
         try {
             doc = new SAXBuilder().build(is);
         } catch (JDOMException | IOException e) {
@@ -45,45 +45,57 @@ public class CountryLoader {
             alpha.put(countryCode.getAlpha3(), countryCode.getAlpha2());
         }
         Stream<Element> children = root.getChildren().stream();
-        children.forEach(new Consumer<Element>() {
-            @Override
-            public void accept(Element element) {
-                String regex = element.getAttributeValue("tailformat");
-                String alpha3 = element.getAttributeValue("shortname");
-                String tapCode = element.getAttributeValue("uid");
-                String iso = alpha.get(alpha3);
-                if (alpha3.equals("ANT")) {
-                    iso = "BQ";
-                }
-                else if (alpha3.equals("RKS")) {
-                    iso = "XK";
-                }else if(alpha3.equals("VNT")) {
-                    iso = "VU";
-                }else if(alpha3.equals("DPK")) {
-                    iso = "KP";
-                }
-                if(!alpha3.equals("---")&& iso!=null) {
-                    Country country = new Country(iso, tapCode, regex);
-                    Countries.putTapCountry(tapCode, country);
-                    Countries.putCountry(alpha.get(alpha3), country);
-                }
-                else {
-                    log.debug("Null for alpha3 of " + element.getAttributeValue("shortname"));
-                }
-        }});
+        children.forEach(new ElementConsumer(alpha));
 
         try {
             is.close();
         } catch (IOException e) {
-            e.printStackTrace();
+            log.debug(e);
         } finally {
             try {
                 is.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                log.debug(e);
             }
         }
     }
 
+    private static class ElementConsumer implements Consumer<Element> {
+        private final Map<String, String> alpha;
+
+        public ElementConsumer(Map<String, String> alpha) {
+            this.alpha = alpha;
+        }
+
+        @Override
+        public void accept(Element t) {
+            String regex = t.getAttributeValue("tailformat");
+            String alpha3 = t.getAttributeValue("shortname");
+            String tapCode = t.getAttributeValue("uid");
+            String iso = alpha.get(alpha3);
+            switch (alpha3) {
+                case "ANT":
+                    iso = "BQ";
+                    break;
+                case "RKS":
+                    iso = "XK";
+                    break;
+                case "VNT":
+                    iso = "VU";
+                    break;
+                case "DPK":
+                    iso = "KP";
+                    break;
+            }
+            if(!alpha3.equals("---")&& iso!=null) {
+                Country country = new Country(iso, tapCode, regex);
+                Countries.putTapCountry(tapCode, country);
+                Countries.putCountry(alpha.get(alpha3), country);
+            }
+            else {
+                log.debug("Null for alpha3 of " + t.getAttributeValue("shortname"));
+            }
+    }
+    }
 }
 

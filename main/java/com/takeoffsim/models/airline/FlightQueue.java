@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -16,15 +16,15 @@ import java.util.PriorityQueue;
 import java.util.stream.Stream;
 
 
-public class FlightQueue {
+final class FlightQueue {
 
 
     @NotNull
-    private static PriorityQueue<Flight> toDepart = new PriorityQueue<>();
+    private static final PriorityQueue<Flight> toDepart = new PriorityQueue<>();
 
 
     @NotNull
-    private static PriorityQueue<Flight> toArrive = new PriorityQueue<>();
+    private static final PriorityQueue<Flight> toArrive = new PriorityQueue<>();
 
 
     private FlightQueue() {
@@ -32,6 +32,7 @@ public class FlightQueue {
 
     @NotNull
     public static PriorityQueue<Flight> getQueue() {
+        //noinspection ReturnOfCollectionOrArrayField
         return toDepart;
 
     }

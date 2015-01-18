@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -21,7 +21,7 @@ import static java.time.LocalDateTime.of;
 public class Time implements Serializable {
 
     static final long serialVersionUID = 610041035904L;
-    public static LocalDateTime currentTime = of(2014, Month.JANUARY, 1, 0, 0);
+    public static final LocalDateTime currentTime = of(2014, Month.JANUARY, 1, 0, 0);
 
     private Time() {
     }

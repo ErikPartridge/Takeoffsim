@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -11,8 +11,10 @@ package com.takeoffsim.models.economics;
 import lombok.Data;
 import org.joda.money.Money;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDateTime;
 
 
 /**
@@ -60,12 +62,12 @@ public class Bill implements Serializable, Comparable {
     }
 
 
-    public LocalDateTime getTime(){
+    public ChronoLocalDateTime getTime(){
         return this.time;
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(@NotNull Object o) {
         return getTime().compareTo(((Bill) o).getTime());
     }
 }

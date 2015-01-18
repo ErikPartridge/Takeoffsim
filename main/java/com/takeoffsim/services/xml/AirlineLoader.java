@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -8,12 +8,11 @@
 
 package com.takeoffsim.services.xml;
 
-import com.google.common.collect.HashBiMap;
+import com.takeoffsim.airport.Airport;
 import com.takeoffsim.models.airline.Airline;
 import com.takeoffsim.models.airline.Airlines;
 import com.takeoffsim.models.airline.Alliances;
 import com.takeoffsim.models.airline.Flight;
-import com.takeoffsim.airport.Airport;
 import com.takeoffsim.models.economics.Company;
 import com.takeoffsim.models.economics.Stock;
 import lombok.extern.apachecommons.CommonsLog;
@@ -24,8 +23,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joda.money.Money;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.takeoffsim.airport.Airports.getAirport;
@@ -38,7 +39,7 @@ public class AirlineLoader {
     }
 
     @Nullable
-    private static HashBiMap<String, Flight> getFlights(Element root, Company owner) {
+    private static HashMap<String, Flight> getFlights(Element root, Company owner) {
 
         return null;
     }
@@ -55,20 +56,18 @@ public class AirlineLoader {
         makeAirlinesFromStream(getClass().getClassLoader().getResourceAsStream("airlines/airlines.xml"));
     }
 
-    protected void makeAirlinesFromStream(InputStream is) {
-        org.jdom2.Document doc = null;
+    void makeAirlinesFromStream(InputStream is) {
+        org.jdom2.Document doc;
         try {
             doc = new SAXBuilder().build(is);
         } catch (JDOMException e) {
-            log.error("JDOMException when trying to load the airlines, I ended the loading process, this may cause some bugs.");
+            log.error(e);
             return;
         } catch (IOException e) {
-            log.error("IOException when trying to load the airlines, I ended the loading process, this may cause some bugs.");
+            log.error(e);
             return;
         }
-        ArrayList<Airline> results = new ArrayList<>(16);
         List<Element> airlines = doc.getRootElement().getChildren("airline");
-        System.out.println("number of airline elements: " + airlines.size());
         for (Element element : airlines){
             Airline airline = new Airline();
             airline.setName(getString("name", element));
@@ -87,13 +86,13 @@ public class AirlineLoader {
             airline.setFlightAttendantPay(Money.parse(getString("faPay", element)));
             airline.setPilotPay(Money.parse(getString("pilotPay", element)));
             airline.setMechanicPay(Money.parse(getString("mechPay", element)));
-            airline.setHubs(getHubs(getString("hubs", element)));
+            airline.addHubs(getHubs(getString("hubs", element)));
             airline.setDividend(Double.parseDouble(getString("dividends", element)));
             airline.setAlliance(Alliances.getAlliance(getString("alliance", element)));
-            airline.setCodeShares(getCodeShares(getString("codeshares", element)));
+            airline.addCodeShares(getCodeShares(getString("codeshares", element)));
             Airlines.put(airline.getIcao(), airline);
 
-            System.out.println("Put airline " + airline.getIcao());
+            log.info("Put airline " + airline.getIcao());
         }
 
     }
@@ -102,9 +101,9 @@ public class AirlineLoader {
         return element.getChildTextTrim(child);
     }
 
-    private ArrayList<Airline> getCodeShares(String string) {
+    private ArrayList<Airline> getCodeShares(String sharers) {
         ArrayList<Airline> airlines = new ArrayList<>();
-        String[] split = string.split(",");
+        String[] split = sharers.split(",");
         for (String str : split) {
             airlines.add(Airlines.getAirline("str"));
         }
@@ -112,9 +111,9 @@ public class AirlineLoader {
     }
 
     @NotNull
-    private ArrayList<Airport> getHubs(String string) {
+    private ArrayList<Airport> getHubs(String apts) {
         ArrayList<Airport> hubs = new ArrayList<>();
-        String[] hubList = string.trim().split(",");
+        String[] hubList = apts.trim().split(",");
         for (String apt : hubList) {
             Airport a = getAirport(apt);
             hubs.add(a);

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 package com.takeoffsim.intelligence;
@@ -10,24 +10,25 @@ import com.takeoffsim.models.airline.Route;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Created by Erik in 09, 2014.
  */
-public class FlightScheduler {
+class FlightScheduler {
 
-    private Airline airline;
+    private final Airline airline;
 
-    private LocalDate firstDay;
+    private final LocalDate firstDay;
 
     public FlightScheduler(Airline airline, LocalDate firstDay) {
         this.airline = airline;
         this.firstDay = firstDay;
     }
 
-    public void allocate() throws Exception {
-        ArrayList<Route> routes = airline.getRoutes();
-        ArrayList<Flight> flights = new ArrayList<>();
+    public void allocate() {
+        Iterable<Route> routes = airline.getRoutes();
+        Collection<Flight> flights = new ArrayList<>();
         for (Route route : routes) {
             if (route.getOperates()[0]) {
                 flights.add(new Flight(null, 0, firstDay, route));
@@ -54,4 +55,13 @@ public class FlightScheduler {
 
 
     }
+
+    @Override
+    public String toString() {
+        return "FlightScheduler{" +
+                "airline=" + airline +
+                ", firstDay=" + firstDay +
+                '}';
+    }
+
 }

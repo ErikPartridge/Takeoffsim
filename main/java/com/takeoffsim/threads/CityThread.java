@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 package com.takeoffsim.threads;
@@ -17,12 +17,12 @@ import java.util.List;
  * Created by Erik in 11, 2014.
  */
 @CommonsLog
-public class CityThread extends Thread {
+class CityThread extends Thread {
 
     private static List<Element> elements = null;
 
 
-    public CityThread(List<Element> e){
+    private CityThread(List<Element> e){
         if(elements == null){
             elements = e;
         }

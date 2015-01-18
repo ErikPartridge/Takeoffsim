@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -14,6 +14,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Erik
@@ -22,7 +25,7 @@ public class Region implements Serializable {
     private ArrayList<City> cities = new ArrayList<>();
 
     @NonNull
-    private ArrayList<Airport> airportsInRegion = new ArrayList<Airport>();
+    private ArrayList<Airport> airportsInRegion = new ArrayList<>();
 
     private String name;
 
@@ -52,7 +55,7 @@ public class Region implements Serializable {
     /**
      * @return the points
      */
-    public ArrayList<City> getPoints() {
+    public Iterable<City> getPoints() {
         return cities;
     }
 
@@ -68,8 +71,8 @@ public class Region implements Serializable {
     /**
      * @return the airportsInRegion
      */
-    public ArrayList<Airport> getAirportsInRegion() {
-        return airportsInRegion;
+    public List<Airport> getAirportsInRegion() {
+        return Collections.unmodifiableList(airportsInRegion);
     }
 
 
@@ -80,7 +83,7 @@ public class Region implements Serializable {
         this.airportsInRegion = airportsInRegion;
     }
 
-    public void addPoints(ArrayList<City> points) {
+    public void addPoints(Collection<City> points) {
         cities.addAll(points);
     }
 

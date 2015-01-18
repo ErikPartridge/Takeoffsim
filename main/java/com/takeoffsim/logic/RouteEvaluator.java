@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -8,13 +8,13 @@
 
 package com.takeoffsim.logic;
 
+import com.takeoffsim.airport.Airport;
 import com.takeoffsim.models.airline.Airline;
 import com.takeoffsim.models.airline.GlobalRoute;
 import com.takeoffsim.models.airline.Route;
-import com.takeoffsim.airport.Airport;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
 import static com.takeoffsim.models.airline.GlobalRoutes.get;
 import static com.takeoffsim.models.airline.GlobalRoutes.getFrequency;
@@ -22,17 +22,17 @@ import static com.takeoffsim.models.airline.GlobalRoutes.getFrequency;
 /**
  * @author Erik
  */
-public class RouteEvaluator {
+class RouteEvaluator {
 
+    //TODO split to two
     public int evaluateLaunchNew(@NotNull Airline a, @NotNull Route r) {
-        ArrayList<Airport> apt = new ArrayList<>();
-        apt = a.getHubs();
+        Collection<Airport> apt = a.getHubs();
 
-        int score = 0;
-        int frequency = 0;
-        frequency = getFrequency(r.getDeparts(), r.getArrives(), r.getAirline());
         GlobalRoute g = get(r.getDeparts(), r.getArrives());
+        assert g != null;
         int availableDemand = g.getAvailableDemand();
+        int score = 0;
+        final int frequency = getFrequency(r.getDeparts(), r.getArrives(), r.getAirline());
         if (frequency > 0) {
             if (availableDemand > 50) {
                 score += 5;

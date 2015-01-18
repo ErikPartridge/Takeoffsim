@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -8,27 +8,28 @@
 
 package com.takeoffsim.models.airline;
 
-import com.google.common.collect.HashBiMap;
 import com.takeoffsim.airport.Airport;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-
-import static com.google.common.collect.HashBiMap.create;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Erik
  */
-public class GlobalRoutes {
+public final class GlobalRoutes {
 
-    public static HashBiMap<String, GlobalRoute> globalRoutes = create(10000);
+    public static final ConcurrentHashMap<String, GlobalRoute> globalRoutes = new ConcurrentHashMap<>(24000);
+
+    private GlobalRoutes() {
+    }
 
 
     public static int getFrequency(@NotNull Airport dept, @NotNull Airport arr, Airline a) {
         String name = dept.getIcao() + "-" + arr.getIcao();
         GlobalRoute g = globalRoutes.get(name);
-        ArrayList<Route> nonStops = g.getNonstops();
+        assert g != null;
+        Iterable<Route> nonStops = g.getNonstops();
         int sum = 0;
         for (Route nonStop : nonStops) {
             if (nonStop.getAirline().equals(a)) {

@@ -1,18 +1,18 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 package com.takeoffsim.models.messages;
 
+import com.takeoffsim.airport.Airport;
 import com.takeoffsim.models.aircraft.Airplane;
 import com.takeoffsim.models.airline.Flight;
-import com.takeoffsim.airport.Airport;
 
 /**
  * A class to tell an airplane to start the takeoff process. Completely thread safe.
  *
  */
-public final class TakeoffMessage {
+final class TakeoffMessage {
 
     private final Airport airport;
 
@@ -39,5 +39,14 @@ public final class TakeoffMessage {
 
     public Flight getFlight() {
         return flight;
+    }
+
+    @Override
+    public String toString() {
+        return "TakeoffMessage{" +
+                "airport=" + airport +
+                ", airplane=" + airplane +
+                ", flight=" + flight +
+                '}';
     }
 }

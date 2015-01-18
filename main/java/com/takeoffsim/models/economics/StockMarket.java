@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 package com.takeoffsim.models.economics;
@@ -21,9 +21,12 @@ import java.util.ArrayList;
 /**
  * @author Erik
  */
-public class StockMarket {
+final class StockMarket {
     
-    private static ArrayList<Stock> stocks = new ArrayList<>();
+    private static final ArrayList<Stock> stocks = new ArrayList<>();
+
+    private StockMarket() {
+    }
 
 
     public static void move() {

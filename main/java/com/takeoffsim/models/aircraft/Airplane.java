@@ -71,9 +71,10 @@ public class Airplane implements Serializable, Comparable {
      * @param hours        Hours flown in its lifetime
      * @param owner        Who owns it/operates it
      */
-    public Airplane(String registration, @NotNull AircraftType type, Engine engine, int fin, double age,
-                    boolean leased, double aCheck, double bCheck, double cCheck,
-                    Airport location, int cycles, double hours, @NotNull Company owner, int msn) {
+    @SuppressWarnings("ConstructorWithTooManyParameters")
+    private Airplane(String registration, @NotNull AircraftType type, Engine engine, int fin, double age,
+                     boolean leased, double aCheck, double bCheck, double cCheck,
+                     Airport location, int cycles, double hours, @NotNull Company owner, int msn) {
         this.setRegistration(registration);
         this.setType(type);
         this.setEngine(engine);
@@ -165,19 +166,18 @@ public class Airplane implements Serializable, Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        Airplane a = (Airplane) o;
-        int comp = 0;
-        if (this.getType() != a.getType()) {
-            comp = this.getType().getName().compareTo(a.getType().getName());
-        } else {
-            comp = (int) Math.round(a.getAge() - this.getAge() * 1000);
+    public int compareTo(@NotNull Object o) {
+        if(! (o instanceof Airline))
+            return -1;
+        else {
+            Airplane a = (Airplane) o;
+            int comp;
+            comp = this.getType() != a.getType() ? this.getType().getName().compareTo(a.getType().getName()) : (int) Math.round(a.getAge() - this.getAge() * 1000);
+            return comp;
         }
-        return comp;
     }
 
-    /**
-    @Override
+    /*
     public void onReceive(Object o) throws Exception {
         if(o instanceof TakeoffMessage){
             TakeoffMessage tm = (TakeoffMessage) o;

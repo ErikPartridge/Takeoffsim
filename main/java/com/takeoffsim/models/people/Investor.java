@@ -12,7 +12,6 @@ import org.uncommons.maths.random.MersenneTwisterRNG;
 
 import java.io.Serializable;
 import java.math.RoundingMode;
-import java.util.Random;
 
 /**
  * Created by erik on 1/12/15.
@@ -39,8 +38,6 @@ public class Investor implements Serializable{
 
     public Money invest(double median){
         double calibrated = median * ((generousity + 8) / 12);
-        Random rand = new Random();
-        calibrated = calibrated * (rand.nextGaussian() / 2 + .25);
         investment = Money.of(CurrencyUnit.USD, calibrated, RoundingMode.CEILING);
         return investment;
     }

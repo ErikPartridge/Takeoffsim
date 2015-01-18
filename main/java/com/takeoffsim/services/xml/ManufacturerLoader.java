@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -11,7 +11,10 @@ package com.takeoffsim.services.xml;
 /**
  * @author Erik
  */
-public class ManufacturerLoader {
+final class ManufacturerLoader {
+
+    private ManufacturerLoader() {
+    }
 
     public static void createManufacturers() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods,

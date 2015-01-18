@@ -13,6 +13,8 @@ import com.javadocmd.simplelatlng.LatLngTool;
 import com.javadocmd.simplelatlng.util.LengthUnit;
 import com.takeoffsim.airport.Airport;
 import lombok.Cleanup;
+import lombok.extern.apachecommons.CommonsLog;
+import net.sourceforge.openforecast.DataPoint;
 import net.sourceforge.openforecast.DataSet;
 import net.sourceforge.openforecast.ForecastingModel;
 import net.sourceforge.openforecast.Observation;
@@ -30,7 +32,8 @@ import static net.sourceforge.openforecast.Forecaster.getBestForecast;
 /**
  * @author Erik
  */
-public class RouteDemand implements Serializable {
+@CommonsLog
+public final class RouteDemand implements Serializable {
 
 
     @NotNull
@@ -59,7 +62,7 @@ public class RouteDemand implements Serializable {
         try {
             file = File.createTempFile("training", ".tmp");
         } catch (IOException e) {
-            e.printStackTrace();
+            log.debug(e);
         }
         assert file != null;
         //OutputStream, so I can read in stream and write to temporary file (crazy, I know)
@@ -67,7 +70,7 @@ public class RouteDemand implements Serializable {
         try {
             out = new PrintWriter(file);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            log.debug(e);
         }
         assert out != null;
         //Write to the temporary file
@@ -93,6 +96,7 @@ public class RouteDemand implements Serializable {
         //Build the forecasting model
         ForecastingModel fm = getBestForecast(ds, MAD);
         fm.init(ds);
+        //noinspection ResultOfMethodCallIgnored
         file.delete();
         return fm;
     }
@@ -104,7 +108,7 @@ public class RouteDemand implements Serializable {
      * @return the demand as a double
      */
     public static synchronized double demand(@NotNull Airport aptOne, @NotNull Airport aptTwo) {
-        Observation o = new Observation(0);
+        DataPoint o = new Observation(0);
         double dist = LatLngTool.distance(new LatLng(aptOne.getLatitude(), aptOne.getLongitude()), new LatLng( aptTwo.getLatitude(),
                 aptTwo.getLongitude()), LengthUnit.MILE);
         o.setIndependentValue("x1", aptOne.getAllocatedDemand());

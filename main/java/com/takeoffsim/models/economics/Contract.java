@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 package com.takeoffsim.models.economics;
@@ -8,6 +8,7 @@ import lombok.Data;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Erik in 11, 2014.
@@ -24,13 +25,11 @@ public class Contract implements Serializable {
     private ArrayList<Bill> bills;
 
     public Contract(Company from, Company to, Bill ... billList){
-        for(Bill bill : billList){
-            bills.add(bill);
-        }
+        bills.addAll(Arrays.asList(billList));
     }
 
-    public Contract(){
-        throw new UnsupportedOperationException();
+    Contract(){
+        throw new UnsupportedOperationException("Unsupported");
     }
 
 }

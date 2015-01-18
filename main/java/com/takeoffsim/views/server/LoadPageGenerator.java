@@ -17,7 +17,6 @@ import com.takeoffsim.main.GameProperties;
 import com.takeoffsim.models.airline.Airline;
 import com.takeoffsim.models.airline.Airlines;
 import com.takeoffsim.models.airline.Fleet;
-import com.takeoffsim.models.airline.Subfleet;
 import com.takeoffsim.models.people.GeneratePerson;
 import com.takeoffsim.models.people.Investor;
 import com.takeoffsim.services.xml.AirlineLoader;
@@ -33,10 +32,13 @@ import java.util.*;
 /**
  * Created by erik on 1/13/15.
  */
-public class LoadPageGenerator {
+final class LoadPageGenerator {
+    private LoadPageGenerator() {
+    }
+
     public static InputStream createWorldLoadView(Map<String, String> params) {
         createCeo(params);
-        return Main.server.resourceAtPath("create-world.html");
+        return Main.SERVER.resourceAtPath("create-world.html");
     }
 
     public static InputStream creationResultsView(Map<String, String> params) throws IOException, PebbleException {
@@ -54,7 +56,7 @@ public class LoadPageGenerator {
         MersenneTwisterRNG rand = new MersenneTwisterRNG();
         int numInvestors = rand.nextInt(7) + 2;
         double median = (1170000000.0 - 1000000.0 * GameProperties.getInvestorDifficulty()) / numInvestors;
-        List<Investor> investors = new ArrayList<>();
+        Collection<Investor> investors = new ArrayList<>();
         Money totalInvestment = Money.zero(CurrencyUnit.USD);
 
         for(int i = 0; i < numInvestors; i++){
@@ -83,7 +85,6 @@ public class LoadPageGenerator {
 
     private static void createCeo(Map<String, String> params){
         String name = params.get("first") + " " + params.get("last");
-        System.out.println("Here");
         Airlines.humanAirline().setCeo(name);
     }
 
@@ -95,7 +96,7 @@ public class LoadPageGenerator {
         return getInputStream(file, context);
     }
 
-    public static InputStream getInputStream(File file, Map<String, Object> context) throws PebbleException, IOException{
+    private static InputStream getInputStream(File file, Map<String, Object> context) throws PebbleException, IOException{
         StringLoader loader = new StringLoader();
         String result = Files.toString(file, Charsets.UTF_8);
         PebbleEngine engine = new PebbleEngine(loader);
@@ -104,10 +105,10 @@ public class LoadPageGenerator {
         template.evaluate(out, context);
         return Server.stringToInputStream(out.toString());
     }
-    public static InputStream createCeoView(Map<String, String> params) throws PebbleException, IOException{
+    public static InputStream createCeoView(Map<String, String> params) {
         if(Airlines.humanAirline() == null)
             createAirline(params);
-        return Main.server.resourceAtPath("create-ceo.html");
+        return Main.SERVER.resourceAtPath("create-ceo.html");
     }
 
     private static void createAirline(Map<String, String> params){
@@ -129,7 +130,7 @@ public class LoadPageGenerator {
         mine.setIcao(params.get("icaocode"));
         mine.setIata(params.get("iatacode"));
         mine.setName(params.get("name"));
-        mine.setFleet(new Fleet(mine.getIcao(), new ArrayList<Subfleet>()));
+        mine.setFleet(new Fleet(mine.getIcao(), new ArrayList<>()));
         mine.setHuman(true);
         Airlines.put(mine.getIcao(), mine);
     }
@@ -151,9 +152,9 @@ public class LoadPageGenerator {
     }
 
 
-    private static List<Airport> setToList(Set<Airport> list){
+    private static List<Airport> setToList(Iterable<Airport> list){
         List<Airport> airports = new ArrayList<>();
-        list.forEach(apt -> airports.add(apt));
+        list.forEach(airports::add);
         return airports;
     }
 }

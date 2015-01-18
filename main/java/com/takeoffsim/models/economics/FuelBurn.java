@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /**
@@ -18,7 +18,10 @@ import static java.lang.Math.round;
 /**
  * @author Erik
  */
-public class FuelBurn {
+final class FuelBurn {
+
+    private FuelBurn() {
+    }
 
     /**
      *
@@ -41,7 +44,7 @@ public class FuelBurn {
      * @param distance the distance of the flight in miles..
      * @return the flying time in minutes
      */
-    public static int time(@NotNull AircraftType a, int distance) {
+    private static int time(@NotNull AircraftType a, int distance) {
         int distanceToGo = distance;
         int time = 0;
         if (distance < 50) {

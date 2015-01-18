@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 package com.takeoffsim.services.xml;
@@ -7,10 +7,13 @@ package com.takeoffsim.services.xml;
 /**
  * Created by Erik on 10/5/14.
  */
-public class GeneralLoader {
+final class GeneralLoader {
 
 
-    public static void loadAllButAirlines(String simName) {
+    private GeneralLoader() {
+    }
+
+    private static void loadAllButAirlines(String simName) {
 
     }
 

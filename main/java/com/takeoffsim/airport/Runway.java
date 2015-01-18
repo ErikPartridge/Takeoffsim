@@ -13,7 +13,7 @@ import java.io.Serializable;
 @Data
 public class Runway implements Serializable{
 
-    private final double METERS_TO_FEET = 3.28084;
+    private static final double METERS_TO_FEET = 3.28084;
 
     private double length;
 

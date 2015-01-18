@@ -17,11 +17,9 @@ import lombok.extern.apachecommons.CommonsLog;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.time.chrono.ChronoLocalDate;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 
@@ -37,7 +35,7 @@ public class Airport implements Serializable, Comparable<Airport> {
     private String icao;
     private String iata;
     @NonNull
-    private ConcurrentHashMap<String, Flight> flights = new ConcurrentHashMap<>(60);
+    private final Map<String, Flight> flights = new ConcurrentHashMap<>(60);
     @NonNull
     private Country country;
     private double delayFactor = 0;
@@ -46,12 +44,12 @@ public class Airport implements Serializable, Comparable<Airport> {
     private ZoneId timeZone;
     @NotNull
     @NonNull
-    private ArrayList<Region> regions = new ArrayList<>();
+    private final ArrayList<Region> regions = new ArrayList<>();
     private boolean slotControlled;
 
     private double allocatedDemand;
     @NotNull
-    private ArrayList<Gate> gates = new ArrayList<>();
+    private final ArrayList<Gate> gates = new ArrayList<>();
     private GateBuilder builder;
     @NotNull
     private ArrayList<Airline> serves = new ArrayList<>();
@@ -93,14 +91,14 @@ public class Airport implements Serializable, Comparable<Airport> {
         }
     }*/
 
-    public Airport() {
+    private Airport() {
         setName("Not initialized");
     }
 
 
     public Airport(String name, double latitude, double longitude, String icao, String iata,
                    Country country, double delayFactor, double demandBonus, ZoneId timeZone,
-                   int gates) {
+                   int gs) {
         this.setName(name);
         this.setLatitude(latitude);
         this.setLongitude(longitude);
@@ -111,7 +109,7 @@ public class Airport implements Serializable, Comparable<Airport> {
         this.setDemandBonus(demandBonus);
         this.setTimeZone(timeZone);
         setBuilder(new GateBuilder(this));
-        this.setGates(getBuilder().makeGates(gates));
+        getBuilder().makeGates(gs).forEach(gates::add);
     }
 
     /*
@@ -144,16 +142,16 @@ public class Airport implements Serializable, Comparable<Airport> {
     }
 
     @Override
-    public int compareTo(Airport o) {
+    public int compareTo(@NotNull Airport o) {
         return (int) (getLatitude() * getLongitude() * 100 / 1 - o.getLatitude() * o.getLongitude() * 100 / 1);
     }
 
 
-    public synchronized String getName() {
+    synchronized String getName() {
         return name;
     }
 
-    public synchronized void setName(String name) {
+    synchronized void setName(String name) {
         this.name = name;
     }
 
@@ -161,7 +159,7 @@ public class Airport implements Serializable, Comparable<Airport> {
         return latitude;
     }
 
-    public synchronized void setLatitude(double latitude) {
+    synchronized void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
@@ -169,7 +167,7 @@ public class Airport implements Serializable, Comparable<Airport> {
         return longitude;
     }
 
-    public synchronized void setLongitude(double longitude) {
+    synchronized void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 
@@ -177,7 +175,7 @@ public class Airport implements Serializable, Comparable<Airport> {
         return icao;
     }
 
-    public synchronized void setIcao(String icao) {
+    synchronized void setIcao(String icao) {
         this.icao = icao;
     }
 
@@ -185,7 +183,7 @@ public class Airport implements Serializable, Comparable<Airport> {
         return iata;
     }
 
-    public synchronized void setIata(String iata) {
+    synchronized void setIata(String iata) {
         this.iata = iata;
     }
 
@@ -193,41 +191,37 @@ public class Airport implements Serializable, Comparable<Airport> {
         return country;
     }
 
-    public synchronized void setCountry(Country country) {
+    synchronized void setCountry(Country country) {
         this.country = country;
     }
 
-    public synchronized double getDelayFactor() {
+    synchronized double getDelayFactor() {
         return delayFactor;
     }
 
-    public synchronized void setDelayFactor(double delayFactor) {
+    synchronized void setDelayFactor(double delayFactor) {
         this.delayFactor = delayFactor;
     }
 
-    public synchronized double getDemandBonus() {
+    synchronized double getDemandBonus() {
         return demandBonus;
     }
 
-    public synchronized void setDemandBonus(double demandBonus) {
+    synchronized void setDemandBonus(double demandBonus) {
         this.demandBonus = demandBonus;
     }
 
-    public synchronized ZoneId getTimeZone() {
+    synchronized ZoneId getTimeZone() {
         return timeZone;
     }
 
-    public synchronized void setTimeZone(ZoneId timeZone) {
+    synchronized void setTimeZone(ZoneId timeZone) {
         this.timeZone = timeZone;
     }
 
     @NotNull
-    public synchronized ArrayList<Region> getRegions() {
+    synchronized ArrayList<Region> getRegions() {
         return regions;
-    }
-
-    public synchronized void setRegions(@NotNull ArrayList<Region> regions) {
-        this.regions = regions;
     }
 
     public synchronized boolean isSlotControlled() {
@@ -247,53 +241,52 @@ public class Airport implements Serializable, Comparable<Airport> {
     }
 
     @NotNull
-    public synchronized ArrayList<Gate> getGates() {
+    public synchronized List<Gate> getGates() {
         return gates;
     }
 
-    public synchronized void setGates(@NotNull ArrayList<Gate> gates) {
-        this.gates = gates;
-    }
-
-    public synchronized GateBuilder getBuilder() {
+    synchronized GateBuilder getBuilder() {
         return builder;
     }
 
-    public synchronized void setBuilder(GateBuilder builder) {
+    synchronized void setBuilder(GateBuilder builder) {
         this.builder = builder;
     }
 
     @NotNull
-    public synchronized ArrayList<Airline> getServes() {
+    public synchronized List<Airline> getServes() {
         return serves;
     }
-
-    public synchronized void setServes(@NotNull ArrayList<Airline> serves) {
-        this.serves = serves;
-    }
-
 
     @NotNull
     public synchronized ArrayList<Runway> getRunways() {
         return runways;
     }
 
-    public synchronized void setRunways(@NotNull ArrayList<Runway> runways) {
-        this.runways = runways;
-    }
-
-    public List<Flight> getFlightsByAirline(Airline airline, LocalDate date){
+    public Collection<Flight> getFlightsByAirline(Airline airline, ChronoLocalDate date){
         List<Flight> result = Collections.synchronizedList(new ArrayList<>());
-        flights.values().parallelStream().forEach(new Consumer<Flight>() {
-            @Override
-            public void accept(Flight flight) {
-                if(flight.getAirline().equals(airline) && flight.getDepartsGmt().toLocalDate().isEqual(date)){
-                    result.add(flight);
-                }
-            }
-        });
+        flights.values().parallelStream().forEach(new FlightConsumer(airline, date, result));
 
         return result;
+    }
+
+    private static class FlightConsumer implements Consumer<Flight> {
+        private final Airline airline;
+        private final ChronoLocalDate date;
+        private final List<Flight> result;
+
+        public FlightConsumer(Airline airline, ChronoLocalDate date, List<Flight> result) {
+            this.airline = airline;
+            this.date = date;
+            this.result = result;
+        }
+
+        @Override
+        public void accept(Flight t) {
+            if(t.getAirline().equals(airline) && t.getDepartsGmt().toLocalDate().isEqual(date)){
+                result.add(t);
+            }
+        }
     }
 }
 

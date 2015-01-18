@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -25,8 +25,8 @@ import java.util.Optional;
  * @author Erik
  */
 @CommonsLog
-public class EngineLoader {
-    public EngineLoader() {
+final class EngineLoader {
+    private EngineLoader() {
 
     }
 
@@ -34,15 +34,15 @@ public class EngineLoader {
         createAllTypes(EngineLoader.class.getClassLoader().getResourceAsStream("engines/Engines.xml")).orElse(new ArrayList<>());
     }
 
-    public static Optional<ArrayList<EngineType>> createAllTypes(InputStream stream){
+    private static Optional<ArrayList<EngineType>> createAllTypes(InputStream stream){
         Document doc = null;
         try {
             doc = new SAXBuilder().build(stream);
         } catch (JDOMException e) {
-            log.error("Got a JDOMException trying to load TAPAirport, returning empty list");
+            log.error(e);
             return null;
         } catch (IOException e) {
-            log.error("IOException trying to load TAPAirports, returning empty list");
+            log.error(e);
             return null;
         }
         Element root = doc.getRootElement();

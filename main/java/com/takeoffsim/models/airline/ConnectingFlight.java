@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -13,6 +13,7 @@ import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 
 /**
@@ -35,6 +36,7 @@ class ConnectingFlight implements Serializable {
      * @param one the first flight
      * @param two the second flight
      */
+    @SuppressWarnings("QuestionableName")
     public ConnectingFlight(@NotNull Flight one, @NotNull Flight two) {
         this.price = one.getRoute().getEcoPrice() * one.getAirline().getConnectionRate() + two.getRoute().getEcoPrice() * two.getAirline().getConnectionRate();
         this.time = TimeUtils.layover(one, two);
@@ -47,7 +49,7 @@ class ConnectingFlight implements Serializable {
     @Override
     public String toString() {
         return "ConnectingFlight{" +
-                "flights=" + getFlights() +
+                "flights=" + Arrays.toString(getFlights()) +
                 ", price=" + getPrice() +
                 ", time=" + getTime() +
                 '}';

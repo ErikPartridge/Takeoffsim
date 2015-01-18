@@ -1,26 +1,32 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 package com.takeoffsim.models.aircraft;
 
-import com.takeoffsim.models.airline.Flight;
 import com.takeoffsim.airport.Airport;
+import com.takeoffsim.models.airline.Flight;
 import org.apache.commons.math3.random.MersenneTwister;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Erik in 09, 2014.
  */
+@SuppressWarnings({"ClassNamePrefixedWithPackageName", "AccessingNonPublicFieldOfAnotherObject"})
 public class AircraftSchedule {
 
     private Airplane airplane;
 
+    private static final double IDEAL_RATIO = .75;
+
     public static final int LENGTH_OF_WEEK = 10080;
     private ArrayList<Flight> flights;
 
-    public AircraftSchedule(ArrayList<Flight> flights, Airplane plane) {
+    private AircraftSchedule(ArrayList<Flight> flights, Airplane plane) {
         this.setFlights(flights);
         this.setAirplane(plane);
     }
@@ -37,7 +43,7 @@ public class AircraftSchedule {
      *
      * @return if the length of the schedule fits into the week
      */
-    public boolean lengthValid() {
+    boolean isLengthValid() {
         int minutes = getMinutes();
         return minutes <= LENGTH_OF_WEEK - 10;
     }
@@ -46,10 +52,10 @@ public class AircraftSchedule {
      *
      * @return for each airport it arrives, does it also depart that airport. Full circle.
      */
-    public boolean airportsValid() {
+    boolean isAirportsValid() {
         //List of departure airports and arrival airports
-        ArrayList<Airport> departures = new ArrayList<>();
-        ArrayList<Airport> arrivals = new ArrayList<>();
+        Collection<Airport> departures = new ArrayList<>();
+        Collection<Airport> arrivals = new ArrayList<>();
         //fill the lists
         for (Flight flight : getFlights()) {
             departures.add(flight.getRoute().getDeparts());
@@ -61,8 +67,8 @@ public class AircraftSchedule {
         }
         //For each airport the plane departs, it has to arrive there too
         for (Airport d : departures) {
-            boolean success = arrivals.remove(d);
-            if (!success) {
+            boolean failure = !arrivals.remove(d);
+            if (failure) {
                 return false;
             }
         }
@@ -74,7 +80,7 @@ public class AircraftSchedule {
      * @return is the schedule valid on the most basic level
      */
     public boolean isValid() {
-        return lengthValid() && airportsValid();
+        return isLengthValid() && isAirportsValid();
     }
 
     /**
@@ -82,16 +88,12 @@ public class AircraftSchedule {
      */
     public double score() {
 
-        double ideal = .75 * LENGTH_OF_WEEK;
+        double ideal = IDEAL_RATIO * LENGTH_OF_WEEK;
         if (getMinutes() == (int) ideal) {
             return 100.0d;
         } else if (getMinutes() < ideal) {
             return getMinutes() * 100.0d / ideal;
-        } else if (LENGTH_OF_WEEK - getMinutes() > 0) {
-            return 100.0d - LENGTH_OF_WEEK - Math.pow(getMinutes(), 2);
-        } else {
-            return 0.0d;
-        }
+        } else return LENGTH_OF_WEEK - getMinutes() > 0 ? 100.0d - LENGTH_OF_WEEK - Math.pow(getMinutes(), 2) : 0.0d;
     }
 
     /**
@@ -110,9 +112,7 @@ public class AircraftSchedule {
      * Cancel every flight in the schedule
      */
     public void cancel(){
-        for(Flight flight: flights){
-            flight.cancel();
-        }
+        flights.forEach(com.takeoffsim.models.airline.Flight::cancel);
     }
 
 
@@ -124,15 +124,15 @@ public class AircraftSchedule {
         return airplane;
     }
 
-    public void setAirplane(Airplane airplane) {
+    void setAirplane(Airplane airplane) {
         this.airplane = airplane;
     }
 
     /**
      * @return The flights that make up this schedule
      */
-    public ArrayList<Flight> getFlights() {
-        return flights;
+    public List<Flight> getFlights() {
+        return Collections.unmodifiableList(flights);
     }
 
     /**
@@ -145,9 +145,9 @@ public class AircraftSchedule {
 
     /**
      *
-     * @param flight the flight to add to the list
+     * @param flight the flight to addFlight to the list
      */
-    public void add(Flight flight){
+    public void addFlight(Flight flight){
         this.flights.add(flight);
     }
 
@@ -169,16 +169,15 @@ public class AircraftSchedule {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof AircraftSchedule)) return false;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof AircraftSchedule)) return false;
 
-        AircraftSchedule that = (AircraftSchedule) o;
+        AircraftSchedule that = (AircraftSchedule) obj;
 
         if (airplane != null ? !airplane.equals(that.airplane) : that.airplane != null) return false;
-        if (flights != null ? !flights.equals(that.flights) : that.flights != null) return false;
+        return !(flights != null ? !flights.equals(that.flights) : that.flights != null);
 
-        return true;
     }
 
     @Override

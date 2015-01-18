@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -17,6 +17,8 @@ import org.joda.money.Money;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /*
 *This class is here to provide a framework for each aircraft
@@ -44,7 +46,7 @@ public class AircraftType implements Serializable {
     private Money price;
 
     @NotNull
-    private ArrayList<EngineType> engineOptions = new ArrayList<>();
+    private final ArrayList<EngineType> engineOptions = new ArrayList<>();
 
     private int maxEconomySeats;
 
@@ -85,7 +87,8 @@ public class AircraftType implements Serializable {
      * @param oew                the operating empty weight
      * @param mzfw               the max zero fuel weight
      */
-    public AircraftType(String name, int cruiseSpeed, int departureRunway, int arrivalRunway, String icao, int range, double price, byte numberOfEngines, int maxEconomySeats, int productionRate, AircraftManufacturer manufacturer, AircraftTypeMaintenance maintenanceProfile, double sfc, int mtow, int mlw, int oew, int mzfw) {
+    @SuppressWarnings("ConstructorWithTooManyParameters")
+    private AircraftType(String name, int cruiseSpeed, int departureRunway, int arrivalRunway, String icao, int range, double price, byte numberOfEngines, int maxEconomySeats, int productionRate, AircraftManufacturer manufacturer, AircraftTypeMaintenance maintenanceProfile, double sfc, int mtow, int mlw, int oew, int mzfw) {
         this.icao = icao;
         this.setName(name);
         this.setCruiseSpeed(cruiseSpeed);
@@ -106,7 +109,7 @@ public class AircraftType implements Serializable {
         log.info("Created aircraft type, with name: " + name);
     }
 
-    public AircraftType(String icao, int engines){
+    private AircraftType(String icao, int engines){
         this.icao = icao;
         this.numberOfEngines = engines;
     }
@@ -123,7 +126,7 @@ public class AircraftType implements Serializable {
         return name;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
@@ -131,7 +134,7 @@ public class AircraftType implements Serializable {
         return cruiseSpeed;
     }
 
-    public void setCruiseSpeed(int cruiseSpeed) {
+    void setCruiseSpeed(int cruiseSpeed) {
         this.cruiseSpeed = cruiseSpeed;
     }
 
@@ -141,7 +144,7 @@ public class AircraftType implements Serializable {
         return range;
     }
 
-    public void setRange(int range) {
+    void setRange(int range) {
         this.range = range;
     }
 
@@ -149,7 +152,7 @@ public class AircraftType implements Serializable {
         return price;
     }
 
-    public void setPrice(Money price) {
+    void setPrice(Money price) {
         this.price = price;
     }
 
@@ -159,12 +162,8 @@ public class AircraftType implements Serializable {
     * engine in their xml files
     */
     @NotNull
-    public ArrayList<EngineType> getEngineOptions() {
-        return engineOptions;
-    }
-
-    public void setEngineOptions(@NotNull ArrayList<EngineType> engineOptions) {
-        this.engineOptions = engineOptions;
+    public List<EngineType> getEngineOptions() {
+        return Collections.unmodifiableList(engineOptions);
     }
 
     /**
@@ -174,7 +173,7 @@ public class AircraftType implements Serializable {
         return maxEconomySeats;
     }
 
-    public void setMaxEconomySeats(int maxEconomySeats) {
+    void setMaxEconomySeats(int maxEconomySeats) {
         this.maxEconomySeats = maxEconomySeats;
     }
 
@@ -182,7 +181,7 @@ public class AircraftType implements Serializable {
         return productionRate;
     }
 
-    public void setProductionRate(int productionRate) {
+    void setProductionRate(int productionRate) {
         this.productionRate = productionRate;
     }
 
@@ -190,7 +189,7 @@ public class AircraftType implements Serializable {
         return manufacturer;
     }
 
-    public void setManufacturer(AircraftManufacturer manufacturer) {
+    void setManufacturer(AircraftManufacturer manufacturer) {
         this.manufacturer = manufacturer;
     }
 
@@ -198,7 +197,7 @@ public class AircraftType implements Serializable {
         return maintenanceProfile;
     }
 
-    public void setMaintenanceProfile(AircraftTypeMaintenance maintenanceProfile) {
+    void setMaintenanceProfile(AircraftTypeMaintenance maintenanceProfile) {
         this.maintenanceProfile = maintenanceProfile;
     }
 
@@ -206,7 +205,7 @@ public class AircraftType implements Serializable {
         return sfc;
     }
 
-    public void setSfc(double sfc) {
+    void setSfc(double sfc) {
         this.sfc = sfc;
     }
 
@@ -214,7 +213,7 @@ public class AircraftType implements Serializable {
         return mtow;
     }
 
-    public void setMtow(int mtow) {
+    void setMtow(int mtow) {
         this.mtow = mtow;
     }
 
@@ -222,7 +221,7 @@ public class AircraftType implements Serializable {
         return mlw;
     }
 
-    public void setMlw(int mlw) {
+    void setMlw(int mlw) {
         this.mlw = mlw;
     }
 
@@ -230,7 +229,7 @@ public class AircraftType implements Serializable {
         return oew;
     }
 
-    public void setOew(int oew) {
+    void setOew(int oew) {
         this.oew = oew;
     }
 
@@ -238,31 +237,19 @@ public class AircraftType implements Serializable {
         return mzfw;
     }
 
-    public void setMzfw(int mzfw) {
+    void setMzfw(int mzfw) {
         this.mzfw = mzfw;
-    }
-
-    public Airport getBuildLocation() {
-        return buildLocation;
-    }
-
-    public void setBuildLocation(Airport buildLocation) {
-        this.buildLocation = buildLocation;
     }
 
     public int getTurntime() {
         return turntime;
     }
 
-    public void setTurntime(int turntime) {
-        this.turntime = turntime;
-    }
-
     public int getDepartureRunway() {
         return departureRunway;
     }
 
-    public void setDepartureRunway(int departureRunway) {
+    void setDepartureRunway(int departureRunway) {
         this.departureRunway = departureRunway;
     }
 
@@ -270,7 +257,7 @@ public class AircraftType implements Serializable {
         return arrivalRunway;
     }
 
-    public void setArrivalRunway(int arrivalRunway) {
+    void setArrivalRunway(int arrivalRunway) {
         this.arrivalRunway = arrivalRunway;
     }
 

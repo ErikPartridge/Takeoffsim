@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -15,6 +15,7 @@ import java.io.Serializable;
 /**
  * @author Erik
 */
+@SuppressWarnings("ClassNamePrefixedWithPackageName")
 @CommonsLog
 @Data
 public class AircraftTypeMaintenance implements Serializable {
@@ -49,7 +50,7 @@ public class AircraftTypeMaintenance implements Serializable {
      * @param hoursB how long a 'B' Check takes
      * @param hoursC how long a 'C' Check takes
      */
-    public AircraftTypeMaintenance(double priceA, double priceB, double priceC, int hoursA, int hoursB, int hoursC, int betweenA, int betweenB, int betweenC) {
+    private AircraftTypeMaintenance(double priceA, double priceB, double priceC, int hoursA, int hoursB, int hoursC, int betweenA, int betweenB, int betweenC) {
         this.priceA = priceA;
         this.priceB = priceB;
         this.priceC = priceC;
@@ -62,6 +63,6 @@ public class AircraftTypeMaintenance implements Serializable {
         log.trace("created aircraft type maintenance");
     }
 
-    public AircraftTypeMaintenance() {
+    private AircraftTypeMaintenance() {
     }
 }

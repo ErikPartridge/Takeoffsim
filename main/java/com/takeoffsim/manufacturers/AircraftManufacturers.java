@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -9,18 +9,15 @@
 package com.takeoffsim.manufacturers;
 
 
-import com.google.common.collect.HashBiMap;
-
 import java.io.Serializable;
+import java.util.concurrent.ConcurrentHashMap;
 
-import static com.google.common.collect.HashBiMap.create;
 
-
-public class AircraftManufacturers implements Serializable {
+public final class AircraftManufacturers implements Serializable {
 
     static final long serialVersionUID = -1395910888323L;
 
-    static HashBiMap<String, AircraftManufacturer> manufacturers = create(10);
+    static final ConcurrentHashMap<String, AircraftManufacturer> manufacturers = new ConcurrentHashMap<>(10);
 
 
     private AircraftManufacturers() {

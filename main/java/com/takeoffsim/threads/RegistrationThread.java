@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 package com.takeoffsim.threads;
@@ -12,7 +12,7 @@ import com.takeoffsim.models.world.RegistrationGenerator;
  */
 public class RegistrationThread extends Thread {
 
-    private Country country;
+    private final Country country;
 
 
     public RegistrationThread(Country country) {
@@ -26,5 +26,12 @@ public class RegistrationThread extends Thread {
 
     public static void setRegistrations(Country c){
         c.setRegistrations(new RegistrationGenerator().reformatString(c.getRegex()).getAllMatchedStrings());
+    }
+
+    @Override
+    public String toString() {
+        return "RegistrationThread{" +
+                "country=" + country +
+                '}';
     }
 }

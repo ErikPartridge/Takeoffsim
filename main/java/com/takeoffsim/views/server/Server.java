@@ -22,11 +22,11 @@ public class Server extends NanoHTTPD {
         super(40973);
     }
 
-    public Server(int port) {
+    private Server(int port) {
         super(port);
     }
 
-    public Server(String hostname, int port) {
+    private Server(String hostname, int port) {
         super(hostname, port);
     }
 
@@ -43,7 +43,7 @@ public class Server extends NanoHTTPD {
         String trimmed = uri.replaceFirst("localhost:40973", "").replace("http://", "").replace("127.0.0.1:40973","");
         trimmed = trimmed.split("\\?")[0];
         //Don't let them get the source code!
-        String mimeType ="";
+        String mimeType = "";
         try{
             mimeType = getMimeType(trimmed);
         }catch (SecurityException e){
@@ -54,8 +54,11 @@ public class Server extends NanoHTTPD {
         //If it's valid, parse it.
         Response response;
         try{
-            response = new Response(Response.Status.ACCEPTED, getMimeType(trimmed), getResource(trimmed, files));
-        }catch(Exception e){
+            response = new Response(Response.Status.ACCEPTED, mimeType, getResource(trimmed, files));
+        } catch (SecurityException e) {
+            log.error(e);
+            response = new Response(Response.Status.BAD_REQUEST, "text/html","<b>Could not find</b> <a href=\"" + Main.back() + "\">back" + "</a>");
+        } catch (Exception e){
             log.error(e);
             response = new Response(Response.Status.NOT_FOUND, "text/html","<b>Could not find</b> <a href=\"" + Main.back() + "\">back" + "</a>");
         }
@@ -66,11 +69,11 @@ public class Server extends NanoHTTPD {
     /**
      * * 
      * @param url the url for the resource
-     * @param params
+     * @param params the parameters for the query
      * @return an inputstream for the resource
      */
     @Async
-    public final InputStream getResource(String url, Map<String, String> params) throws Exception{
+    final InputStream getResource(String url, Map<String, String> params) throws com.mitchellbosecke.pebble.error.PebbleException, IOException {
         switch(url){
             case "/create-airline.html" : return LoadPageGenerator.createAirlineView();
             case "/create-ceo.html" : return LoadPageGenerator.createCeoView(params);
@@ -113,7 +116,7 @@ public class Server extends NanoHTTPD {
      * @return the formal mime type
      * @throws SecurityException if the page should never be viewed by users
      */
-    protected final String getMimeType(String url) throws SecurityException{
+    final String getMimeType(String url) {
         if(url.endsWith(".jpg") || url.endsWith(".jpeg")){
             return "image/jpeg";
         }else if(url.endsWith(".css")){
@@ -126,16 +129,12 @@ public class Server extends NanoHTTPD {
             return "image/png";
         }else if(url.endsWith(".svg")){
             return "image/svg+xml";
-        }else if(url.endsWith(".java")){
-            throw new SecurityException();
-        }else if(url.endsWith(".jar")){
-            throw new SecurityException();
-        }else if(url.endsWith(".xml")){
-            throw new SecurityException();
-        }else if(url.endsWith(".yml")){
-            throw new SecurityException();
+        }else if(url.endsWith(".java") || url.endsWith(".jar")){
+            throw new SecurityException("Protected");
+        }else if(url.endsWith(".xml") || url.endsWith(".yml")){
+            throw new SecurityException("Protected");
         }else if(url.endsWith(".class")){
-            throw new SecurityException();
+            throw new SecurityException("Protected");
         }else if(url.endsWith(".pdf")) {
             return "application/pdf";
         }else{

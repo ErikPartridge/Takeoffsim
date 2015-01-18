@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -36,14 +36,14 @@ public class Gate implements Serializable {
     private Airport airport;
 
 
-    public Gate(Company owner, int number, Airport airport) {
+    public Gate(@Nullable Company owner, int number, Airport airport) {
         this.owner = owner;
         this.number = number;
         this.airport = airport;
         this.user = owner;
     }
 
-    public Gate(Company owner, int number, Airport airport, Company user){
+    public Gate(@Nullable Company owner, int number, Airport airport, Company user){
         this.owner = owner;
         this.number = number;
         this.airport = airport;
@@ -70,7 +70,7 @@ public class Gate implements Serializable {
     /**
      * @param owner the owner to set
      */
-    public void setOwner(Company owner) {
+    public void setOwner(@Nullable Company owner) {
         this.owner = owner;
     }
 

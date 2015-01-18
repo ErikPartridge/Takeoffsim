@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -37,7 +37,7 @@ public class GateBuilder implements Serializable {
      * @return a list of created gates
      */
     @NotNull
-    public ArrayList<Gate> makeGates(int number) {
+    public Iterable<Gate> makeGates(int number) {
         int gatesToMake = number;
         ArrayList<Gate> gates = new ArrayList<>();
         while (gatesToMake > 0) {

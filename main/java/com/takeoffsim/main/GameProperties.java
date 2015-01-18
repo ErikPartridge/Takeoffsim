@@ -11,7 +11,7 @@ package com.takeoffsim.main;
 /**
  * @author Erik
  */
-public class GameProperties {
+public final class GameProperties {
 
 
     private static String nameOfSim;
@@ -19,6 +19,9 @@ public class GameProperties {
     private static String unit;
 
     private static int investorDifficulty = 4;
+
+    private GameProperties() {
+    }
 
 
     /**

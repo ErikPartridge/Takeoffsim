@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 package com.takeoffsim.intelligence.airportdata;
@@ -9,6 +9,8 @@ import com.javadocmd.simplelatlng.LatLngTool;
 import com.javadocmd.simplelatlng.util.LengthUnit;
 import com.takeoffsim.airport.Airport;
 import org.apache.commons.math3.ml.clustering.Clusterable;
+
+import java.util.Arrays;
 
 /**
  * Created by Erik in 11, 2014.
@@ -30,19 +32,16 @@ public class AirportPoint implements Clusterable {
         getData()[0] = 1/ LatLngTool.distance(new LatLng(apt.getLatitude(), apt.getLongitude()), new LatLng(hub.getLatitude(), hub.getLongitude()), LengthUnit.NAUTICAL_MILE);
         getData()[1] = getAirport().getAllocatedDemand();
         getData()[2] = getAirport().getNumFlights();
-        if(hub.getCountry().equals(apt.getCountry())){
-            getData()[3] = 1;
-        }else{
-            getData()[3] = .666666666666667d;
-        }
+        getData()[3] = hub.getCountry().equals(apt.getCountry()) ? 1 : .666666666666667d;
     }
 
 
     public double[] getData() {
+        //noinspection ReturnOfCollectionOrArrayField
         return data;
     }
 
-    public void setData(double[] data) {
+    void setData(double[] data) {
         this.data = data;
     }
 
@@ -50,7 +49,15 @@ public class AirportPoint implements Clusterable {
         return airport;
     }
 
-    public void setAirport(Airport airport) {
+    void setAirport(Airport airport) {
         this.airport = airport;
+    }
+
+    @Override
+    public String toString() {
+        return "AirportPoint{" +
+                "data=" + Arrays.toString(data) +
+                ", airport=" + airport +
+                '}';
     }
 }

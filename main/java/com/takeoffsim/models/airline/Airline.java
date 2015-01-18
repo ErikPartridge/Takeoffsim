@@ -12,7 +12,6 @@ actually do anything beyond that.
 
 package com.takeoffsim.models.airline;
 
-import com.google.common.collect.HashBiMap;
 import com.takeoffsim.airport.Airport;
 import com.takeoffsim.models.airline.enums.*;
 import com.takeoffsim.models.economics.Company;
@@ -26,27 +25,27 @@ import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import static com.google.common.collect.HashBiMap.create;
 
 /**
  * @author Erik
  * @since 0.3 alpha
  */
 
+@SuppressWarnings("ClassNamePrefixedWithPackageName")
 @CommonsLog
 public class Airline extends Company implements Serializable {
 
     static final long serialVersionUID = 2093027591L;
 
-    private ArrayList<Airport> hubs = new ArrayList<>();
+    private final ArrayList<Airport> hubs = new ArrayList<>();
 
     private Fleet fleet;
 
-    private HashBiMap<String, Flight> flights = create(800);
+    private final Map<String, Flight> flights = new ConcurrentHashMap<>();
 
     private int reputation;
 
@@ -60,15 +59,15 @@ public class Airline extends Company implements Serializable {
 
     private Money pilotPay;
 
-    private ArrayList<FlightAttendant> flightAttendants;
+    private List<FlightAttendant> flightAttendants = new ArrayList<>();
 
-    private ArrayList<Pilot> pilots;
+    private List<Pilot> pilots = new ArrayList<>();
 
-    private ArrayList<Mechanic> mechanics;
+    private List<Mechanic> mechanics = new ArrayList<>();
 
-    private ArrayList<Executive> executives;
+    private List<Executive> executives = new ArrayList<>();
 
-    private ArrayList<Route> routes;
+    private List<Route> routes = new ArrayList<>();
 
     private boolean human;
 
@@ -106,12 +105,12 @@ public class Airline extends Company implements Serializable {
     /**
      * Where are its hubs- Delta has DTW, ATL, MSP, JFK, SLC
      */
-    public synchronized ArrayList<Airport> getHubs() {
-        return hubs;
+    public synchronized List<Airport> getHubs() {
+        return Collections.unmodifiableList(hubs);
     }
 
-    public synchronized void setHubs(@NotNull ArrayList<Airport> hubs) {
-        this.hubs = hubs;
+    public synchronized void addHub(@NotNull Airport hub) {
+        this.hubs.add(hub);
     }
 
     /**
@@ -128,13 +127,10 @@ public class Airline extends Company implements Serializable {
     /**
      * All of its flights operating or in operation, with take off in the next 24 hours
      */
-    public synchronized HashBiMap<String, Flight> getFlights() {
-        return flights;
+    public synchronized Map<String, Flight> getFlights() {
+        return Collections.unmodifiableMap(flights);
     }
 
-    public synchronized void setFlights(HashBiMap<String, Flight> flights) {
-        this.flights = flights;
-    }
 
     /**
      * Reputation affects passenger desire and contracts
@@ -193,44 +189,26 @@ public class Airline extends Company implements Serializable {
         this.pilotPay = pilotPay;
     }
 
-    public synchronized ArrayList<FlightAttendant> getFlightAttendants() {
-        return flightAttendants;
+    public synchronized List<FlightAttendant> getFlightAttendants() {
+        return Collections.unmodifiableList(flightAttendants);
     }
 
-    public synchronized void setFlightAttendants(ArrayList<FlightAttendant> flightAttendants) {
-        this.flightAttendants = flightAttendants;
+
+    public synchronized List<Pilot> getPilots() {
+        return Collections.unmodifiableList(pilots);
     }
 
-    public synchronized ArrayList<Pilot> getPilots() {
-        return pilots;
+
+    public synchronized List<Mechanic> getMechanics() {
+        return Collections.unmodifiableList(mechanics);
     }
 
-    public synchronized void setPilots(ArrayList<Pilot> pilots) {
-        this.pilots = pilots;
+    public synchronized List<Executive> getExecutives() {
+        return Collections.unmodifiableList(executives);
     }
 
-    public synchronized ArrayList<Mechanic> getMechanics() {
-        return mechanics;
-    }
-
-    public synchronized void setMechanics(ArrayList<Mechanic> mechanics) {
-        this.mechanics = mechanics;
-    }
-
-    public synchronized ArrayList<Executive> getExecutives() {
-        return executives;
-    }
-
-    public synchronized void setExecutives(ArrayList<Executive> executives) {
-        this.executives = executives;
-    }
-
-    public synchronized ArrayList<Route> getRoutes() {
-        return routes;
-    }
-
-    public synchronized void setRoutes(ArrayList<Route> routes) {
-        this.routes = routes;
+    public synchronized List<Route> getRoutes() {
+        return Collections.unmodifiableList(routes);
     }
 
     public synchronized boolean isHuman() {
@@ -265,12 +243,8 @@ public class Airline extends Company implements Serializable {
         this.aggressiveness = aggressiveness;
     }
 
-    public synchronized ArrayList<Airline> getCodeShares() {
-        return codeShares;
-    }
-
-    public synchronized void setCodeShares(ArrayList<Airline> codeShares) {
-        this.codeShares = codeShares;
+    public synchronized List<Airline> getCodeShares() {
+        return Collections.unmodifiableList(codeShares);
     }
 
     public synchronized Alliance getAlliance() {
@@ -295,8 +269,43 @@ public class Airline extends Company implements Serializable {
     }
 
 
+    @Override
+    public String toString() {
+        return "Airline{" +
+                "hubs=" + hubs +
+                ", fleet=" + fleet +
+                ", flights=" + flights +
+                ", reputation=" + reputation +
+                ", iata='" + iata + '\'' +
+                ", icao='" + icao + '\'' +
+                ", flightAttendantPay=" + flightAttendantPay +
+                ", mechanicPay=" + mechanicPay +
+                ", pilotPay=" + pilotPay +
+                ", flightAttendants=" + flightAttendants +
+                ", pilots=" + pilots +
+                ", mechanics=" + mechanics +
+                ", executives=" + executives +
+                ", routes=" + routes +
+                ", human=" + human +
+                ", connectionRate=" + connectionRate +
+                ", hubPercent=" + hubPercent +
+                ", aggressiveness=" + aggressiveness +
+                ", codeShares=" + codeShares +
+                ", alliance=" + alliance +
+                ", aircraftMentality=" + aircraftMentality +
+                ", scope=" + scope +
+                ", type=" + type +
+                ", focus=" + focus +
+                ", phase=" + phase +
+                '}';
+    }
 
+    public void addHubs(Collection<Airport> list) {
+        hubs.addAll(list);
+    }
 
-
+    public void addCodeShares(Collection<Airline> list){
+        codeShares.addAll(list);
+    }
 }
 

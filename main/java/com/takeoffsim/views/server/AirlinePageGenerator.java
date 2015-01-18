@@ -18,19 +18,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by erik on 1/17/15.
+ * @since version 0.3-alpha. (c) Erik Partridge 2015
  */
-public class AirlinePageGenerator {
+final class AirlinePageGenerator {
+
+    private AirlinePageGenerator() {
+    }
 
     public static InputStream getAirlineIndex() throws PebbleException, IOException{
         File file = new File(Config.themePath() + "airline-landing.html");
         Map<String,Object> context = new HashMap<>();
-        System.out.println("Name should be" + Airlines.humanAirline().getName());
+        //noinspection ConstantConditions
         context.put("name", Airlines.humanAirline().getName());
         return getInputStream(file, context);
     }
 
-    public static InputStream getInputStream(File file, Map<String, Object> context) throws PebbleException, IOException {
+    private static InputStream getInputStream(File file, Map<String, Object> context) throws PebbleException, IOException {
         StringLoader loader = new StringLoader();
         String result = Files.toString(file, Charsets.UTF_8);
         PebbleEngine engine = new PebbleEngine(loader);

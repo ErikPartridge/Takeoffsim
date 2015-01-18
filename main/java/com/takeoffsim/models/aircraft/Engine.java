@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -13,6 +13,7 @@ import lombok.extern.apachecommons.CommonsLog;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.chrono.ChronoLocalDate;
 
 /**
  * @author Erik
@@ -26,25 +27,24 @@ public class Engine implements Serializable {
 
     private LocalDate made;
 
-    public Engine(EngineType type) {
+    private Engine(EngineType type) {
         this.setType(type);
         setMade(Time.getDateInstance());
     }
 
-    public Engine(){
+    private Engine(){
 
     }
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Engine)) return false;
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (!(obj instanceof Engine)) return false;
 
-        Engine engine = (Engine) o;
+        Engine engine = (Engine) obj;
 
         if (getMade() != null ? !getMade().equals(engine.getMade()) : engine.getMade() != null) return false;
-        if (getType() != null ? !getType().equals(engine.getType()) : engine.getType() != null) return false;
+        return !(getType() != null ? !getType().equals(engine.getType()) : engine.getType() != null);
 
-        return true;
     }
 
     @Override
@@ -71,15 +71,15 @@ public class Engine implements Serializable {
         return type;
     }
 
-    public void setType(EngineType type) {
+    void setType(EngineType type) {
         this.type = type;
     }
 
-    public LocalDate getMade() {
+    ChronoLocalDate getMade() {
         return made;
     }
 
-    public void setMade(LocalDate made) {
+    void setMade(LocalDate made) {
         this.made = made;
     }
 }

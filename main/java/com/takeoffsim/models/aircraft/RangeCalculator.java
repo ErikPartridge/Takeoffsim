@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 package com.takeoffsim.models.aircraft;
@@ -7,7 +7,10 @@ package com.takeoffsim.models.aircraft;
 /**
  * Created by Erik in 09, 2014.
  */
-public final class RangeCalculator {
+final class RangeCalculator {
+
+    private RangeCalculator() {
+    }
 
     /**
      *
@@ -25,11 +28,7 @@ public final class RangeCalculator {
             return airplane.getType().getRange() * .65d;
         } else if (payload > mew * .72) {
             return (.65 * calibratedRange) + .075d * (airplane.getType().getMtow() - payload) * calibratedRange;
-        } else if (payload > airplane.getType().getOew()) {
-            return calibratedRange - .02272727272 * mew;
-        }else{
-            return 0;
-        }
+        } else return payload > airplane.getType().getOew() ? calibratedRange - .02272727272 * mew : 0;
     }
 
     /**

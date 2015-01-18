@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -8,7 +8,6 @@
 
 package com.takeoffsim.models.airline;
 
-import com.google.common.collect.HashBiMap;
 import com.takeoffsim.models.aircraft.AircraftType;
 import com.takeoffsim.models.aircraft.Airplane;
 import com.takeoffsim.models.economics.Delivery;
@@ -18,9 +17,7 @@ import lombok.extern.apachecommons.CommonsLog;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-
-import static com.google.common.collect.HashBiMap.create;
+import java.util.*;
 
 /**
  * @author Erik
@@ -34,16 +31,16 @@ public class Subfleet implements Serializable {
     @NonNull
     private final AircraftType acfType;
 
-    private HashBiMap<String, Airplane> aircraft = create(30);
+    private HashMap<String, Airplane> aircraft = new HashMap<>();
 
     private ArrayList<Route> routesForType = new ArrayList<>();
 
     private ArrayList<Delivery> orders = new ArrayList<>();
 
 
-    public Subfleet(String arln, AircraftType acf, int lease, int own, HashBiMap<String, Airplane> members) {
+    private Subfleet(String arln, AircraftType acf, int lease, int own, HashMap<String, Airplane> members) {
         this.acfType = acf;
-        this.aircraft = members;
+        this.aircraft.putAll(members);
     }
 
 
@@ -54,18 +51,9 @@ public class Subfleet implements Serializable {
     /**
      * @return the aircraft
      */
-    public HashBiMap<String, Airplane> getAircraft() {
-        return aircraft;
+    public Map<String,Airplane> getAircraft() {
+        return Collections.unmodifiableMap(aircraft);
     }
-
-
-    /**
-     * @param aircraft the aircraft to set
-     */
-    public void setAircraft(HashBiMap<String, Airplane> aircraft) {
-        this.aircraft = aircraft;
-    }
-
 
     @Nullable
     public Airplane getAirplane(String registration) {
@@ -76,18 +64,9 @@ public class Subfleet implements Serializable {
     /**
      * @return the routesForType
      */
-    public ArrayList<Route> getRoutesForType() {
-        return routesForType;
+    public List<Route> getRoutesForType() {
+        return Collections.unmodifiableList(routesForType);
     }
-
-
-    /**
-     * @param routesForType the routesForType to set
-     */
-    public void setRoutesForType(ArrayList<Route> routesForType) {
-        this.routesForType = routesForType;
-    }
-
 
     public void addRouteToType(Route r) {
         this.routesForType.add(r);

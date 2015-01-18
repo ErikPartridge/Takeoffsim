@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /** (c) Erik Malmstrom-Partridge 2014
@@ -11,11 +11,11 @@ package com.takeoffsim.intelligence;
 import com.javadocmd.simplelatlng.LatLng;
 import com.javadocmd.simplelatlng.LatLngTool;
 import com.javadocmd.simplelatlng.util.LengthUnit;
+import com.takeoffsim.airport.Airport;
+import com.takeoffsim.demand.RouteDemand;
 import com.takeoffsim.models.airline.Airline;
 import com.takeoffsim.models.airline.ConnectingFlight;
 import com.takeoffsim.models.airline.Flight;
-import com.takeoffsim.airport.Airport;
-import com.takeoffsim.demand.RouteDemand;
 import com.takeoffsim.models.world.TimeUtils;
 import lombok.extern.apachecommons.CommonsLog;
 import org.jetbrains.annotations.NotNull;
@@ -23,20 +23,20 @@ import org.jetbrains.annotations.NotNull;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 
 @CommonsLog
-public class ChooseFlight {
+class ChooseFlight {
 
 
-    public boolean chooseFlight(@NotNull Airport departs, @NotNull Airport arrives, LocalDate day) {
+    public void chooseFlight(@NotNull Airport departs, @NotNull Airport arrives, LocalDate day) {
 
-        boolean worked = false;
         //What airlines serve it
-        ArrayList<Airline> serves = getOverlap(departs.getServes(), arrives.getServes());
+        Iterable<Airline> serves = getOverlap(departs.getServes(), arrives.getServes());
         //list of connecting flights, one-stop, only flights with that airline are tied together
-        ArrayList<ConnectingFlight> connectingFlights = new ArrayList<>();
+        Collection<ConnectingFlight> connectingFlights = new ArrayList<>();
         //nonstop options, only full once executing the loop
-        ArrayList<Flight> nonstop = new ArrayList<>();
+        Collection<Flight> nonstop = new ArrayList<>();
         //Loop through and fill lists
         for (Airline a : serves) {
             ArrayList<Flight> flightsToProcess = getFlightsByAirline(departs, arrives, a, day);
@@ -48,21 +48,19 @@ public class ChooseFlight {
         sum += nonstop.stream().map(this::getScore).reduce(sum, Integer::sum);
 
         double paxPerScore = RouteDemand.demand(departs, arrives) / sum;
-
-
-
-        worked = true;
-        return worked;
+        //TODO
     }
 
 
+    @SuppressWarnings("QuestionableName")
     @NotNull
-    private ArrayList<Airline> getOverlap(@NotNull ArrayList<Airline> one, @NotNull ArrayList<Airline> two) {
+    private Iterable<Airline> getOverlap(@NotNull Collection<Airline> one, @NotNull Collection<Airline> two) {
         ArrayList<Airline> overlap = new ArrayList<>();
         one.stream().filter((a) -> (two.contains(a) && !overlap.contains(a))).forEach(overlap::add);
         return overlap;
     }
 
+    @SuppressWarnings("QuestionableName")
     private int getLayover(@NotNull Flight one, @NotNull Flight two) {
         LocalDateTime dept = two.getDepartsGmt();
         LocalDateTime arr = one.getArrivesGmt();
@@ -80,7 +78,7 @@ public class ChooseFlight {
     }
 
     private ArrayList<Flight> getFlightsByAirline(@NotNull Airport departs, @NotNull Airport arrives, @NotNull Airline airline, LocalDate day) {
-        ArrayList<Flight> flightsToHub = new ArrayList<>(5);
+        Collection<Flight> flightsToHub = new ArrayList<>(5);
         ArrayList<Flight> flightsFromHub = new ArrayList<>(5);
         ArrayList<Flight> nonstops = new ArrayList<>();
         departs.getFlightsByAirline(airline, day).stream().map((f) -> {
@@ -98,7 +96,7 @@ public class ChooseFlight {
     }
 
     @NotNull
-    private ArrayList<ConnectingFlight> makeConnectingFlights(Airport depart, Airport arrive, @NotNull ArrayList<Flight> toProcess) {
+    private Collection<ConnectingFlight> makeConnectingFlights(Airport depart, Airport arrive, @NotNull Collection<Flight> toProcess) {
         ArrayList<ConnectingFlight> made = new ArrayList<>();
         toProcess.stream().filter((f) -> (f.getRoute().getDeparts().equals(depart))).forEach((f) -> {
             ArrayList<Flight> possible = new ArrayList<>();
@@ -109,9 +107,8 @@ public class ChooseFlight {
     }
 
     private ArrayList<Flight> flightsToHub(@NotNull Airport departs, @NotNull Airport arrives, @NotNull Airline airline, LocalDate day) {
-        ArrayList<Flight> flightsToHub = new ArrayList<>(5);
+        Collection<Flight> flightsToHub = new ArrayList<>(5);
         ArrayList<Flight> flightsFromHub = new ArrayList<>(5);
-        ArrayList<Flight> nonstops = new ArrayList<>();
         try {
             departs.getFlightsByAirline(airline, day).stream().map((f) -> {
                 if (f.getRoute().getDeparts().equals(departs) && airline.getHubs().contains(f.getRoute().getArrives())) {
@@ -119,8 +116,8 @@ public class ChooseFlight {
                 }
                 return f;
             });
-        }catch(Exception e){
-            log.debug(e);
+        }catch (Exception e){
+            log.error(e);
         }
         arrives.getFlightsByAirline(airline, day).stream().filter((f) -> (airline.getHubs().contains(f.getRoute().getDeparts()) && f.getRoute().getArrives().equals(arrives))).forEach(flightsFromHub::add);
         ArrayList<Flight> all = new ArrayList<>();
@@ -130,40 +127,34 @@ public class ChooseFlight {
     }
 
     @NotNull
-    private ArrayList<Flight> nonstops(Airport departs, Airport arrives, @NotNull ArrayList<Flight> toProcess) {
+    private Collection<Flight> nonstops(Airport departs, Airport arrives, @NotNull Collection<Flight> toProcess) {
         ArrayList<Flight> ns = new ArrayList<>();
         toProcess.stream().filter((f) -> (f.getRoute().getDeparts().equals(departs) && f.getRoute().getArrives().equals(arrives))).forEach(ns::add);
         return ns;
     }
 
     //offset should be percent CASM change since 2011
-    public double getBasePrice(@NotNull Airport departs, @NotNull Airport arrives, double percentOffset) {
-        final double CASM = .116 * (1 + percentOffset);
-        double bestPrice;
+    double getBasePrice(@NotNull Airport departs, @NotNull Airport arrives) {
+        final double CASM = .116 * (1 + 0.0d);
         int distance = (int) LatLngTool.distance(new LatLng(departs.getLatitude(), departs.getLongitude()), new LatLng(arrives.getLatitude(), arrives.getLongitude()), LengthUnit.MILE);
-        bestPrice = distance * CASM;
-        return bestPrice;
+        return distance * CASM;
     }
 
-    protected int getScoreConnecting(@NotNull ConnectingFlight cf) {
+    int getScoreConnecting(@NotNull ConnectingFlight cf) {
         int score = 100;
         if (cf.getLayover() < 35) {
             score = 0;
-        } else if (cf.getLayover() < 110) {
-            score -= (110 - cf.getLayover()) / 4;
-        } else {
-            score -= (cf.getLayover() - 110) / 3;
-        }
-        score -= (((int) getBasePrice(cf.getFlights()[0].getRoute().getDeparts(), cf.getFlights()[1].getRoute().getArrives(), 0.0d)) - cf.getPrice()) / 5;
+        } else score -= cf.getLayover() < 110 ? (110 - cf.getLayover()) / 4 : (cf.getLayover() - 110) / 3;
+        score -= (((int) getBasePrice(cf.getFlights()[0].getRoute().getDeparts(), cf.getFlights()[1].getRoute().getArrives())) - cf.getPrice()) / 5;
         if (score < 0) {
             score = 0;
         }
         return score;
     }
 
-    protected int getScore(@NotNull Flight f) {
+    int getScore(@NotNull Flight f) {
         int score = 100;
-        score -= (((int) getBasePrice(f.getRoute().getDeparts(), f.getRoute().getArrives(), 0.0d)) - f.getRoute().getEcoPrice()) / 5;
+        score -= (((int) getBasePrice(f.getRoute().getDeparts(), f.getRoute().getArrives())) - f.getRoute().getEcoPrice()) / 5;
         if (score < 0) {
             score = 0;
         }

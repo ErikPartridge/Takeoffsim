@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 package com.takeoffsim.models.world;
@@ -21,36 +21,36 @@ public class RegistrationGenerator {
      */
     @NotNull
     public Generex reformatString(String s) {
-        String string = s;
-        if (string.contains("\\\\d")) {
-            string = string.replace("\\\\d", ",");
-            string = string.replace(",", "[0-9]!");
-            int index = string.indexOf("!");
-            string = string.substring(0, index + 2) + "}" + string.substring(index + 2);
-            string = string.replace("!", "{");
+        String regex = s;
+        if (regex.contains("\\\\d")) {
+            regex = regex.replace("\\\\d", ",");
+            regex = regex.replace(",", "[0-9]!");
+            int index = regex.indexOf("!");
+            regex = regex.substring(0, index + 2) + "}" + regex.substring(index + 2);
+            regex = regex.replace("!", "{");
         }
-        if (string.contains("\\\\s")) {
-            string = string.replace("\\\\s", ",");
-            string = string.replace(",", "[A-Z]!");
-            int index = string.indexOf("!");
-            string = string.substring(0, index + 2) + "}" + string.substring(index + 2);
-            string = string.replace("!", "{");
+        if (regex.contains("\\\\s")) {
+            regex = regex.replace("\\\\s", ",");
+            regex = regex.replace(",", "[A-Z]!");
+            int index = regex.indexOf("!");
+            regex = regex.substring(0, index + 2) + "}" + regex.substring(index + 2);
+            regex = regex.replace("!", "{");
         }
-        if (string.contains("\\d")) {
-            string = string.replace("\\d", ",");
-            string = string.replace(",", "[0-9]!");
-            int index = string.indexOf("!");
-            string = string.substring(0, index + 2) + "}" + string.substring(index + 2);
-            string = string.replace("!", "{");
+        if (regex.contains("\\d")) {
+            regex = regex.replace("\\d", ",");
+            regex = regex.replace(",", "[0-9]!");
+            int index = regex.indexOf("!");
+            regex = regex.substring(0, index + 2) + "}" + regex.substring(index + 2);
+            regex = regex.replace("!", "{");
         }
-        if (string.contains("\\s")) {
-            string = string.replace("\\s", ",");
-            string = string.replace(",", "[A-Z]!");
-            int index = string.indexOf("!");
-            string = string.substring(0, index + 2) + "}" + string.substring(index + 2);
-            string = string.replace("!", "{");
+        if (regex.contains("\\s")) {
+            regex = regex.replace("\\s", ",");
+            regex = regex.replace(",", "[A-Z]!");
+            int index = regex.indexOf("!");
+            regex = regex.substring(0, index + 2) + "}" + regex.substring(index + 2);
+            regex = regex.replace("!", "{");
         }
-        int index = string.indexOf("-");
-        return new Generex(string);
+        int index = regex.indexOf("-");
+        return new Generex(regex);
     }
 }

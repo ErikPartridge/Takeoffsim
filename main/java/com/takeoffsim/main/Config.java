@@ -16,12 +16,16 @@ import lombok.extern.apachecommons.CommonsLog;
 import java.io.IOException;
 import java.net.Inet4Address;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
 
 @CommonsLog
-public class Config {
+public final class Config {
 
     public static String nameOfSim;
+
+    private Config() {
+    }
 
 
     public static String themePath(){return "/home/erik/Takeoffsim/themes/TakeoffSim-Themes/default/";}
@@ -30,11 +34,14 @@ public class Config {
     }
     
     @Cacheable(lifetime = 70, unit = TimeUnit.SECONDS, forever = false)
-    public static boolean webConnected(){
+    public static boolean isWebConnected(){
         try{
             InetAddress ip = Inet4Address.getByName("takeoffsim.com");
             return ip.isReachable(450);
-        }catch(IOException e){
+        } catch (UnknownHostException e) {
+            log.info("TakeoffSim is down. time to call the web guy.");
+            return false;
+        } catch(IOException ignored){
             log.info("Cannot connect to TakeoffSim.com");
             return false;
         }

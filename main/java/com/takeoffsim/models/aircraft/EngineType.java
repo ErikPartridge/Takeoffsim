@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 package com.takeoffsim.models.aircraft;
@@ -27,7 +27,7 @@ public class EngineType implements Serializable {
 
     private double rangeFactor;
 
-    public EngineType(double sfc, EngineManufacturer manufacturer, int lbf, String name, double rangeFactor) {
+    private EngineType(double sfc, EngineManufacturer manufacturer, int lbf, String name, double rangeFactor) {
         this.setSfc(sfc);
         this.setManufacturer(manufacturer);
         this.setLbf(lbf);
@@ -44,7 +44,7 @@ public class EngineType implements Serializable {
         return sfc;
     }
 
-    public void setSfc(double sfc) {
+    void setSfc(double sfc) {
         this.sfc = sfc;
     }
 
@@ -55,7 +55,7 @@ public class EngineType implements Serializable {
         return lbf;
     }
 
-    public void setLbf(int lbf) {
+    void setLbf(int lbf) {
         this.lbf = lbf;
     }
 
@@ -66,7 +66,7 @@ public class EngineType implements Serializable {
         return name;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
@@ -77,7 +77,7 @@ public class EngineType implements Serializable {
         return manufacturer;
     }
 
-    public void setManufacturer(EngineManufacturer manufacturer) {
+    void setManufacturer(EngineManufacturer manufacturer) {
         this.manufacturer = manufacturer;
     }
 
@@ -85,7 +85,7 @@ public class EngineType implements Serializable {
         return rangeFactor;
     }
 
-    public void setRangeFactor(double rangeFactor) {
+    void setRangeFactor(double rangeFactor) {
         this.rangeFactor = rangeFactor;
     }
 

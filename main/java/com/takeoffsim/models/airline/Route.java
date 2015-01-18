@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+ * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
 /*
@@ -11,8 +11,8 @@ package com.takeoffsim.models.airline;
 import com.javadocmd.simplelatlng.LatLng;
 import com.javadocmd.simplelatlng.LatLngTool;
 import com.javadocmd.simplelatlng.util.LengthUnit;
-import com.takeoffsim.models.aircraft.AircraftType;
 import com.takeoffsim.airport.Airport;
+import com.takeoffsim.models.aircraft.AircraftType;
 import lombok.Data;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
@@ -21,6 +21,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author Erik
@@ -54,7 +56,7 @@ class Route implements Serializable {
 
 
     @NotNull
-    private transient ArrayList<Flight> flights = new ArrayList<>();
+    private transient List<Flight> flights = new ArrayList<>();
 
 
     @NotNull
@@ -93,8 +95,8 @@ class Route implements Serializable {
         return LatLngTool.distance(new LatLng(departs.getLatitude(), departs.getLongitude()), new LatLng(arrives.getLatitude(), arrives.getLongitude()), LengthUnit.KILOMETER);
     }
 
-    public ArrayList<Flight> makeWeeklyFlights(LocalDate firstDayOfWeek){
-        ArrayList<Flight> flts = new ArrayList<>(7);
+    public Collection<Flight> makeWeeklyFlights(LocalDate firstDayOfWeek){
+        List<Flight> flts = new ArrayList<>(7);
         for(int i = 0; i < operates.length; i++){
             if(operates[i]){
                 flts.add(new Flight(0, firstDayOfWeek.plusDays(i), this));
