@@ -82,6 +82,7 @@ public class Server extends NanoHTTPD {
             case "/airline-landing.html": return AirlinePageGenerator.getAirlineIndex();
             case "/load-save.html": return LoadPageGenerator.loadOptions();
             case "/load-landing.html": return LoadPageGenerator.loadView(params);
+            case "/messages.html": return AirlinePageGenerator.getMessages();
             case "/exit" :
                 Serialize.writeAll();System.exit(3);
         }
