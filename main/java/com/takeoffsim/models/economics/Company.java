@@ -228,7 +228,7 @@ public class Company implements Serializable, Entity {
         this.ceo = ceo;
     }
 
-    Airport getHeadquarters() {
+    public Airport getHeadquarters() {
         return headquarters;
     }
 

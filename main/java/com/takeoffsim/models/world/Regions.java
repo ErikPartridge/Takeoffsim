@@ -9,10 +9,10 @@
 package com.takeoffsim.models.world;
 
 
-import com.google.common.collect.HashBiMap;
 import org.jetbrains.annotations.Nullable;
 
-import static com.google.common.collect.HashBiMap.create;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Erik
@@ -20,9 +20,13 @@ import static com.google.common.collect.HashBiMap.create;
 public final class Regions {
 
 
-    private static final HashBiMap<String, Region> regions = create(300);
+    private static final Map<String, Region> regions = new ConcurrentHashMap<>(300);
 
     private Regions() {
+    }
+
+    public static void clear(){
+        regions.clear();
     }
 
 

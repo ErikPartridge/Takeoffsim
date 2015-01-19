@@ -10,10 +10,14 @@ import java.util.List;
 /**
  * Created by Erik on 9/12/14.
  */
-final class Cities {
+public final class Cities {
 
     private static final List<City> cities = new ArrayList<>(40000);
 
+
+    public static void clear(){
+        cities.clear();
+    }
 
     private Cities() {
     }

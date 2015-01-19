@@ -23,6 +23,10 @@ class Bills implements Serializable {
         }
     }
 
+    public static void clear(){
+        bills.clear();
+    }
+
     public static void add(Bill bill){
         bills.add(bill);
     }

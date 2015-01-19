@@ -53,6 +53,11 @@ public final class Airlines implements Serializable {
         return aln;
     }
 
+    public static void clear(){
+        airlines.clear();
+        icaos.clear();
+    }
+
     public static Airline remove(String icao){
         return airlines.get(icao);
     }

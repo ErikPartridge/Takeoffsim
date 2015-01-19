@@ -6,6 +6,7 @@ package com.takeoffsim.views.server;
 
 import com.jcabi.aspects.Async;
 import com.mitchellbosecke.pebble.error.PebbleException;
+import com.takeoffsim.services.Serialize;
 import fi.iki.elonen.NanoHTTPD;
 import lombok.extern.apachecommons.CommonsLog;
 
@@ -60,7 +61,6 @@ public class Server extends NanoHTTPD {
             log.error(e);
             response = new Response(Response.Status.NOT_FOUND, "text/html","<b>Could not find</b> <a href=\"" + Main.back() + "\">back" + "</a>");
         }
-
         return response;
     }
 
@@ -73,13 +73,17 @@ public class Server extends NanoHTTPD {
     @Async
     final InputStream getResource(String url, Map<String, String> params) throws com.mitchellbosecke.pebble.error.PebbleException, IOException {
         switch(url){
+            case "/landing.html" : Main.clearAll(); return resourceAtPath("/landing.html");
             case "/create-airline.html" : return LoadPageGenerator.createAirlineView();
             case "/create-ceo.html" : return LoadPageGenerator.createCeoView(params);
             case "/create-world.html": return LoadPageGenerator.createWorldLoadView(params);
             case "/creation-results.html": return LoadPageGenerator.creationResultsView(params);
             case "/airline-index.html": return getResource("/airline-landing.html", null);
             case "/airline-landing.html": return AirlinePageGenerator.getAirlineIndex();
+            case "/load-save.html": return LoadPageGenerator.loadOptions();
+            case "/load-landing.html": return LoadPageGenerator.loadView(params);
             case "/exit" :
+                Serialize.writeAll();System.exit(3);
         }
         return resourceAtPath(url);
     }
@@ -89,7 +93,7 @@ public class Server extends NanoHTTPD {
      * @param path the path to render the static page from
      * @return the static page's InputStream (FileInputStream)
      */
-    public final InputStream resourceAtPath(String path){
+    public static final InputStream resourceAtPath(String path){
         try{
             return new FileInputStream("/home/erik/Takeoffsim/themes/TakeoffSim-Themes/default/" + path);
         }catch (FileNotFoundException e){

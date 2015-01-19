@@ -70,6 +70,9 @@ public final class AircraftTypes implements Serializable {
         return Collections.unmodifiableMap(aircraftTypes);
     }
 
+    public static void clear(){
+        aircraftTypes.clear();
+    }
     /**
      * @param type adds the aircraft type into the list
      */

@@ -4,14 +4,22 @@
 
 package com.takeoffsim.models.airline;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public final class Alliances {
 
+
+    private static Map<String, Alliance> alliances = new HashMap<>();
 
     private Alliances() {
     }
 
     public static Alliance getAlliance(String alliance) {
+        return alliances.get(alliance);
+    }
 
-        return null;
+    public static void clear(){
+        alliances.clear();
     }
 }

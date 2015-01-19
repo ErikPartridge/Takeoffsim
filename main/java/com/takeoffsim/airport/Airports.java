@@ -31,6 +31,10 @@ public final class Airports implements Serializable {
     private static final Map<String, Airport> airports = new ConcurrentHashMap<>();
 
 
+    public static void clear(){
+        airports.clear();
+    }
+
     private Airports() {
     }
 

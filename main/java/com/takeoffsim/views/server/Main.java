@@ -8,6 +8,13 @@ import com.jcabi.aspects.Async;
 import com.jcabi.aspects.Timeable;
 import com.takeoffsim.demand.RouteDemand;
 import com.takeoffsim.main.Config;
+import com.takeoffsim.models.aircraft.AircraftTypes;
+import com.takeoffsim.models.airline.Airlines;
+import com.takeoffsim.models.airline.GlobalRoutes;
+import com.takeoffsim.models.economics.Companies;
+import com.takeoffsim.models.world.Cities;
+import com.takeoffsim.models.world.Countries;
+import com.takeoffsim.models.world.Regions;
 import com.takeoffsim.services.Serialize;
 import com.takeoffsim.services.xml.CountryLoader;
 import com.takeoffsim.services.xml.TAPAirport;
@@ -31,8 +38,6 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 @CommonsLog
@@ -80,11 +85,22 @@ public class Main extends Application {
         primaryStage.show();
     }
 
-    private void exit(){
-        ExecutorService exe = Executors.newFixedThreadPool(2);
+
+    public static void clearAll(){
+        Airlines.clear();
+        AircraftTypes.clear();
+        Countries.clear();
+        Airlines.clear();
+        GlobalRoutes.clear();
+        Cities.clear();
+        Regions.clear();
+        Companies.clear();
+
+    }
+
+    private static void exit(){
+        Serialize.writeAirlines();
         Serialize.writeAirports();
-        exe.submit(Serialize::writeAirlines);
-        exe.shutdown();
         System.exit(1);
     }
     protected static String url(){

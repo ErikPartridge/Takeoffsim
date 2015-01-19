@@ -19,19 +19,23 @@ import com.takeoffsim.models.airline.Airlines;
 import com.takeoffsim.models.airline.Fleet;
 import com.takeoffsim.models.people.GeneratePerson;
 import com.takeoffsim.models.people.Investor;
+import com.takeoffsim.services.Serialize;
 import com.takeoffsim.services.xml.AirlineLoader;
 import com.takeoffsim.services.xml.RegionLoader;
+import lombok.extern.apachecommons.CommonsLog;
 import org.apache.commons.lang.RandomStringUtils;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.uncommons.maths.random.MersenneTwisterRNG;
 
 import java.io.*;
+import java.rmi.NoSuchObjectException;
 import java.util.*;
 
 /**
  * Created by erik on 1/13/15.
  */
+@CommonsLog
 final class LoadPageGenerator {
     private LoadPageGenerator() {
     }
@@ -125,6 +129,9 @@ final class LoadPageGenerator {
         mine.setName(params.get("name"));
         mine.setFleet(new Fleet(mine.getIcao(), new ArrayList<>()));
         mine.setHuman(true);
+        String apt = params.get("hq").split("-")[0].toUpperCase().trim();
+        mine.addHub(Airports.getAirport(apt));
+        mine.setHeadquarters(Airports.getAirport(apt));
         Airlines.put(mine.getIcao(), mine);
     }
 
@@ -151,5 +158,29 @@ final class LoadPageGenerator {
         List<Airport> airports = new ArrayList<>();
         list.forEach(airports::add);
         return airports;
+    }
+
+    public static InputStream loadOptions() throws PebbleException, IOException{
+        File file = new File(Config.themePath() + "load-save.html");
+        Map<String, Object> context = new HashMap<>();
+        File folder = new File(Serialize.homeDirectory() + "saves/");
+        if(folder.exists() && folder.isDirectory()){
+            List<String> list = new ArrayList<>();
+            for (File f : folder.listFiles()) {
+                String[] split = f.getName().split("/");
+                list.add(split[split.length - 1]);
+            }
+            context.put("worldlist",list);
+        }
+        return getInputStream(file, context);
+    }
+
+    public static InputStream loadView(Map<String, String> params) throws PebbleException, IOException{
+        try{
+            Serialize.loadWorld(params.get("world"));
+        }catch (NoSuchObjectException e){
+            Main.load("http://localhost:40973/landing.html");
+        }
+        return AirlinePageGenerator.getAirlineIndex();
     }
 }

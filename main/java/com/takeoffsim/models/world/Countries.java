@@ -30,6 +30,11 @@ public final class Countries {
     private Countries() {
     }
 
+    public static void clear(){
+        countries.clear();
+        tapCodes.clear();
+    }
+
     public static Country getCountry(String s) {
         return countries.get(s);
     }

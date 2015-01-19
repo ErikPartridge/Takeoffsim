@@ -26,6 +26,9 @@ public final class Companies implements Serializable {
 
     private static final Map<String, Company> companies = new ConcurrentHashMap<>(400);
 
+    public static void clear(){
+        companies.clear();
+    }
 
     private Companies() {
     }
