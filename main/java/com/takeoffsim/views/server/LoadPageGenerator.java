@@ -10,15 +10,15 @@ import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.error.PebbleException;
 import com.mitchellbosecke.pebble.loader.StringLoader;
 import com.mitchellbosecke.pebble.template.PebbleTemplate;
-import com.takeoffsim.airport.Airport;
-import com.takeoffsim.airport.Airports;
-import com.takeoffsim.main.Config;
-import com.takeoffsim.main.GameProperties;
 import com.takeoffsim.models.airline.Airline;
 import com.takeoffsim.models.airline.Airlines;
 import com.takeoffsim.models.airline.Fleet;
+import com.takeoffsim.models.airport.Airport;
+import com.takeoffsim.models.airport.Airports;
 import com.takeoffsim.models.people.GeneratePerson;
 import com.takeoffsim.models.people.Investor;
+import com.takeoffsim.services.Config;
+import com.takeoffsim.services.GameProperties;
 import com.takeoffsim.services.Serialize;
 import com.takeoffsim.services.xml.AirlineLoader;
 import com.takeoffsim.services.xml.RegionLoader;
@@ -60,7 +60,8 @@ final class LoadPageGenerator {
         }
         MersenneTwisterRNG rand = new MersenneTwisterRNG();
         int numInvestors = rand.nextInt(7) + 2;
-        double median = (1170000000.0 - 1000000.0 * GameProperties.getInvestorDifficulty()) / numInvestors;
+        double investment = 105000000.0 - 5000000 * GameProperties.getInvestorDifficulty();
+        double median = investment / numInvestors;
         Collection<Investor> investors = new ArrayList<>();
         Money totalInvestment = Money.zero(CurrencyUnit.USD);
 
@@ -178,6 +179,7 @@ final class LoadPageGenerator {
     public static InputStream loadView(Map<String, String> params) throws PebbleException, IOException{
         try{
             Serialize.loadWorld(params.get("world"));
+            Config.nameOfSim = params.get("world");
         }catch (NoSuchObjectException e){
             Main.load("http://localhost:40973/landing.html");
         }

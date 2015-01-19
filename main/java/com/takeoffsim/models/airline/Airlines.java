@@ -10,11 +10,11 @@ package com.takeoffsim.models.airline;
 
 
 import com.jcabi.aspects.Cacheable;
-import com.takeoffsim.intelligence.intelligence.scheduler.AircraftScheduler;
 import com.takeoffsim.models.aircraft.AircraftTypeMaintenance;
 import com.takeoffsim.models.aircraft.Airplane;
 import com.takeoffsim.models.economics.UsedAircraftMarket;
 import com.takeoffsim.models.people.*;
+import com.takeoffsim.services.intelligence.intelligence.scheduler.AircraftScheduler;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;

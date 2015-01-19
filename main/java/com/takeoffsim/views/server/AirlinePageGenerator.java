@@ -10,8 +10,8 @@ import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.error.PebbleException;
 import com.mitchellbosecke.pebble.loader.StringLoader;
 import com.mitchellbosecke.pebble.template.PebbleTemplate;
-import com.takeoffsim.main.Config;
 import com.takeoffsim.models.airline.Airlines;
+import com.takeoffsim.services.Config;
 
 import java.io.*;
 import java.util.HashMap;

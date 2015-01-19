@@ -8,12 +8,12 @@
 
 package com.takeoffsim.services.xml;
 
-import com.takeoffsim.airport.Airport;
-import com.takeoffsim.airport.Airports;
 import com.takeoffsim.models.airline.Airline;
 import com.takeoffsim.models.airline.Airlines;
 import com.takeoffsim.models.airline.Alliances;
 import com.takeoffsim.models.airline.Flight;
+import com.takeoffsim.models.airport.Airport;
+import com.takeoffsim.models.airport.Airports;
 import com.takeoffsim.models.economics.Company;
 import com.takeoffsim.models.economics.Stock;
 import lombok.extern.apachecommons.CommonsLog;
@@ -31,7 +31,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.takeoffsim.airport.Airports.getAirport;
+import static com.takeoffsim.models.airport.Airports.getAirport;
 
 @CommonsLog
 public class AirlineLoader {

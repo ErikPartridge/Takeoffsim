@@ -4,8 +4,8 @@
 
 package com.takeoffsim.models.messages;
 
-import com.takeoffsim.airport.Airport;
 import com.takeoffsim.models.aircraft.Airplane;
+import com.takeoffsim.models.airport.Airport;
 import lombok.extern.apachecommons.CommonsLog;
 
 /**

@@ -8,9 +8,9 @@
 
 package com.takeoffsim.models.aircraft;
 
-import com.takeoffsim.airport.Airport;
 import com.takeoffsim.models.airline.Airline;
 import com.takeoffsim.models.airline.Flight;
+import com.takeoffsim.models.airport.Airport;
 import com.takeoffsim.models.economics.Company;
 import com.takeoffsim.models.world.Time;
 import lombok.Data;

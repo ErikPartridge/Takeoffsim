@@ -4,8 +4,8 @@
 
 package com.takeoffsim.services.history;
 
-import com.takeoffsim.main.Config;
 import com.takeoffsim.models.airline.Airline;
+import com.takeoffsim.services.Config;
 import lombok.extern.apachecommons.CommonsLog;
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 

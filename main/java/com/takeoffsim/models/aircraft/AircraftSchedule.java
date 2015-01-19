@@ -4,8 +4,8 @@
 
 package com.takeoffsim.models.aircraft;
 
-import com.takeoffsim.airport.Airport;
 import com.takeoffsim.models.airline.Flight;
+import com.takeoffsim.models.airport.Airport;
 import org.apache.commons.math3.random.MersenneTwister;
 
 import java.util.ArrayList;

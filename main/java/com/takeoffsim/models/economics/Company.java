@@ -8,9 +8,9 @@
 
 package com.takeoffsim.models.economics;
 
-import com.takeoffsim.airport.Airport;
-import com.takeoffsim.airport.Gate;
 import com.takeoffsim.models.airline.Airline;
+import com.takeoffsim.models.airport.Airport;
+import com.takeoffsim.models.airport.Gate;
 import com.takeoffsim.models.world.Country;
 import lombok.extern.apachecommons.CommonsLog;
 import org.apache.commons.logging.Log;

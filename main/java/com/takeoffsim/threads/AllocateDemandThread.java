@@ -4,10 +4,10 @@
 
 package com.takeoffsim.threads;
 
-import com.takeoffsim.demand.DemandCreator;
 import com.takeoffsim.models.world.City;
 import com.takeoffsim.models.world.Region;
 import com.takeoffsim.models.world.Regions;
+import com.takeoffsim.services.demand.DemandCreator;
 
 import java.util.ArrayList;
 import java.util.List;

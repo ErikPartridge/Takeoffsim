@@ -4,9 +4,9 @@
 
 package com.takeoffsim.models.messages;
 
-import com.takeoffsim.airport.Airport;
 import com.takeoffsim.models.aircraft.Airplane;
 import com.takeoffsim.models.airline.Flight;
+import com.takeoffsim.models.airport.Airport;
 
 /**
  * A class to tell an airplane to start the takeoff process. Completely thread safe.

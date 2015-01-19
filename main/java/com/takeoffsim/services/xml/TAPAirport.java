@@ -4,10 +4,10 @@
 
 package com.takeoffsim.services.xml;
 
-import com.takeoffsim.airport.Airport;
-import com.takeoffsim.airport.AirportBuilder;
-import com.takeoffsim.airport.Airports;
-import com.takeoffsim.airport.Runway;
+import com.takeoffsim.models.airport.Airport;
+import com.takeoffsim.models.airport.AirportBuilder;
+import com.takeoffsim.models.airport.Airports;
+import com.takeoffsim.models.airport.Runway;
 import com.takeoffsim.models.world.Countries;
 import lombok.extern.apachecommons.CommonsLog;
 import org.jdom2.Document;

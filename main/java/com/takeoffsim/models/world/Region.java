@@ -8,7 +8,7 @@
 
 package com.takeoffsim.models.world;
 
-import com.takeoffsim.airport.Airport;
+import com.takeoffsim.models.airport.Airport;
 import lombok.NonNull;
 import org.jetbrains.annotations.NotNull;
 

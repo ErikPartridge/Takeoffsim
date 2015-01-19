@@ -7,11 +7,10 @@ package com.takeoffsim.services;
 
 import com.jcabi.aspects.Cacheable;
 import com.jcabi.aspects.RetryOnFailure;
-import com.takeoffsim.airport.Airport;
-import com.takeoffsim.airport.Airports;
-import com.takeoffsim.main.Config;
 import com.takeoffsim.models.airline.Airline;
 import com.takeoffsim.models.airline.Airlines;
+import com.takeoffsim.models.airport.Airport;
+import com.takeoffsim.models.airport.Airports;
 import com.takeoffsim.views.server.Main;
 import lombok.extern.apachecommons.CommonsLog;
 

@@ -4,7 +4,7 @@
 
 package com.takeoffsim.models.aircraft;
 
-import com.takeoffsim.manufacturers.EngineManufacturer;
+import com.takeoffsim.models.manufacturers.EngineManufacturer;
 import lombok.extern.apachecommons.CommonsLog;
 
 import java.io.Serializable;

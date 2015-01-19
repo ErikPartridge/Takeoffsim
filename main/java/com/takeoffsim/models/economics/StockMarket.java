@@ -4,7 +4,7 @@
 
 package com.takeoffsim.models.economics;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 /*
 
@@ -21,9 +21,10 @@ import java.util.ArrayList;
 /**
  * @author Erik
  */
+@Deprecated
 final class StockMarket {
     
-    private static final ArrayList<Stock> stocks = new ArrayList<>();
+    private static final HashMap<String, Stock> stocks = new HashMap<>();
 
     private StockMarket() {
     }

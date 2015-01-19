@@ -12,8 +12,8 @@ actually do anything beyond that.
 
 package com.takeoffsim.models.airline;
 
-import com.takeoffsim.airport.Airport;
 import com.takeoffsim.models.airline.enums.*;
+import com.takeoffsim.models.airport.Airport;
 import com.takeoffsim.models.economics.Company;
 import com.takeoffsim.models.people.Executive;
 import com.takeoffsim.models.people.FlightAttendant;

@@ -6,8 +6,6 @@ package com.takeoffsim.views.server;
 
 import com.jcabi.aspects.Async;
 import com.jcabi.aspects.Timeable;
-import com.takeoffsim.demand.RouteDemand;
-import com.takeoffsim.main.Config;
 import com.takeoffsim.models.aircraft.AircraftTypes;
 import com.takeoffsim.models.airline.Airlines;
 import com.takeoffsim.models.airline.GlobalRoutes;
@@ -15,7 +13,9 @@ import com.takeoffsim.models.economics.Companies;
 import com.takeoffsim.models.world.Cities;
 import com.takeoffsim.models.world.Countries;
 import com.takeoffsim.models.world.Regions;
+import com.takeoffsim.services.Config;
 import com.takeoffsim.services.Serialize;
+import com.takeoffsim.services.demand.RouteDemand;
 import com.takeoffsim.services.xml.CountryLoader;
 import com.takeoffsim.services.xml.TAPAirport;
 import com.takeoffsim.threads.ThreadManager;

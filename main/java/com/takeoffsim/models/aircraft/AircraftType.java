@@ -9,8 +9,8 @@
 package com.takeoffsim.models.aircraft;
 
 
-import com.takeoffsim.airport.Airport;
-import com.takeoffsim.manufacturers.AircraftManufacturer;
+import com.takeoffsim.models.airport.Airport;
+import com.takeoffsim.models.manufacturers.AircraftManufacturer;
 import lombok.extern.apachecommons.CommonsLog;
 import org.jetbrains.annotations.NotNull;
 import org.joda.money.Money;

@@ -4,9 +4,9 @@
 
 package com.takeoffsim.threads;
 
-import com.takeoffsim.demand.DemandCreator;
 import com.takeoffsim.models.airline.GlobalRoute;
 import com.takeoffsim.models.airline.GlobalRoutes;
+import com.takeoffsim.services.demand.DemandCreator;
 
 import java.security.SecureRandom;
 import java.util.List;

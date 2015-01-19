@@ -9,7 +9,7 @@
 package com.takeoffsim.models.airline;
 
 
-import com.takeoffsim.airport.Airport;
+import com.takeoffsim.models.airport.Airport;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
