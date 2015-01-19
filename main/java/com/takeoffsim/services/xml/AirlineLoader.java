@@ -9,6 +9,7 @@
 package com.takeoffsim.services.xml;
 
 import com.takeoffsim.airport.Airport;
+import com.takeoffsim.airport.Airports;
 import com.takeoffsim.models.airline.Airline;
 import com.takeoffsim.models.airline.Airlines;
 import com.takeoffsim.models.airline.Alliances;
@@ -76,7 +77,7 @@ public class AirlineLoader {
             airline.setAggressiveness(Integer.parseInt(getString("aggressiveness", element)));
             //airline.setNumShares(Long.parseLong(getString("shares", element)));
             airline.setCeo(getString("ceo", element));
-            airline.setHeadquarters(getString("headquarters", element));
+            airline.setHeadquarters(Airports.getAirport(getString("headquarters", element)));
             airline.setEarnings(Money.parse(getString("earnings", element)));
             airline.setCosts(Money.parse(getString("costs", element)));
             airline.setCash(Money.parse(getString("cash", element)));
@@ -87,7 +88,7 @@ public class AirlineLoader {
             airline.addHubs(getHubs(getString("hubs", element)));
             airline.setDividend(Double.parseDouble(getString("dividends", element)));
             airline.setAlliance(Alliances.getAlliance(getString("alliance", element)));
-            airline.addCodeShares(getCodeShares(getString("codeshares", element)));
+            //airline.addCodeShares(getCodeShares(getString("codeshares", element)));
             Airlines.put(airline.getIcao(), airline);
 
             log.info("Put airline " + airline.getIcao());

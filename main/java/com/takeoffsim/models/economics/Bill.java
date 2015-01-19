@@ -53,7 +53,7 @@ public class Bill implements Serializable, Comparable {
 
 
     /**
-     * Executes the bill. Charges & pays.
+     * Executes the bill. Charges and pays.
      */
     public void execute() {
         getPays().pay(getAmount());

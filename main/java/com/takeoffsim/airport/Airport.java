@@ -147,7 +147,7 @@ public class Airport implements Serializable, Comparable<Airport> {
     }
 
 
-    synchronized String getName() {
+    public synchronized String getName() {
         return name;
     }
 

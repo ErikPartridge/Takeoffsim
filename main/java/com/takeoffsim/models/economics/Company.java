@@ -8,6 +8,7 @@
 
 package com.takeoffsim.models.economics;
 
+import com.takeoffsim.airport.Airport;
 import com.takeoffsim.airport.Gate;
 import com.takeoffsim.models.airline.Airline;
 import com.takeoffsim.models.world.Country;
@@ -45,7 +46,7 @@ public class Company implements Serializable, Entity {
 
     private String ceo;
 
-    private String headquarters;
+    private Airport headquarters;
 
     private Money valuation;
 
@@ -79,7 +80,7 @@ public class Company implements Serializable, Entity {
         super();
     }
 
-    private Company(List<Stock> holdings, long numShares, Stock corporateStock, boolean isSubsidiary, String ceo, String headquarters, Money valuation, Country country, Money costs, double earningsPerShare, double dividend, List<Airline> subsidiaries, Money cash, Money earnings) {
+    private Company(List<Stock> holdings, long numShares, Stock corporateStock, boolean isSubsidiary, String ceo, Airport headquarters, Money valuation, Country country, Money costs, double earningsPerShare, double dividend, List<Airline> subsidiaries, Money cash, Money earnings) {
         holdings.addAll(holdings);
         shares = new ArrayList<>();
         shares.add(new Stock(this,numShares));
@@ -227,11 +228,11 @@ public class Company implements Serializable, Entity {
         this.ceo = ceo;
     }
 
-    String getHeadquarters() {
+    Airport getHeadquarters() {
         return headquarters;
     }
 
-    public void setHeadquarters(String headquarters) {
+    public void setHeadquarters(Airport headquarters) {
         this.headquarters = headquarters;
     }
 

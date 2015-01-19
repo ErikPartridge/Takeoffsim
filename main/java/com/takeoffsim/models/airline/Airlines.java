@@ -53,6 +53,10 @@ public final class Airlines implements Serializable {
         return aln;
     }
 
+    public static Airline remove(String icao){
+        return airlines.get(icao);
+    }
+
 
     /**
      *
@@ -140,7 +144,7 @@ public final class Airlines implements Serializable {
             if(a.isHuman())
                 return a;
         }
-        throw new NullPointerException("No human airline");
+        return null;
     }
     /**
      *

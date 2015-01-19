@@ -46,6 +46,7 @@ final class LoadPageGenerator {
             throw new IOException("Page has already been accessed");
         }
         GameProperties.setNameOfSim(params.get("name"));
+        Config.nameOfSim = params.get("name");
         switch(params.get("difficulty")){
             case "Realistic": GameProperties.setInvestorDifficulty(5); break;
             case "Insane": GameProperties.setInvestorDifficulty(4); break;
@@ -116,17 +117,9 @@ final class LoadPageGenerator {
         new AirlineLoader().createAirlines();
 
         Airline mine = new Airline();
-        /*Airline existingIcao = Airlines.get(params.get("icaocode"));
-        System.out.println("ERROR2");
-        if(existingIcao != null){
-            reselectIcao(existingIcao);
-        }
-        Airlines.getMap().remove(params.get("icaocode"));
-        Airline existingIata = Airlines.get(params.get("iatacode"));
-        if(existingIata != null){
-            reselectIcao(existingIcao);
-        }*/
-        Airlines.getMap().remove(params.get("iatacode"));
+
+        Airline a = Airlines.remove(params.get("iatacode"));
+        reselectIcao(a);
         mine.setIcao(params.get("icaocode"));
         mine.setIata(params.get("iatacode"));
         mine.setName(params.get("name"));
@@ -137,6 +130,8 @@ final class LoadPageGenerator {
 
     private static void reselectIcao(Airline a){
         int count = 0;
+        if(a == null)
+            return;
         while(Airlines.get(a.getIcao()) != null && count < 500){
             a.setIcao(RandomStringUtils.randomAlphabetic(3));
             count++;

@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  ~ Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+  ~ Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
   -->
 <root>
     <airline>
         <name>Delta Air Lines</name>
         <iata>DL</iata>
         <icao>DAL</icao>
-        <headquarters>Atlanta, GA</headquarters>
+        <headquarters>KATL</headquarters>
         <valuation>USD 41510000000</valuation>
         <private>false</private>
         <hubs>EHAM,KBOS,KCVG,KDTW,KATL,KJFK,KLGA,KLAX,KMSP,LFPG,KSLC,KSEA,RJAA</hubs>
@@ -325,7 +325,7 @@
         <name>United Airlines</name>
         <iata>UA</iata>
         <icao>UAL</icao>
-        <headquarters>Chicago, IL</headquarters>
+        <headquarters>KORD</headquarters>
         <valuation>USD 26610000000</valuation>
         <private>false</private>
         <hubs>ORD,SFO,EWR,IAD</hubs>

@@ -42,13 +42,13 @@ final class GroupAirports {
         assert ints.size() == points.size();
         //Get the last point and addFlight them to results.
         points.forEach(pt -> ints.add(matches(pt.getPoints(), hub)));
-        int selection = new MersenneTwister().nextInt(getScore(ints, ints.size()-1));
+        int selection = new MersenneTwister().nextInt(getScore(ints, ints.size() - 1));
         for(int i = 0; i < ints.size(); i++){
             if(selection < getScore(ints, i)){
                 return getList(points.get(i));
             }
         }
-        return getList(points.get(points.size()-1));
+        return getList(points.get(points.size() - 1));
     }
 
     ArrayList<Airport> getList(CentroidCluster<AirportPoint> point){
@@ -123,7 +123,7 @@ final class GroupAirports {
      * @param a the array to calculate the score of
      * @return the product of the first four elements of the array
      */
-    private double getScore(double[] a){
+    private double getScore(double... a){
         return a[0] * a[1] * a[2] * a[3];
     }
 

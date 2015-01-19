@@ -8,6 +8,7 @@ import com.jcabi.aspects.Async;
 import com.jcabi.aspects.Timeable;
 import com.takeoffsim.demand.RouteDemand;
 import com.takeoffsim.main.Config;
+import com.takeoffsim.services.Serialize;
 import com.takeoffsim.services.xml.CountryLoader;
 import com.takeoffsim.services.xml.TAPAirport;
 import com.takeoffsim.threads.ThreadManager;
@@ -17,25 +18,29 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebHistory;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import lombok.extern.apachecommons.CommonsLog;
 
 import java.awt.*;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 @CommonsLog
 public class Main extends Application {
     
-    private static final WebView VIEW = new WebView();
+    private static WebView view;
     
-    private static final WebEngine ENGINE = VIEW.getEngine();
+    private static WebEngine engine;
 
     public static final Server SERVER = new Server();
 
@@ -50,24 +55,44 @@ public class Main extends Application {
             System.exit(-1);
         }
         ThreadManager.submit(RouteDemand::launch);
-
+        view = new WebView();
+        engine = view.getEngine();
         SERVER.start();
-        ENGINE.load("http://localhost:40973/landing.html");
-        ENGINE.locationProperty().addListener(new StringChangeListener());
-        VIEW.setPrefWidth(1920);
-        VIEW.setPrefHeight(1200);
-        Scene scene = new Scene(VIEW);
+        engine.load("http://localhost:40973/landing.html");
+        engine.locationProperty().addListener(new StringChangeListener());
+        view.setPrefWidth(1920);
+        view.setPrefHeight(1200);
+        Scene scene = new Scene(view);
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                log.fatal("Closing per user request");
+                event.consume();
+                primaryStage.close();
+                if(Config.nameOfSim != null){
+                    exit();
+                }
+                System.exit(2);
+            }
+        });
         //Don't let them leave the program
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-    
+
+    private void exit(){
+        ExecutorService exe = Executors.newFixedThreadPool(2);
+        Serialize.writeAirports();
+        exe.submit(Serialize::writeAirlines);
+        exe.shutdown();
+        System.exit(1);
+    }
     protected static String url(){
-        return ENGINE.getLocation();
+        return engine.getLocation();
     }
     
     public static void load(String url){
-        ENGINE.load(url);
+        engine.load(url);
     }
 
     @Async
@@ -85,8 +110,8 @@ public class Main extends Application {
     }
     
     public static String back(){
-        int index = ENGINE.getHistory().getCurrentIndex();
-        ObservableList<WebHistory.Entry> entries = ENGINE.getHistory().getEntries();
+        int index = engine.getHistory().getCurrentIndex();
+        ObservableList<WebHistory.Entry> entries = engine.getHistory().getEntries();
         if(index > 0 && index < entries.size() -1){
             return entries.get(index + 1).getUrl();
         }else
@@ -98,7 +123,7 @@ public class Main extends Application {
         @Timeable(limit = 5, unit = TimeUnit.SECONDS)
         public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
             if (!newValue.contains("http://localhost")) {
-                Platform.runLater(() -> ENGINE.load(oldValue));
+                Platform.runLater(() -> engine.load(oldValue));
                 /*
                 if(Desktop.isDesktopSupported()){
                     try{

@@ -14,6 +14,7 @@ import lombok.Data;
 import lombok.extern.apachecommons.CommonsLog;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.List;
 
 public
 @Data @CommonsLog
-class Country {
+class Country implements Serializable {
 
     private String iso;
 

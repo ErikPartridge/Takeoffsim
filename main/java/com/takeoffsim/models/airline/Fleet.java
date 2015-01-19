@@ -60,6 +60,14 @@ class Fleet implements Serializable {
         throw new IllegalArgumentException("This airline does not have this type");
     }
 
+    public int getSize(){
+        int sum = 0;
+        for (Subfleet subfleet : fleet) {
+            sum += subfleet.getAircraft().values().size();
+        }
+        return sum;
+    }
+
     @NotNull
     @Override
     public String toString() {

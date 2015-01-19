@@ -41,7 +41,7 @@ public class AirportPoint implements Clusterable {
         return data;
     }
 
-    void setData(double[] data) {
+    void setData(double... data) {
         //noinspection AssignmentToCollectionOrArrayFieldFromParameter
         this.data = data;
     }

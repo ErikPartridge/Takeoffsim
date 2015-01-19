@@ -299,6 +299,10 @@ public class Airline extends Company implements Serializable {
                 '}';
     }
 
+    public long numDestinations(){
+        return routes.stream().map(Route::getArrives).distinct().count();
+    }
+
     public void addHubs(Collection<Airport> list) {
         hubs.addAll(list);
     }

@@ -33,15 +33,15 @@ public class TAPAirport {
 
     public void createAirports() {
         try{
-            createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/north_america.xml"));
-            createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/africa.xml"));
-            createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/asia.xml"));
-            createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/europe.xml"));
-            createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/south_america.xml"));
-            createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/oceania.xml"));
-            createAllAirports(getClass().getClassLoader().getResourceAsStream("tap_airports/missing.xml"));
+            this.createAllAirports(this.getClass().getClassLoader().getResourceAsStream("tap_airports/north_america.xml"));
+            this.createAllAirports(this.getClass().getClassLoader().getResourceAsStream("tap_airports/africa.xml"));
+            this.createAllAirports(this.getClass().getClassLoader().getResourceAsStream("tap_airports/asia.xml"));
+            this.createAllAirports(this.getClass().getClassLoader().getResourceAsStream("tap_airports/europe.xml"));
+            this.createAllAirports(this.getClass().getClassLoader().getResourceAsStream("tap_airports/south_america.xml"));
+            this.createAllAirports(this.getClass().getClassLoader().getResourceAsStream("tap_airports/oceania.xml"));
+            this.createAllAirports(this.getClass().getClassLoader().getResourceAsStream("tap_airports/missing.xml"));
         }catch(FileSystemException fse){
-            log.fatal(fse);
+            TAPAirport.log.fatal(fse);
             System.exit(150);
         }
     }
@@ -64,15 +64,15 @@ public class TAPAirport {
                 zoneId = ZoneId.of(gmt);
             }
         }catch(NullPointerException ex){
-            log.trace(ex);
+            TAPAirport.log.trace(ex);
             zoneId = TimeZone.getTimeZone(e.getChild("town").getAttributeValue("timezone")).toZoneId();
         }
 
         builder = builder.setTimeZone(zoneId);
         builder = builder.setCountry(Countries.getTapCountry(e.getChild("town").getAttributeValue("country")));
         Element degrees = e.getChild("coordinates");
-        builder = builder.setLatitude(latitudeFromString(degrees.getChild("latitude").getAttributeValue("value")));
-        builder = builder.setLongitude(longitudeFromString(degrees.getChild("longitude").getAttributeValue("value")));
+        builder = builder.setLatitude(this.latitudeFromString(degrees.getChild("latitude").getAttributeValue("value")));
+        builder = builder.setLongitude(this.longitudeFromString(degrees.getChild("longitude").getAttributeValue("value")));
         int gates = 0;
         Element terminals = e.getChild("terminals");
         for (Element element : terminals.getChildren()) {
@@ -122,7 +122,7 @@ public class TAPAirport {
         try {
             doc = new SAXBuilder().build(f);
         } catch (JDOMException | IOException e) {
-            log.error(e);
+            TAPAirport.log.error(e);
             return;
         }
         Element root = doc.getRootElement();

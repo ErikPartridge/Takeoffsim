@@ -10,11 +10,16 @@ import com.jcabi.aspects.RetryOnFailure;
 import com.takeoffsim.airport.Airport;
 import com.takeoffsim.airport.Airports;
 import com.takeoffsim.main.Config;
-import lombok.Cleanup;
+import com.takeoffsim.models.airline.Airline;
+import com.takeoffsim.models.airline.Airlines;
 import lombok.extern.apachecommons.CommonsLog;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Optional;
+import java.util.zip.GZIPOutputStream;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 @CommonsLog
@@ -26,10 +31,54 @@ public class Serialize {
     }
 
 
+    public static void writeAirlines(){
+        isExecuting = true;
+        File file = null;
+        if(isMac()){
+            File directory = new File(homeDirectory() + "saves/" + Config.nameOfSim + "/");
+            directory.mkdirs();
+            file = new File(homeDirectory() + "saves/" + Config.nameOfSim + "/" + "Airlines.tss");
+        }else if(isWindows()){
+            File directory = new File(homeDirectory() + "saves/" + Config.nameOfSim + "/");
+            directory.mkdirs();
+            file = new File(homeDirectory() + "saves/" + Config.nameOfSim + "/" + "Airlines.tss");
+        }else{
+            File directory = new File(homeDirectory() + "saves/" + Config.nameOfSim + "/");
+            directory.mkdirs();
+            file = new File(homeDirectory() + "saves/" + Config.nameOfSim + "/" + "Airlines.tss");
+        }
+        ObjectOutputStream out = null;
+        FileOutputStream fos = null;
+        GZIPOutputStream wrapper = null;
+        try{
+            fos = new FileOutputStream(file);
+            wrapper = new GZIPOutputStream(fos);
+            out = new ObjectOutputStream(wrapper);
+        } catch (IOException e) {
+            log.error(e);
+        }
+        assert out != null;
+        for(Airline airline : Airlines.getMap().values()){
+            try{
+                out.writeObject(airline);
+                log.trace("Wrote airport " + airline.getIcao());
+            } catch (IOException e) {
+                log.error(e);
+            }
+        }
+        try{
+            out.close();
+            fos.close();
+        }catch(IOException e ){
+            log.error(e.getMessage());
+        }
+        isExecuting = false;
+    }
+
     /**
      * This will serialize all the airports
      */
-    public void writeAirports(){
+    public static void writeAirports(){
         isExecuting = true;
         File file = null;
         if(isMac()){
@@ -46,10 +95,13 @@ public class Serialize {
             file = new File(homeDirectory() + "saves/" + Config.nameOfSim + "/" + "Airports.tss");
         }
         ObjectOutputStream out = null;
+        FileOutputStream fos = null;
+        GZIPOutputStream wrapper = null;
         try{
-            @Cleanup FileOutputStream fos = new FileOutputStream(file);
-            out = setup(fos).get();
-        } catch (FileNotFoundException e) {
+            fos = new FileOutputStream(file);
+            wrapper = new GZIPOutputStream(fos);
+            out = new ObjectOutputStream(wrapper);
+        } catch (IOException e) {
             log.error(e);
         }
         assert out != null;
@@ -62,6 +114,7 @@ public class Serialize {
             }
         }
         try{
+            fos.close();
             out.close();
         }catch(IOException e ){
             log.error(e.getMessage());
@@ -75,7 +128,7 @@ public class Serialize {
      * @return an ObjectOutputStream contained in an optional
      */
     @RetryOnFailure
-    private Optional<ObjectOutputStream> setup(FileOutputStream fileOut) {
+    private static Optional<ObjectOutputStream> setup(FileOutputStream fileOut) {
         ObjectOutputStream out = null;
         try {
             out = new ObjectOutputStream(fileOut);
@@ -120,7 +173,7 @@ public class Serialize {
         }else if(isWindows()){
             return System.getenv("ProgramFiles") + "/TakeoffSim/";
         }else{
-            return System.getProperty("user.home") + "/TakeoffSim/";
+            return System.getProperty("user.home") + "/.takeoffsim/";
         }
     }
 
