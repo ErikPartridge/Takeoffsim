@@ -81,6 +81,10 @@ public final class AircraftTypes implements Serializable {
         log.trace("Added aircraft type: " + type);
     }
 
+    public static void put(AircraftType type){
+        aircraftTypes.put(type.getIcao(), type);
+    }
+
 
     @NotNull
     @Override

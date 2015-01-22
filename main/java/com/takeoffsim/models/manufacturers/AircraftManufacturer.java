@@ -13,6 +13,7 @@ import com.takeoffsim.models.economics.Delivery;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedTransferQueue;
 
 /**
@@ -33,7 +34,7 @@ public class AircraftManufacturer extends Company implements Serializable {
     static final long serialVersionUID = -551032041203413L;
 
     @NotNull
-    public LinkedTransferQueue<Delivery> toDeliver = new LinkedTransferQueue<>();
+    public BlockingQueue<Delivery> toDeliver = new LinkedTransferQueue<>();
 
     @NotNull
     @Override

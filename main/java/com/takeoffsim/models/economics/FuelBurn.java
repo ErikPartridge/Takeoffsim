@@ -13,8 +13,6 @@ package com.takeoffsim.models.economics;
 import com.takeoffsim.models.aircraft.AircraftType;
 import org.jetbrains.annotations.NotNull;
 
-import static java.lang.Math.round;
-
 /**
  * @author Erik
  */
@@ -32,7 +30,7 @@ final class FuelBurn {
      */
     public static int fuelBurn(@NotNull AircraftType a, int distance, int initWeight) {
         int time = time(a, distance);
-        int fuelBurn = (int) round(a.getSfc() * a.getNumberOfEngines() * initWeight * 20);
+        int fuelBurn = a.getFuelBurn();
         double hours = time / 60.0;
 
         return (int) (fuelBurn * hours);

@@ -5,27 +5,33 @@
 
 package com.takeoffsim.services;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Output;
 import com.jcabi.aspects.Cacheable;
 import com.jcabi.aspects.RetryOnFailure;
-import com.takeoffsim.models.airline.*;
+import com.takeoffsim.models.aircraft.AircraftType;
+import com.takeoffsim.models.aircraft.AircraftTypes;
+import com.takeoffsim.models.airline.Airline;
+import com.takeoffsim.models.airline.Airlines;
+import com.takeoffsim.models.airline.GlobalRoute;
+import com.takeoffsim.models.airline.GlobalRoutes;
 import com.takeoffsim.models.airport.Airport;
 import com.takeoffsim.models.airport.Airports;
 import com.takeoffsim.models.economics.Bill;
 import com.takeoffsim.models.economics.Bills;
 import com.takeoffsim.models.economics.Companies;
 import com.takeoffsim.models.economics.Company;
+import com.takeoffsim.models.manufacturers.AircraftManufacturer;
+import com.takeoffsim.models.manufacturers.AircraftManufacturers;
 import com.takeoffsim.models.world.Countries;
 import com.takeoffsim.models.world.Country;
-import com.takeoffsim.views.server.Main;
+import lombok.Data;
 import lombok.extern.apachecommons.CommonsLog;
 
 import java.io.*;
-import java.rmi.NoSuchObjectException;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.concurrent.BlockingQueue;
-import java.util.zip.GZIPInputStream;
-import java.util.zip.GZIPOutputStream;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 @CommonsLog
@@ -36,140 +42,21 @@ public class Serialize {
     }
 
     public static void writeAll() {
-        writeAirlines();
-        writeAirports();
-        writeCountries();
-    }
 
-    public static void loadWorld(String worldName) throws NoSuchObjectException {
-        Main.clearAll();
-        File directory = new File(homeDirectory() + "saves/" + worldName + "/");
-        if (!directory.exists()) {
-            throw new NoSuchObjectException("No world with name " + worldName);
-        }
-
-        loadAirlines(new File(directory.getPath() + "/Airlines.tss"));
-        loadAirports(new File(directory.getPath() + "/Airports.tss"));
-        loadCountries(new File(directory.getPath() + "/Countries.tss"));
-    }
-
-    public static void loadCountries(File file) {
-        Collection<Country> countries = (Collection<Country>) rawRead(file);
-        Countries.clear();
-        countries.forEach(c -> Countries.putCountry(c.getIso(), c));
-    }
-
-    public static void loadAirports(File file) {
-        Collection<Airport> airports = (Collection<Airport>) rawRead(file);
-        Airports.clear();
-        for (Airport a : airports) {
-            Airports.put(a.getIcao(), a);
-        }
-    }
-
-    public static void loadAlliances(File file) {
-        Collection<Alliance> alliances = (Collection<Alliance>) rawRead(file);
-        Alliances.clear();
-        alliances.forEach(Alliances::put);
-    }
-
-
-    public static void loadAirlines(File file) {
-        Collection<Airline> airlines = (Collection<Airline>) rawRead(file);
-        Airlines.clear();
-        for (Airline a : airlines) {
-            Airlines.put(a.getIcao(), a);
-            Airlines.putIcao(a.getName(), a.getIcao());
-        }
-    }
-
-
-    public static Object rawRead(File file) {
-        FileInputStream stream = null;
-        ObjectInputStream in = null;
-        Object o = null;
         try {
-            stream = new FileInputStream(file);
-            GZIPInputStream wrapper = new GZIPInputStream(stream);
-            in = new ObjectInputStream(wrapper);
-            o = in.readObject();
-            in.close();
-            wrapper.close();
-            stream.close();
-        } catch (IOException | ClassNotFoundException e) {
-            log.error(e);
-        }
-        return o;
-    }
-
-    public static void loadCompanies(File file){
-        Collection<Company> companies = (Collection<Company>) rawRead(file);
-        Companies.clear();
-        companies.forEach(c -> Companies.put(c.getName(), c));
-    }
-
-    public static void loadGlobalRoutes(File file){
-        Collection<GlobalRoute> routes = (Collection<GlobalRoute>) rawRead(file);
-        GlobalRoutes.clear();
-        routes.forEach(GlobalRoutes::put);
-    }
-
-    public static void readBills(File file){
-        BlockingQueue<Bill> queue = (BlockingQueue<Bill>) rawRead(file);
-        Bills.clear();
-        queue.stream().forEachOrdered(Bills::add);
-    }
-    public static void writeAlliances(){
-        write("Alliances.tss", out -> out.writeObject(Alliances.getAlliances().values()));
-    }
-
-    public static void writeCountries() {
-        write("Countries.tss", out -> out.writeObject(Countries.getCountries().values()));
-    }
-
-    public static void writeAirlines() {
-        write("Airlines.tss", out -> out.writeObject(Airlines.getMap().values()));
-
-    }
-
-    public static void writeGlobalRoutes(){
-        write("GlobalRoutes.tss", out -> out.writeObject(GlobalRoutes.globalRoutes.values()));
-    }
-
-    public static void writeCompanies(){
-        write("Companies.tss", out -> out.writeObject(Companies.getCompanies().values()));
-    }
-
-
-    public static void writeBills(){
-        write("Bills.tss", out -> out.writeObject(Bills.bills));
-    }
-    /**
-     * This will serialize all the airports
-     */
-    public static void writeAirports() {
-        write("Airports.tss", out -> out.writeObject(Airports.getAirports().values()));
-    }
-
-    public static void write(String name, WritableInterface inter){
-        File directory = new File(homeDirectory() + "saves/" + Config.nameOfSim + "/");
-        directory.mkdirs();
-        File file = new File(homeDirectory() + "saves/" + Config.nameOfSim + name);
-        try {
-            FileOutputStream fs = new FileOutputStream(file);
-            BufferedOutputStream buf = new BufferedOutputStream(fs);
-            GZIPOutputStream wrapper = new GZIPOutputStream(buf);
-            ObjectOutputStream out = new ObjectOutputStream(wrapper);
-            inter.write(out);
-            out.flush();
-            wrapper.finish();
-            wrapper.close();
+            long time = System.nanoTime();
+            Kryo kryo = new Kryo();
+            FileOutputStream out = new FileOutputStream(new File(homeDirectory() + "saves/" + Config.nameOfSim + ".tss"));
+            Output obj = new Output(out);
+            kryo.writeObject(obj, new World());
             out.close();
-            fs.close();
+            time = System.nanoTime() - time;
+            System.out.println("Serialization took:" + time);
         } catch (IOException e) {
-            log.error(e);
+            log.fatal(e);
         }
     }
+
 
     /**
      * @param fileOut the fileoutput stream to setup
@@ -227,7 +114,23 @@ public class Serialize {
 
 }
 
-interface WritableInterface{
+@Data
+class World implements Serializable{
 
-    public void write(ObjectOutputStream out) throws IOException;
+    private final Collection<Airport> airports = Airports.getAirports().values();
+
+    private final Collection<Airline> airlines = Airlines.getMap().values();
+
+    private final Collection<Company> companies = Companies.getCompanies().values();
+
+    private final Collection<AircraftManufacturer> manufacturers = AircraftManufacturers.manufacturers();
+
+    private final Collection<Country> countries = Countries.getCountries().values();
+
+    private final BlockingQueue<Bill> bills = Bills.bills;
+
+    private final Collection<GlobalRoute> routes = GlobalRoutes.globalRoutes.values();
+
+    private final Collection<AircraftType> aircraftTypes = AircraftTypes.getMap().values();
+
 }

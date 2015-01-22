@@ -29,7 +29,6 @@ import org.joda.money.Money;
 import org.uncommons.maths.random.MersenneTwisterRNG;
 
 import java.io.*;
-import java.rmi.NoSuchObjectException;
 import java.util.*;
 
 /**
@@ -177,12 +176,12 @@ final class LoadPageGenerator {
     }
 
     public static InputStream loadView(Map<String, String> params) throws PebbleException, IOException{
-        try{
-            Serialize.loadWorld(params.get("world"));
+        /*try{
+            //Serialize(params.get("world"));
             Config.nameOfSim = params.get("world");
         }catch (NoSuchObjectException e){
             Main.load("http://localhost:40973/landing.html");
-        }
+        }*/
         return AirlinePageGenerator.getAirlineIndex();
     }
 }

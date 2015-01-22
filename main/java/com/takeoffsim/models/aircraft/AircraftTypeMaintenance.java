@@ -9,6 +9,8 @@ package com.takeoffsim.models.aircraft;
 
 import lombok.Data;
 import lombok.extern.apachecommons.CommonsLog;
+import org.joda.money.CurrencyUnit;
+import org.joda.money.Money;
 
 import java.io.Serializable;
 
@@ -22,23 +24,23 @@ public class AircraftTypeMaintenance implements Serializable {
     static final long serialVersionUID = 50223114L;
 
 
-    private double priceA;
+    private Money priceA = Money.of(CurrencyUnit.USD, 20000);
 
-    private double priceB;
+    private Money priceB = Money.of(CurrencyUnit.USD, 100000);
 
-    private double priceC;
+    private Money priceC = Money.of(CurrencyUnit.USD, 7500000);
 
-    private int hoursA;
+    private int hoursA = 2;
 
-    private int hoursB;
+    private int hoursB = 8;
 
-    private int hoursC;
+    private int hoursC = 300;
 
-    private int betweenA;
+    private int betweenA = 70;
 
-    private int betweenB;
+    private int betweenB = 500;
 
-    private int betweenC;
+    private int betweenC = 15000;
 
     /**
      *
@@ -49,10 +51,10 @@ public class AircraftTypeMaintenance implements Serializable {
      * @param hoursB how long a 'B' Check takes
      * @param hoursC how long a 'C' Check takes
      */
-    private AircraftTypeMaintenance(double priceA, double priceB, double priceC, int hoursA, int hoursB, int hoursC, int betweenA, int betweenB, int betweenC) {
-        this.priceA = priceA;
-        this.priceB = priceB;
-        this.priceC = priceC;
+    public AircraftTypeMaintenance(double priceA, double priceB, double priceC, int hoursA, int hoursB, int hoursC, int betweenA, int betweenB, int betweenC) {
+        this.priceA = Money.of(CurrencyUnit.USD, priceA);
+        this.priceB = Money.of(CurrencyUnit.USD, priceB);
+        this.priceC = Money.of(CurrencyUnit.USD, priceC);
         this.hoursA = hoursA;
         this.hoursB = hoursB;
         this.hoursC = hoursC;
@@ -62,6 +64,6 @@ public class AircraftTypeMaintenance implements Serializable {
         log.trace("created aircraft type maintenance");
     }
 
-    private AircraftTypeMaintenance() {
+    public AircraftTypeMaintenance() {
     }
 }

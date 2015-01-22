@@ -99,8 +99,7 @@ public class Main extends Application {
     }
 
     private static void exit(){
-        Serialize.writeAirlines();
-        Serialize.writeAirports();
+        Serialize.writeAll();
         System.exit(1);
     }
     protected static String url(){

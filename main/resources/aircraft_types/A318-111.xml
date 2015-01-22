@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
+  -->
+
 <Airplane>
     <!--- Prices in USD, units are ft or lbs or nm -->
     <Name>Airbus A318-111</Name>
@@ -11,8 +15,8 @@
     <MZFW>120200</MZFW>
     <MLW>127200</MLW>
     <MTOW>149900</MTOW>
-    <SFC>0.340</SFC>
-    <WingletsAvailable>true</Winglets>
+    <Fuel>3800</Fuel>
+    <Winglets>true</Winglets>
     <Speed>444</Speed>
     <Engines>
         <Engine>
@@ -20,4 +24,4 @@
             <Type>CFM56-5B8</Type>
         </Engine>
     </Engines>
-<Airplane>
+</Airplane>
