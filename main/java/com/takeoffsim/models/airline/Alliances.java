@@ -4,13 +4,14 @@
 
 package com.takeoffsim.models.airline;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public final class Alliances {
 
 
-    private static Map<String, Alliance> alliances = new HashMap<>();
+    private static Map<String, Alliance> alliances = new ConcurrentHashMap<>();
 
     private Alliances() {
     }
@@ -21,5 +22,13 @@ public final class Alliances {
 
     public static void clear(){
         alliances.clear();
+    }
+
+    public static void put(Alliance a){
+        alliances.put(a.getName(), a);
+    }
+
+    public static Map<String, Alliance> getAlliances(){
+        return Collections.unmodifiableMap(alliances);
     }
 }

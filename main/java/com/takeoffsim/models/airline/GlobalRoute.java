@@ -10,6 +10,7 @@ package com.takeoffsim.models.airline;
 
 
 import com.takeoffsim.models.airport.Airport;
+import com.takeoffsim.models.airport.Airports;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
@@ -28,16 +29,18 @@ public class GlobalRoute implements Serializable {
 
     private int availableDemand;
 
-    private Airport depart;
+    private transient Airport depart;
 
-    private Airport arrive;
-
-    private final boolean finalized;
+    private transient Airport arrive;
 
     public GlobalRoute(Airport depart, Airport arrive) {
         this.setDepart(depart);
         this.setArrive(arrive);
-        this.finalized = false;
+    }
+
+    public GlobalRoute(String depart, String arrive){
+        this.depart = Airports.getAirport(depart);
+        this.arrive = Airports.getAirport(arrive);
     }
 
     /**
@@ -97,10 +100,6 @@ public class GlobalRoute implements Serializable {
 
     void setArrive(Airport arrive) {
         this.arrive = arrive;
-    }
-
-    public boolean isFinalized() {
-        return finalized;
     }
 
 }

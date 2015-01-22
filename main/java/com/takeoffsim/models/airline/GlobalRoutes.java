@@ -29,6 +29,9 @@ public final class GlobalRoutes {
         globalRoutes.clear();
     }
 
+    public static void put(GlobalRoute g){
+        globalRoutes.put(g.getDepart().getIcao() + "-" + g.getArrive().getIcao(), g);
+    }
 
     public static int getFrequency(@NotNull Airport dept, @NotNull Airport arr, Airline a) {
         String name = dept.getIcao() + "-" + arr.getIcao();

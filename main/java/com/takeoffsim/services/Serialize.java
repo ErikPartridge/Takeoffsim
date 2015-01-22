@@ -7,10 +7,15 @@ package com.takeoffsim.services;
 
 import com.jcabi.aspects.Cacheable;
 import com.jcabi.aspects.RetryOnFailure;
-import com.takeoffsim.models.airline.Airline;
-import com.takeoffsim.models.airline.Airlines;
+import com.takeoffsim.models.airline.*;
 import com.takeoffsim.models.airport.Airport;
 import com.takeoffsim.models.airport.Airports;
+import com.takeoffsim.models.economics.Bill;
+import com.takeoffsim.models.economics.Bills;
+import com.takeoffsim.models.economics.Companies;
+import com.takeoffsim.models.economics.Company;
+import com.takeoffsim.models.world.Countries;
+import com.takeoffsim.models.world.Country;
 import com.takeoffsim.views.server.Main;
 import lombok.extern.apachecommons.CommonsLog;
 
@@ -18,6 +23,7 @@ import java.io.*;
 import java.rmi.NoSuchObjectException;
 import java.util.Collection;
 import java.util.Optional;
+import java.util.concurrent.BlockingQueue;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -26,66 +32,63 @@ import java.util.zip.GZIPOutputStream;
 public class Serialize {
 
 
-    @SuppressWarnings("StaticNonFinalField")
-    private static boolean isExecuting = false;
     private Serialize() {
     }
 
-    public static void writeAll(){
+    public static void writeAll() {
         writeAirlines();
         writeAirports();
+        writeCountries();
     }
 
-    public static void loadWorld(String worldName) throws NoSuchObjectException{
-        while(isExecuting){
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                log.info(e);
-            }
-        }
-        isExecuting = true;
-        System.out.println("Begun executing");
+    public static void loadWorld(String worldName) throws NoSuchObjectException {
         Main.clearAll();
         File directory = new File(homeDirectory() + "saves/" + worldName + "/");
-        if(!directory.exists()){
+        if (!directory.exists()) {
             throw new NoSuchObjectException("No world with name " + worldName);
         }
 
         loadAirlines(new File(directory.getPath() + "/Airlines.tss"));
         loadAirports(new File(directory.getPath() + "/Airports.tss"));
-
-        isExecuting = false;
-
+        loadCountries(new File(directory.getPath() + "/Countries.tss"));
     }
 
-    public static void loadAirports(File file){
+    public static void loadCountries(File file) {
+        Collection<Country> countries = (Collection<Country>) rawRead(file);
+        Countries.clear();
+        countries.forEach(c -> Countries.putCountry(c.getIso(), c));
+    }
+
+    public static void loadAirports(File file) {
         Collection<Airport> airports = (Collection<Airport>) rawRead(file);
-        System.out.println("Loading Airports");
-        long time = System.currentTimeMillis();
         Airports.clear();
-        for(Airport a: airports){
+        for (Airport a : airports) {
             Airports.put(a.getIcao(), a);
         }
-        System.out.println("Took " + (System.currentTimeMillis() - time));
+    }
+
+    public static void loadAlliances(File file) {
+        Collection<Alliance> alliances = (Collection<Alliance>) rawRead(file);
+        Alliances.clear();
+        alliances.forEach(Alliances::put);
     }
 
 
-    public static void loadAirlines(File file){
-        System.out.println("Loading airlines");
+    public static void loadAirlines(File file) {
         Collection<Airline> airlines = (Collection<Airline>) rawRead(file);
         Airlines.clear();
-        for(Airline a: airlines){
+        for (Airline a : airlines) {
             Airlines.put(a.getIcao(), a);
             Airlines.putIcao(a.getName(), a.getIcao());
         }
     }
 
-    public static Object rawRead(File file){
+
+    public static Object rawRead(File file) {
         FileInputStream stream = null;
         ObjectInputStream in = null;
         Object o = null;
-        try{
+        try {
             stream = new FileInputStream(file);
             GZIPInputStream wrapper = new GZIPInputStream(stream);
             in = new ObjectInputStream(wrapper);
@@ -99,61 +102,76 @@ public class Serialize {
         return o;
     }
 
-
-    public static void writeAirlines(){
-        while(isExecuting){
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                log.info(e);
-            }
-        }
-        isExecuting = true;
-        File directory = new File(homeDirectory() + "saves/" + Config.nameOfSim + "/");
-        directory.mkdirs();
-        File file = new File(homeDirectory() + "saves/" + Config.nameOfSim + "/Airlines.tss");
-        try{
-            FileOutputStream fs = new FileOutputStream(file);
-            GZIPOutputStream wrapper = new GZIPOutputStream(fs);
-            ObjectOutputStream out = new ObjectOutputStream(wrapper);
-            out.writeObject(Airlines.getMap().values());
-            out.flush();
-            wrapper.finish();
-            wrapper.close();
-            out.close();
-            fs.close();
-        }catch (IOException e){
-            log.error(e);
-        }
-        isExecuting = false;
+    public static void loadCompanies(File file){
+        Collection<Company> companies = (Collection<Company>) rawRead(file);
+        Companies.clear();
+        companies.forEach(c -> Companies.put(c.getName(), c));
     }
 
+    public static void loadGlobalRoutes(File file){
+        Collection<GlobalRoute> routes = (Collection<GlobalRoute>) rawRead(file);
+        GlobalRoutes.clear();
+        routes.forEach(GlobalRoutes::put);
+    }
+
+    public static void readBills(File file){
+        BlockingQueue<Bill> queue = (BlockingQueue<Bill>) rawRead(file);
+        Bills.clear();
+        queue.stream().forEachOrdered(Bills::add);
+    }
+    public static void writeAlliances(){
+        write("Alliances.tss", out -> out.writeObject(Alliances.getAlliances().values()));
+    }
+
+    public static void writeCountries() {
+        write("Countries.tss", out -> out.writeObject(Countries.getCountries().values()));
+    }
+
+    public static void writeAirlines() {
+        write("Airlines.tss", out -> out.writeObject(Airlines.getMap().values()));
+
+    }
+
+    public static void writeGlobalRoutes(){
+        write("GlobalRoutes.tss", out -> out.writeObject(GlobalRoutes.globalRoutes.values()));
+    }
+
+    public static void writeCompanies(){
+        write("Companies.tss", out -> out.writeObject(Companies.getCompanies().values()));
+    }
+
+
+    public static void writeBills(){
+        write("Bills.tss", out -> out.writeObject(Bills.bills));
+    }
     /**
      * This will serialize all the airports
      */
-    public static void writeAirports(){
-        isExecuting = true;
+    public static void writeAirports() {
+        write("Airports.tss", out -> out.writeObject(Airports.getAirports().values()));
+    }
+
+    public static void write(String name, WritableInterface inter){
         File directory = new File(homeDirectory() + "saves/" + Config.nameOfSim + "/");
         directory.mkdirs();
-        File file = new File(homeDirectory() + "saves/" + Config.nameOfSim + "/Airports.tss");
-        try{
+        File file = new File(homeDirectory() + "saves/" + Config.nameOfSim + name);
+        try {
             FileOutputStream fs = new FileOutputStream(file);
-            GZIPOutputStream wrapper = new GZIPOutputStream(fs);
+            BufferedOutputStream buf = new BufferedOutputStream(fs);
+            GZIPOutputStream wrapper = new GZIPOutputStream(buf);
             ObjectOutputStream out = new ObjectOutputStream(wrapper);
-            out.writeObject(Airports.getAirports().values());
+            inter.write(out);
             out.flush();
             wrapper.finish();
             wrapper.close();
             out.close();
             fs.close();
-        }catch (IOException e){
+        } catch (IOException e) {
             log.error(e);
         }
-        isExecuting = false;
     }
 
     /**
-     *
      * @param fileOut the fileoutput stream to setup
      * @return an ObjectOutputStream contained in an optional
      */
@@ -173,7 +191,7 @@ public class Serialize {
      * @return if this operating system is Windows
      */
     @Cacheable(forever = true)
-    private static boolean isWindows(){
+    private static boolean isWindows() {
         return System.getProperty("os.name").startsWith("Windows");
     }
 
@@ -181,7 +199,7 @@ public class Serialize {
      * @return if this operating system is Mac
      */
     @Cacheable(forever = true)
-    private static boolean isMac(){
+    private static boolean isMac() {
         return System.getProperty("os.name").startsWith("Mac");
     }
 
@@ -189,7 +207,7 @@ public class Serialize {
      * @return if this operating system isn't Mac or Windows
      */
     @Cacheable(forever = true)
-    public static boolean isLinux(){
+    public static boolean isLinux() {
         return !(isMac() || isWindows());
     }
 
@@ -197,14 +215,19 @@ public class Serialize {
      * @return the directory in which all data should be stored
      */
     @Cacheable(forever = true)
-    public static String homeDirectory(){
-        if(isMac()){
+    public static String homeDirectory() {
+        if (isMac()) {
             return System.getProperty("user.home") + "/Library/" + "TakeoffSim/";
-        }else if(isWindows()){
+        } else if (isWindows()) {
             return System.getenv("ProgramFiles") + "/TakeoffSim/";
-        }else{
+        } else {
             return System.getProperty("user.home") + "/.takeoffsim/";
         }
     }
 
+}
+
+interface WritableInterface{
+
+    public void write(ObjectOutputStream out) throws IOException;
 }

@@ -310,5 +310,10 @@ public class Airline extends Company implements Serializable {
     public void addCodeShares(Collection<Airline> list){
         codeShares.addAll(list);
     }
+
+    public int getValueOfAssets() {
+        return Company.value(this).getAmountMajorInt();
+    }
+
 }
 

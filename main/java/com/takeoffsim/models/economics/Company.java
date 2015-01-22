@@ -48,7 +48,7 @@ public class Company implements Serializable, Entity {
 
     private Airport headquarters;
 
-    private Money valuation;
+    private Money valuation = Money.zero(CurrencyUnit.USD);
 
     private Country country;
 

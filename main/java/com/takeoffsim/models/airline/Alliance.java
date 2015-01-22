@@ -6,6 +6,7 @@ package com.takeoffsim.models.airline;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,5 +15,12 @@ import java.util.List;
 @Data
 public class Alliance {
 
-    private List<Airline> members;
+    private final List<Airline> members = new ArrayList<>();
+
+    private String name;
+
+    public Alliance(String name){
+        this.name = name;
+        Alliances.put(this);
+    }
 }

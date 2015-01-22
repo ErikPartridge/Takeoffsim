@@ -13,7 +13,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 /**
  * Created by Erik in 11, 2014.
  */
-class Bills implements Serializable {
+public class Bills implements Serializable {
 
     public static final BlockingQueue<Bill> bills = new PriorityBlockingQueue<>();
 

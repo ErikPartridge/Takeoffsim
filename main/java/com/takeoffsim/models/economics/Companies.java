@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
@@ -37,6 +38,11 @@ public final class Companies implements Serializable {
         Stream<Company> companyStream = companies.values().stream();
         companyStream.parallel().forEach(Companies::bill);
     }
+
+    public static Map<String, Company> getCompanies(){
+        return Collections.unmodifiableMap(companies);
+    }
+
     /**
      * @param key  the key for this company- a String
      * @param corp the corporation
