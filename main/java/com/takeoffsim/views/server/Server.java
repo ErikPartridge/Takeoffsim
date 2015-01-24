@@ -74,14 +74,14 @@ public class Server extends NanoHTTPD {
     final InputStream getResource(String url, Map<String, String> params) throws com.mitchellbosecke.pebble.error.PebbleException, IOException {
         switch(url){
             case "/landing.html" : Main.clearAll(); return resourceAtPath("/landing.html");
-            case "/create-airline.html" : return LoadPageGenerator.createAirlineView();
-            case "/create-ceo.html" : return LoadPageGenerator.createCeoView(params);
-            case "/create-world.html": return LoadPageGenerator.createWorldLoadView(params);
-            case "/creation-results.html": return LoadPageGenerator.creationResultsView(params);
+            case "/create-airline.html" : return LoadController.createAirline();
+            case "/create-ceo.html" : return LoadController.createCeo(params);
+            case "/create-world.html": return LoadController.createWorld(params);
+            case "/creation-results.html": return LoadController.results(params);
             case "/airline-index.html": return getResource("/airline-landing.html", null);
             case "/airline-landing.html": return AirlinePageGenerator.getAirlineIndex();
-            case "/load-save.html": return LoadPageGenerator.loadOptions();
-            case "/load-landing.html": return LoadPageGenerator.loadView(params);
+            case "/load-save.html": return LoadController.saves();
+            case "/load-landing.html": return LoadController.loadView(params);
             case "/messages.html": return AirlinePageGenerator.getMessages();
             case "/exit" :
                 Serialize.writeAll();System.exit(3);

@@ -14,10 +14,10 @@ import com.takeoffsim.models.world.Cities;
 import com.takeoffsim.models.world.Countries;
 import com.takeoffsim.models.world.Regions;
 import com.takeoffsim.services.Config;
-import com.takeoffsim.services.Serialize;
 import com.takeoffsim.services.demand.RouteDemand;
 import com.takeoffsim.services.xml.CountryLoader;
 import com.takeoffsim.services.xml.TAPAirport;
+import com.takeoffsim.threads.SerializeThread;
 import com.takeoffsim.threads.ThreadManager;
 import javafx.application.Application;
 import javafx.application.ConditionalFeature;
@@ -25,13 +25,11 @@ import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebHistory;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import lombok.extern.apachecommons.CommonsLog;
 
 import java.awt.*;
@@ -59,6 +57,10 @@ public class Main extends Application {
             log.fatal("Web support is not enabled in this version of JavaFX");
             System.exit(-1);
         }
+        Thread serialization = new SerializeThread();
+        serialization.setDaemon(true);
+        serialization.setName("Serialization thread");
+        serialization.start();
         ThreadManager.submit(RouteDemand::launch);
         view = new WebView();
         engine = view.getEngine();
@@ -68,17 +70,14 @@ public class Main extends Application {
         view.setPrefWidth(1920);
         view.setPrefHeight(1200);
         Scene scene = new Scene(view);
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                log.fatal("Closing per user request");
-                event.consume();
-                primaryStage.close();
-                if(Config.nameOfSim != null){
-                    exit();
-                }
-                System.exit(2);
+        primaryStage.setOnCloseRequest(event -> {
+            log.fatal("Closing per user request");
+            event.consume();
+            if(Config.nameOfSim != null){
+                primaryStage.hide();
+                exit();
             }
+            System.exit(2);
         });
         //Don't let them leave the program
         primaryStage.setScene(scene);
@@ -99,7 +98,7 @@ public class Main extends Application {
     }
 
     private static void exit(){
-        Serialize.writeAll();
+        SerializeThread.waitToFinish();
         System.exit(1);
     }
     protected static String url(){

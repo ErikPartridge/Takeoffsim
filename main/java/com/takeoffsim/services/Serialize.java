@@ -5,8 +5,6 @@
 
 package com.takeoffsim.services;
 
-import com.esotericsoftware.kryo.Kryo;
-import com.esotericsoftware.kryo.io.Output;
 import com.jcabi.aspects.Cacheable;
 import com.jcabi.aspects.RetryOnFailure;
 import com.takeoffsim.models.aircraft.AircraftType;
@@ -41,20 +39,63 @@ public class Serialize {
     private Serialize() {
     }
 
-    public static void writeAll() {
+    public static void write(String file) {
 
         try {
             long time = System.nanoTime();
-            Kryo kryo = new Kryo();
-            FileOutputStream out = new FileOutputStream(new File(homeDirectory() + "saves/" + Config.nameOfSim + ".tss"));
-            Output obj = new Output(out);
-            kryo.writeObject(obj, new World());
+            FileOutputStream out = new FileOutputStream(new File(homeDirectory() + "saves/" + file));
+            ObjectOutputStream outputStream = new ObjectOutputStream(out);
+            outputStream.writeObject(new World());
             out.close();
+            outputStream.close();
             time = System.nanoTime() - time;
             System.out.println("Serialization took:" + time);
         } catch (IOException e) {
             log.fatal(e);
         }
+    }
+
+    public static void readAll(){
+        read(Config.nameOfSim + ".tss");
+    }
+
+    public static void writeAll(){
+        write(Config.nameOfSim + ".tss");
+    }
+
+
+    public static void read(String file){
+        World world = null;
+        try {
+            FileInputStream in = new FileInputStream(new File(homeDirectory() + "saves/" + file));
+            ObjectInputStream obj = new ObjectInputStream(in);
+            world = (World) obj.readObject();
+            in.close();
+            obj.close();
+        }catch (Exception e){
+            log.fatal(e);
+            log.fatal(e.getCause());
+        }
+        if(world == null){
+            log.fatal("Could not load world");
+            System.exit(-100);
+        }
+        Airlines.clear();
+        Airports.clear();
+        Countries.clear();
+        GlobalRoutes.clear();
+        Companies.clear();
+        AircraftManufacturers.clear();
+        Bills.clear();
+        AircraftTypes.clear();
+        world.getAirlines().forEach(Airlines::put);
+        world.getAirports().forEach(Airports::put);
+        world.getRoutes().forEach(GlobalRoutes::put);
+        world.getCountries().forEach(Countries::put);
+        world.getCompanies().forEach(Companies::put);
+        world.getManufacturers().forEach(AircraftManufacturers::put);
+        world.getAircraftTypes().forEach(AircraftTypes::put);
+        world.getBills().forEach(Bills::add);
     }
 
 
@@ -117,20 +158,21 @@ public class Serialize {
 @Data
 class World implements Serializable{
 
-    private final Collection<Airport> airports = Airports.getAirports().values();
+    private Collection<Airport> airports = Airports.getAirports().values();
 
-    private final Collection<Airline> airlines = Airlines.getMap().values();
+    private Collection<Airline> airlines = Airlines.getMap().values();
 
-    private final Collection<Company> companies = Companies.getCompanies().values();
+    private Collection<Company> companies = Companies.getCompanies().values();
 
-    private final Collection<AircraftManufacturer> manufacturers = AircraftManufacturers.manufacturers();
+    private Collection<AircraftManufacturer> manufacturers = AircraftManufacturers.manufacturers();
 
-    private final Collection<Country> countries = Countries.getCountries().values();
+    private Collection<Country> countries = Countries.getCountries().values();
 
-    private final BlockingQueue<Bill> bills = Bills.bills;
+    private BlockingQueue<Bill> bills = Bills.bills;
 
-    private final Collection<GlobalRoute> routes = GlobalRoutes.globalRoutes.values();
+    private Collection<GlobalRoute> routes = GlobalRoutes.globalRoutes.values();
 
-    private final Collection<AircraftType> aircraftTypes = AircraftTypes.getMap().values();
+    private Collection<AircraftType> aircraftTypes = AircraftTypes.getMap().values();
 
+    public World(){}
 }

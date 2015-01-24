@@ -35,16 +35,16 @@ import java.util.*;
  * Created by erik on 1/13/15.
  */
 @CommonsLog
-final class LoadPageGenerator {
-    private LoadPageGenerator() {
+final class LoadController {
+    private LoadController() {
     }
 
-    public static InputStream createWorldLoadView(Map<String, String> params) {
-        createCeo(params);
+    public static InputStream createWorld(Map<String, String> params) {
+        buildCeo(params);
         return Main.SERVER.resourceAtPath("create-world.html");
     }
 
-    public static InputStream creationResultsView(Map<String, String> params) throws IOException, PebbleException {
+    public static InputStream results(Map<String, String> params) throws IOException, PebbleException {
         if(!Airlines.humanAirline().getCash().isZero()){
             throw new IOException("Page has already been accessed");
         }
@@ -88,18 +88,19 @@ final class LoadPageGenerator {
     }
 
 
-    private static void createCeo(Map<String, String> params){
+    private static void buildCeo(Map<String, String> params){
         String name = params.get("first") + " " + params.get("last");
         Airlines.humanAirline().setCeo(name);
     }
 
 
-    public static InputStream createAirlineView() throws PebbleException, IOException{
+    public static InputStream createAirline() throws PebbleException, IOException{
         File file = new File(Config.themePath() + "create-airline.html");
         Map<String, Object> context = new HashMap<>();
         context.put("airports", Airports.sortedValuesList());
         return getInputStream(file, context);
     }
+
 
     private static InputStream getInputStream(File file, Map<String, Object> context) throws PebbleException, IOException{
         StringLoader loader = new StringLoader();
@@ -110,7 +111,7 @@ final class LoadPageGenerator {
         template.evaluate(out, context);
         return Server.stringToInputStream(out.toString());
     }
-    public static InputStream createCeoView(Map<String, String> params) {
+    public static InputStream createCeo(Map<String, String> params) {
         if(Airlines.humanAirline() == null)
             createAirline(params);
         return Main.SERVER.resourceAtPath("create-ceo.html");
@@ -160,15 +161,14 @@ final class LoadPageGenerator {
         return airports;
     }
 
-    public static InputStream loadOptions() throws PebbleException, IOException{
+    public static InputStream saves() throws PebbleException, IOException{
         File file = new File(Config.themePath() + "load-save.html");
         Map<String, Object> context = new HashMap<>();
         File folder = new File(Serialize.homeDirectory() + "saves/");
         if(folder.exists() && folder.isDirectory()){
             List<String> list = new ArrayList<>();
             for (File f : folder.listFiles()) {
-                String[] split = f.getName().split("/");
-                list.add(split[split.length - 1]);
+                list.add(f.getName().replaceAll(".tss", ""));
             }
             context.put("worldlist",list);
         }
@@ -182,6 +182,8 @@ final class LoadPageGenerator {
         }catch (NoSuchObjectException e){
             Main.load("http://localhost:40973/landing.html");
         }*/
+        Config.nameOfSim = params.get("world");
+        Serialize.readAll();
         return AirlinePageGenerator.getAirlineIndex();
     }
 }
