@@ -259,6 +259,10 @@ public final class Airlines implements Serializable {
 
     }
 
+    public static void put(Airline a){
+        airlines.put(a.getIcao(), a);
+    }
+
     private static class AirplaneConsumer implements Consumer<Airplane> {
         @Override
         public void accept(Airplane t) {

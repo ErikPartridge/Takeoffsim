@@ -35,6 +35,10 @@ public final class Countries {
         tapCodes.clear();
     }
 
+    public static void put(Country country){
+        putCountry(country.getIso(), country);
+    }
+
     public static Country getCountry(String s) {
         return countries.get(s);
     }

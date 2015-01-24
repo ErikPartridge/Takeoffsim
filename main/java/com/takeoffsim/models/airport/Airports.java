@@ -38,6 +38,10 @@ public final class Airports implements Serializable {
     private Airports() {
     }
 
+    public static void put(Airport a){
+        airports.put(a.getIcao(), a);
+    }
+
     @Nullable @Cacheable(lifetime = 30, unit = TimeUnit.SECONDS)
     public static Airport getAirport(String name) {
         return airports.get(name);

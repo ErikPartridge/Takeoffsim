@@ -48,4 +48,11 @@ public final class AircraftManufacturers implements Serializable {
         // choose Tools | Templates.
     }
 
+    public static void put(AircraftManufacturer aircraftManufacturer) {
+        manufacturers.put(aircraftManufacturer.getName(), aircraftManufacturer);
+    }
+
+    public static void clear() {
+        manufacturers.clear();
+    }
 }

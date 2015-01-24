@@ -66,4 +66,7 @@ public final class Companies implements Serializable {
         throw new UnsupportedOperationException("no payment today");
     }
 
+    public static void put(Company company) {
+        put(company.getName(), company);
+    }
 }
