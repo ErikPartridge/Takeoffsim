@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * @since version 0.3-alpha. (c) Erik Partridge 2015
  */
-public class PebbleManager {
+class PebbleManager {
 
     private static PebbleEngine engine;
 

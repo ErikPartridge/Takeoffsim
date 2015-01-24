@@ -31,7 +31,7 @@ import java.util.*;
  * @since version 0.3-alpha. (c) Erik Partridge 2015
  */
 @CommonsLog
-public class CreationController implements Controller{
+public class CreationController{
 
     public static InputStream manage(String url, Map<String, String> params) throws IOException{
         String uri = url.replaceFirst("/creation/", "").replaceAll(".html", "");
@@ -101,7 +101,7 @@ public class CreationController implements Controller{
     }
 
     private static InputStream airline() throws PebbleException, IOException{
-        File file = new File(Config.themePath() + "/creation/airline.html");
+        File file = new File(Config.themePath() + "/creation/view.html");
         Map<String, Object> context = new HashMap<>();
         context.put("airports", Airports.sortedValuesList());
         return PebbleManager.getInputStream(file, context);

@@ -25,6 +25,21 @@ public final class LoadController {
     private LoadController() {
     }
 
+    public static InputStream manage(String url, Map<String, String> params) throws IOException{
+        String uri = url.replaceFirst("/loading/", "").replaceAll(".html", "");
+        try{
+            switch(uri){
+                case "wait": return loadView(params);
+                case "saves": return saves();
+            }
+        }catch (PebbleException e){
+            log.error(e, e);
+            throw new IOException(e);
+        }
+
+        throw new IOException("No resource found for the given url");
+    }
+
     private static String path(){
         return Config.themePath() + "/loading/";
     }
@@ -50,18 +65,4 @@ public final class LoadController {
         return HumanController.getAirlineIndex();
     }
 
-    public static InputStream manage(String url, Map<String, String> params) throws IOException{
-        String uri = url.replaceFirst("/loading/", "").replaceAll(".html", "");
-        try{
-            switch(uri){
-                case "wait": return loadView(params);
-                case "saves": return saves();
-            }
-        }catch (PebbleException e){
-            log.error(e, e);
-            throw new IOException(e);
-        }
-
-        throw new IOException("No resource found for the given url");
-    }
 }
