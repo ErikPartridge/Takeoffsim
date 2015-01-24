@@ -2,14 +2,9 @@
  * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
-package com.takeoffsim.views.server;
+package com.takeoffsim.controllers;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Files;
-import com.mitchellbosecke.pebble.PebbleEngine;
 import com.mitchellbosecke.pebble.error.PebbleException;
-import com.mitchellbosecke.pebble.loader.StringLoader;
-import com.mitchellbosecke.pebble.template.PebbleTemplate;
 import com.takeoffsim.models.airline.Airline;
 import com.takeoffsim.models.airline.Airlines;
 import com.takeoffsim.models.airline.Fleet;
@@ -17,34 +12,48 @@ import com.takeoffsim.models.airport.Airport;
 import com.takeoffsim.models.airport.Airports;
 import com.takeoffsim.models.people.GeneratePerson;
 import com.takeoffsim.models.people.Investor;
+import com.takeoffsim.server.Main;
 import com.takeoffsim.services.Config;
 import com.takeoffsim.services.GameProperties;
-import com.takeoffsim.services.Serialize;
 import com.takeoffsim.services.xml.AirlineLoader;
 import com.takeoffsim.services.xml.RegionLoader;
 import lombok.extern.apachecommons.CommonsLog;
-import org.apache.commons.lang.RandomStringUtils;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 import org.uncommons.maths.random.MersenneTwisterRNG;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 /**
- * Created by erik on 1/13/15.
+ * @since version 0.3-alpha. (c) Erik Partridge 2015
  */
 @CommonsLog
-final class LoadController {
-    private LoadController() {
+public class CreationController implements Controller{
+
+    public static InputStream manage(String url, Map<String, String> params) throws IOException{
+        String uri = url.replaceFirst("/creation/", "").replaceAll(".html", "");
+        try{
+            switch(uri){
+                case "results": return results(params);
+                case "world": return world(params);
+            }
+        }catch (PebbleException e){
+            log.error(e, e);
+            throw new IOException(e);
+        }
+
+        throw new IOException("No resource found for the given url");
     }
 
-    public static InputStream createWorld(Map<String, String> params) {
+    private static InputStream world(Map<String, String> params) {
         buildCeo(params);
-        return Main.SERVER.resourceAtPath("create-world.html");
+        return Main.SERVER.resourceAtPath("/creation/world.html");
     }
 
-    public static InputStream results(Map<String, String> params) throws IOException, PebbleException {
+    private static InputStream results(Map<String, String> params) throws IOException, PebbleException {
         if(!Airlines.humanAirline().getCash().isZero()){
             throw new IOException("Page has already been accessed");
         }
@@ -63,7 +72,6 @@ final class LoadController {
         double median = investment / numInvestors;
         Collection<Investor> investors = new ArrayList<>();
         Money totalInvestment = Money.zero(CurrencyUnit.USD);
-
         for(int i = 0; i < numInvestors; i++){
             investors.add(GeneratePerson.createInvestor());
         }
@@ -77,54 +85,42 @@ final class LoadController {
         String airline = Airlines.humanAirline().getName();
 
 
-        File file = new File(Config.themePath() + "creation-results.html");
+        File file = new File(Config.themePath() + "/creation/results.html");
         Map<String, Object> context = new TreeMap<>();
         context.put("money", totalInvestment);
         context.put("investors", investors);
         context.put("ceoName", ceo);
         context.put("airlineName", airline);
         Airlines.humanAirline().setCash(totalInvestment);
-        return getInputStream(file, context);
+        return PebbleManager.getInputStream(file, context);
     }
-
 
     private static void buildCeo(Map<String, String> params){
         String name = params.get("first") + " " + params.get("last");
         Airlines.humanAirline().setCeo(name);
     }
 
-
-    public static InputStream createAirline() throws PebbleException, IOException{
-        File file = new File(Config.themePath() + "create-airline.html");
+    private static InputStream airline() throws PebbleException, IOException{
+        File file = new File(Config.themePath() + "/creation/airline.html");
         Map<String, Object> context = new HashMap<>();
         context.put("airports", Airports.sortedValuesList());
-        return getInputStream(file, context);
+        return PebbleManager.getInputStream(file, context);
     }
 
-
-    private static InputStream getInputStream(File file, Map<String, Object> context) throws PebbleException, IOException{
-        StringLoader loader = new StringLoader();
-        String result = Files.toString(file, Charsets.UTF_8);
-        PebbleEngine engine = new PebbleEngine(loader);
-        PebbleTemplate template = engine.getTemplate(result);
-        Writer out = new StringWriter();
-        template.evaluate(out, context);
-        return Server.stringToInputStream(out.toString());
-    }
-    public static InputStream createCeo(Map<String, String> params) {
+    private static InputStream ceo(Map<String, String> params) {
         if(Airlines.humanAirline() == null)
-            createAirline(params);
-        return Main.SERVER.resourceAtPath("create-ceo.html");
+            airline(params);
+        return Main.SERVER.resourceAtPath("/creation/ceo.html");
     }
 
-    private static void createAirline(Map<String, String> params){
+    private static void airline(Map<String, String> params){
         new RegionLoader().createRegions();
         new AirlineLoader().createAirlines();
 
         Airline mine = new Airline();
 
         Airline a = Airlines.remove(params.get("iatacode"));
-        reselectIcao(a);
+        Airlines.reselectIcao(a);
         mine.setIcao(params.get("icaocode"));
         mine.setIata(params.get("iatacode"));
         mine.setName(params.get("name"));
@@ -136,54 +132,9 @@ final class LoadController {
         Airlines.put(mine.getIcao(), mine);
     }
 
-    private static void reselectIcao(Airline a){
-        int count = 0;
-        if(a == null)
-            return;
-        while(Airlines.get(a.getIcao()) != null && count < 500){
-            a.setIcao(RandomStringUtils.randomAlphabetic(3));
-            count++;
-        }
-        if(Airlines.get(a.getIcao()) == null){
-            Airlines.put(a.getIcao(), a);
-        }
-    }
-
-    private static void reselectIata(Airline a){
-        int count = 500;
-        a.setIata(RandomStringUtils.randomAlphanumeric(2));
-    }
-
-
     private static List<Airport> setToList(Iterable<Airport> list){
         List<Airport> airports = new ArrayList<>();
         list.forEach(airports::add);
         return airports;
-    }
-
-    public static InputStream saves() throws PebbleException, IOException{
-        File file = new File(Config.themePath() + "load-save.html");
-        Map<String, Object> context = new HashMap<>();
-        File folder = new File(Serialize.homeDirectory() + "saves/");
-        if(folder.exists() && folder.isDirectory()){
-            List<String> list = new ArrayList<>();
-            for (File f : folder.listFiles()) {
-                list.add(f.getName().replaceAll(".tss", ""));
-            }
-            context.put("worldlist",list);
-        }
-        return getInputStream(file, context);
-    }
-
-    public static InputStream loadView(Map<String, String> params) throws PebbleException, IOException{
-        /*try{
-            //Serialize(params.get("world"));
-            Config.nameOfSim = params.get("world");
-        }catch (NoSuchObjectException e){
-            Main.load("http://localhost:40973/landing.html");
-        }*/
-        Config.nameOfSim = params.get("world");
-        Serialize.readAll();
-        return AirlinePageGenerator.getAirlineIndex();
     }
 }

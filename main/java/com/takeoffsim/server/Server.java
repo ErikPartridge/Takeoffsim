@@ -2,10 +2,14 @@
  * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
-package com.takeoffsim.views.server;
+package com.takeoffsim.server;
 
 import com.jcabi.aspects.Async;
 import com.mitchellbosecke.pebble.error.PebbleException;
+import com.takeoffsim.controllers.AirlineController;
+import com.takeoffsim.controllers.CreationController;
+import com.takeoffsim.controllers.HumanController;
+import com.takeoffsim.controllers.LoadController;
 import com.takeoffsim.services.Serialize;
 import fi.iki.elonen.NanoHTTPD;
 import lombok.extern.apachecommons.CommonsLog;
@@ -72,19 +76,18 @@ public class Server extends NanoHTTPD {
      */
     @Async
     final InputStream getResource(String url, Map<String, String> params) throws com.mitchellbosecke.pebble.error.PebbleException, IOException {
+        if(url.matches("/creation*")){
+            return CreationController.manage(url, params);
+        }else if(url.matches("/loading*")){
+            return LoadController.manage(url, params);
+        }else if(url.matches("/human*")){
+            return HumanController.manage(url, params);
+        }else if(url.matches("/airline*")){
+            return AirlineController.manage(url, params);
+        }
         switch(url){
-            case "/landing.html" : Main.clearAll(); return resourceAtPath("/landing.html");
-            case "/create-airline.html" : return LoadController.createAirline();
-            case "/create-ceo.html" : return LoadController.createCeo(params);
-            case "/create-world.html": return LoadController.createWorld(params);
-            case "/creation-results.html": return LoadController.results(params);
-            case "/airline-index.html": return getResource("/airline-landing.html", null);
-            case "/airline-landing.html": return AirlinePageGenerator.getAirlineIndex();
-            case "/load-save.html": return LoadController.saves();
-            case "/load-landing.html": return LoadController.loadView(params);
-            case "/messages.html": return AirlinePageGenerator.getMessages();
-            case "/exit" :
-                Serialize.writeAll();System.exit(3);
+            case "/index.html" : Main.clearAll(); return resourceAtPath("/index.html");
+            case "/exit" :Serialize.writeAll();System.exit(3);
         }
         return resourceAtPath(url);
     }

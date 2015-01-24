@@ -2,7 +2,7 @@
  * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
-package com.takeoffsim.views.server;
+package com.takeoffsim.server;
 
 import com.jcabi.aspects.Async;
 import com.jcabi.aspects.Timeable;
@@ -65,7 +65,7 @@ public class Main extends Application {
         view = new WebView();
         engine = view.getEngine();
         SERVER.start();
-        engine.load("http://localhost:40973/landing.html");
+        engine.load("http://localhost:40973/index.html");
         engine.locationProperty().addListener(new StringChangeListener());
         view.setPrefWidth(1920);
         view.setPrefHeight(1200);
@@ -94,7 +94,6 @@ public class Main extends Application {
         Cities.clear();
         Regions.clear();
         Companies.clear();
-
     }
 
     private static void exit(){
@@ -129,24 +128,14 @@ public class Main extends Application {
         if(index > 0 && index < entries.size() -1){
             return entries.get(index + 1).getUrl();
         }else
-            return index == entries.size() - 1 && entries.size() > 1 ? entries.get(index - 1).getUrl() : "http://localhost:40973/landing.html";
+            return index == entries.size() - 1 && entries.size() > 1 ? entries.get(index - 1).getUrl() : "http://localhost:40973/index.html";
     }
 
     private static class StringChangeListener implements ChangeListener<String> {
         @Override
         @Timeable(limit = 5, unit = TimeUnit.SECONDS)
         public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-            if (!newValue.contains("http://localhost")) {
-                Platform.runLater(() -> engine.load(oldValue));
-                /*
-                if(Desktop.isDesktopSupported()){
-                    try{
-                        Desktop.getDesktop().browse(new URI("http://takeoffsim.com"));
-                    }catch (IOException | URISyntaxException e){
-                        log.debug(e);
-                    }
-                }*/
-            }
+            if (!newValue.contains("http://localhost")) { Platform.runLater(() -> engine.load(oldValue)); }
         }
     }
 }

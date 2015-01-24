@@ -15,6 +15,7 @@ import com.takeoffsim.models.aircraft.Airplane;
 import com.takeoffsim.models.economics.UsedAircraftMarket;
 import com.takeoffsim.models.people.*;
 import com.takeoffsim.services.intelligence.intelligence.scheduler.AircraftScheduler;
+import org.apache.commons.lang.RandomStringUtils;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.Serializable;
@@ -261,6 +262,24 @@ public final class Airlines implements Serializable {
 
     public static void put(Airline a){
         airlines.put(a.getIcao(), a);
+    }
+
+    public static void reselectIcao(Airline a){
+        int count = 0;
+        if(a == null)
+            return;
+        while(get(a.getIcao()) != null && count < 500){
+            a.setIcao(RandomStringUtils.randomAlphabetic(3));
+            count++;
+        }
+        if(get(a.getIcao()) == null){
+            put(a.getIcao(), a);
+        }
+    }
+
+    private static void reselectIata(Airline a){
+        int count = 500;
+        a.setIata(RandomStringUtils.randomAlphanumeric(2));
     }
 
     private static class AirplaneConsumer implements Consumer<Airplane> {
