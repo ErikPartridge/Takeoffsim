@@ -76,13 +76,13 @@ public class Server extends NanoHTTPD {
      */
     @Async
     final InputStream getResource(String url, Map<String, String> params) throws com.mitchellbosecke.pebble.error.PebbleException, IOException {
-        if(url.matches("/creation*")){
+        if(url.startsWith("/creation")){
             return CreationController.manage(url, params);
-        }else if(url.matches("/loading*")){
+        }else if(url.startsWith("/loading")){
             return LoadController.manage(url, params);
-        }else if(url.matches("/human*")){
+        }else if(url.startsWith("/human")){
             return HumanController.manage(url, params);
-        }else if(url.matches("/airline*")){
+        }else if(url.startsWith("/airline")){
             return AirlineController.manage(url, params);
         }
         switch(url){

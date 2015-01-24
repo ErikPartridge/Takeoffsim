@@ -35,10 +35,13 @@ public class CreationController{
 
     public static InputStream manage(String url, Map<String, String> params) throws IOException{
         String uri = url.replaceFirst("/creation/", "").replaceAll(".html", "");
+        System.out.println(uri);
         try{
             switch(uri){
                 case "results": return results(params);
                 case "world": return world(params);
+                case "airline": return airline();
+                case "ceo": return ceo(params);
             }
         }catch (PebbleException e){
             log.error(e, e);
@@ -101,7 +104,7 @@ public class CreationController{
     }
 
     private static InputStream airline() throws PebbleException, IOException{
-        File file = new File(Config.themePath() + "/creation/view.html");
+        File file = new File(Config.themePath() + "/creation/airline.html");
         Map<String, Object> context = new HashMap<>();
         context.put("airports", Airports.sortedValuesList());
         return PebbleManager.getInputStream(file, context);
@@ -109,11 +112,11 @@ public class CreationController{
 
     private static InputStream ceo(Map<String, String> params) {
         if(Airlines.humanAirline() == null)
-            airline(params);
+            buildAirline(params);
         return Main.SERVER.resourceAtPath("/creation/ceo.html");
     }
 
-    private static void airline(Map<String, String> params){
+    private static void buildAirline(Map<String, String> params){
         new RegionLoader().createRegions();
         new AirlineLoader().createAirlines();
 
