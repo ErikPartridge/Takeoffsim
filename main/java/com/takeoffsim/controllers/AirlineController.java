@@ -23,13 +23,21 @@ import java.util.Map;
 public class AirlineController {
 
     public static InputStream manage(String url, Map<String, String> params) throws IOException{
-
+        String uri = url.replaceFirst("/airline/", "").replaceAll(".html", "");
+        try{
+            switch(uri) {
+                case "view": return view(Airlines.humanAirline().getIcao());
+            }
+        }catch(PebbleException e){
+            throw new IOException(e);
+        }
         return null;
     }
 
     private static String path(){
         return Config.themePath() + "/airline/";
     }
+
     public static InputStream view(String icao) throws PebbleException, IOException{
         if(Airlines.get(icao) == null){
             throw new InvalidParameterException("Airline could not be found with icao " + icao);
@@ -40,5 +48,7 @@ public class AirlineController {
             return PebbleManager.getInputStream(file, context);
         }
     }
+
+
 
 }

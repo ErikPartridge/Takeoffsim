@@ -25,7 +25,7 @@ public final class HumanController {
     }
 
     public static InputStream getAirlineIndex() throws PebbleException, IOException{
-        File file = new File(Config.themePath() + "airline-index.html");
+        File file = new File(Config.themePath() + "/human/index.html");
         Map<String,Object> context = new HashMap<>();
         context.put("Airline", Airlines.humanAirline());
         return PebbleManager.getInputStream(file, context);

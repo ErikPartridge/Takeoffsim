@@ -10,6 +10,7 @@ package com.takeoffsim.models.airport;
 
 import com.takeoffsim.models.airline.Airline;
 import com.takeoffsim.models.airline.Flight;
+import com.takeoffsim.models.airline.Route;
 import com.takeoffsim.models.world.Country;
 import com.takeoffsim.models.world.Region;
 import lombok.NonNull;
@@ -22,6 +23,8 @@ import java.time.chrono.ChronoLocalDate;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 @CommonsLog
 public class Airport implements Serializable, Comparable<Airport> {
@@ -35,7 +38,9 @@ public class Airport implements Serializable, Comparable<Airport> {
     private String icao;
     private String iata;
     @NonNull
-    private final Map<String, Flight> flights = new ConcurrentHashMap<>(60);
+    private final Map<String, Route> flights = new ConcurrentHashMap<>();
+    @NonNull
+    private final Map<String, Flight> flts = new ConcurrentHashMap<>();
     @NonNull
     private Country country;
     private double delayFactor = 0;
@@ -263,11 +268,23 @@ public class Airport implements Serializable, Comparable<Airport> {
         return Collections.unmodifiableList(runways);
     }
 
-    public Collection<Flight> getFlightsByAirline(Airline airline, ChronoLocalDate date){
-        List<Flight> result = Collections.synchronizedList(new ArrayList<>());
-        flights.values().parallelStream().forEach(new FlightConsumer(airline, date, result));
-
+    public Collection<Route> getRoutesByAirline(Airline airline){
+        Stream<Route> filtered = flights.values().stream().filter(a -> a.getAirline().equals(airline));
+        ArrayList<Route> result = new ArrayList<>();
+        filtered.forEach(result::add);
         return result;
+    }
+
+    public Collection<Flight> getFlightsByAirline(Airline airline, ChronoLocalDate date){
+        Stream<Flight> list = flts.values().stream().filter(new Predicate<Flight>() {
+            @Override
+            public boolean test(Flight flight) {
+                return flight.getAirline().equals(airline) && flight.getDepartsGmt().toLocalDate().compareTo(date) == 0;
+            }
+        });
+        ArrayList<Flight> results = new ArrayList<>();
+        list.forEach(results::add);
+        return results;
     }
 
     private static class FlightConsumer implements Consumer<Flight> {
