@@ -12,6 +12,7 @@ actually do anything beyond that.
 
 package com.takeoffsim.models.airline;
 
+import com.takeoffsim.controllers.CreationController;
 import com.takeoffsim.models.airline.enums.*;
 import com.takeoffsim.models.airport.Airport;
 import com.takeoffsim.models.economics.Company;
@@ -269,6 +270,10 @@ public class Airline extends Company implements Serializable {
 
     public synchronized Money getValue(){
         return valueOfAssets().plus(getCash());
+    }
+
+    public synchronized Money getTotalProfit(){
+        return getCash().minus(CreationController.getInvestmentAmount());
     }
 
 

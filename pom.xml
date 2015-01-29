@@ -9,11 +9,21 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.takeoffsim</groupId>
     <artifactId>TakeoffSim</artifactId>
-    <version>0.3a</version>
+    <version>0.7</version>
     <organization>
         <name>TakeoffSim</name>
     </organization>
     <dependencies>
+        <dependency>
+            <groupId>com.esotericsoftware.kryo</groupId>
+            <artifactId>kryo</artifactId>
+            <version>2.24.0</version>
+        </dependency>
+        <dependency>
+            <groupId>de.javakaffee</groupId>
+            <artifactId>kryo-serializers</artifactId>
+            <version>0.28</version>
+        </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-collections4</artifactId>
