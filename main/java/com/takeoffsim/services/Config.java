@@ -31,7 +31,7 @@ public final class Config {
     @SuppressWarnings("MethodReturnAlwaysConstant")
     public static String themePath(){return "/home/erik/Takeoffsim/themes/TakeoffSim-Themes/default/";}
 
-    @Cacheable(lifetime = 70, unit = TimeUnit.SECONDS, forever = false)
+    @Cacheable(lifetime = 15, unit = TimeUnit.SECONDS, forever = false)
     public static boolean isWebConnected(){
         try{
             InetAddress ip = Inet4Address.getByName("takeoffsim.com");

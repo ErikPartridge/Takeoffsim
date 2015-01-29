@@ -24,9 +24,10 @@ public class AirlineController {
 
     public static InputStream manage(String url, Map<String, String> params) throws IOException{
         String uri = url.replaceFirst("/airline/", "").replaceAll(".html", "");
+        String[] split = uri.split("/");
         try{
-            switch(uri) {
-                case "view": return view(Airlines.humanAirline().getIcao());
+            switch(split[0]) {
+                case "view": return view(split[1]);
             }
         }catch(PebbleException e){
             throw new IOException(e);
@@ -43,6 +44,7 @@ public class AirlineController {
             throw new InvalidParameterException("Airline could not be found with icao " + icao);
         }else{
             Map<String, Object> context = new HashMap<>();
+            context.put("online", Config.isWebConnected());
             context.put("airline", Airlines.getAirline(icao));
             File file = new File(path() + "view.html");
             return PebbleManager.getInputStream(file, context);
