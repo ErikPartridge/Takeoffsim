@@ -87,6 +87,7 @@ public class Server extends NanoHTTPD {
         }
         switch(url){
             case "/index.html" : Main.clearAll(); return resourceAtPath("/index.html");
+            case "/back": Main.goBack();
             case "/exit" :Serialize.writeAll();System.exit(3);
         }
         return resourceAtPath(url);

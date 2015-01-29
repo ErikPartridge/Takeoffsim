@@ -20,7 +20,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -108,25 +107,7 @@ class Route implements Serializable {
     @NotNull
     @Override
     public String toString() {
-        return "Route{" +
-                "flightNumber='" + flightNumber + '\'' +
-                ", departs=" + departs +
-                ", arrives=" + arrives +
-                ", type=" + type +
-                ", airline=" + airline +
-                ", onTime=" + onTime +
-                ", delayed=" + delayed +
-                ", cancelled=" + cancelled +
-                ", onTimePercent=" + onTimePercent +
-                ", flights=" + flights +
-                ", operates=" + Arrays.toString(operates) +
-                ", bizPrice=" + bizPrice +
-                ", firstPrice=" + firstPrice +
-                ", ecoPrice=" + ecoPrice +
-                ", ecoplusPrice=" + ecoplusPrice +
-                ", flightTime=" + flightTime +
-                ", revenue=" + revenue +
-                '}';
+        return airline.getIcao() + flightNumber + ": " + departs.getIcao() + "-" + arrives.getIcao();
     }
 
 }

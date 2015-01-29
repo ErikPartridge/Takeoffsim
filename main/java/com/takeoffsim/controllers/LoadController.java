@@ -52,7 +52,8 @@ public final class LoadController {
         if(folder.exists() && folder.isDirectory()){
             List<String> list = new ArrayList<>();
             for (File f : folder.listFiles()) {
-                list.add(f.getName().replaceAll(".tss", ""));
+                if(!f.getName().startsWith("."))
+                    list.add(f.getName().replaceAll(".tss", ""));
             }
             context.put("worldlist",list);
         }

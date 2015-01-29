@@ -25,17 +25,18 @@ public final class HumanController {
     }
 
     public static InputStream getAirlineIndex() throws PebbleException, IOException{
-        File file = new File(Config.themePath() + "/human/index.html");
+        File file = new File(Config.themePath() + "human/index.html");
         Map<String,Object> context = new HashMap<>();
         context.put("Airline", Airlines.humanAirline());
-        return PebbleManager.getInputStream(file, context);
+        InputStream is = PebbleManager.getInputStream(file, context);
+        return is;
     }
 
     public static InputStream manage(String url, Map<String, String> params) throws IOException{
         String uri = url.replaceFirst("/human/", "").replaceAll(".html", "");
         try{
             switch(uri){
-                case "index" : getAirlineIndex();
+                case "index" :return getAirlineIndex();
             }
         }catch (PebbleException e){
             log.error(e,e);

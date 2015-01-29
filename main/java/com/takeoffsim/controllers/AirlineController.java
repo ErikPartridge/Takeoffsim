@@ -35,15 +35,15 @@ public class AirlineController {
     }
 
     private static String path(){
-        return Config.themePath() + "/airline/";
+        return Config.themePath() + "airline/";
     }
 
     public static InputStream view(String icao) throws PebbleException, IOException{
-        if(Airlines.get(icao) == null){
+        if(Airlines.getAirline(icao) == null){
             throw new InvalidParameterException("Airline could not be found with icao " + icao);
         }else{
             Map<String, Object> context = new HashMap<>();
-            context.put("airline", Airlines.get(icao));
+            context.put("airline", Airlines.getAirline(icao));
             File file = new File(path() + "view.html");
             return PebbleManager.getInputStream(file, context);
         }

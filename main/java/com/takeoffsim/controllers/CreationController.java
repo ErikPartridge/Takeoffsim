@@ -133,6 +133,8 @@ public class CreationController{
         mine.addHub(Airports.getAirport(apt));
         mine.setHeadquarters(Airports.getAirport(apt));
         Airlines.put(mine.getIcao(), mine);
+        log.error(Airlines.getMap().size());
+        log.error(Airlines.humanAirline().getIcao());
     }
 
     private static List<Airport> setToList(Iterable<Airport> list){

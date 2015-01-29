@@ -111,6 +111,7 @@ public final class Airlines implements Serializable {
 
     @Nullable
     public static Airline get(String airline) {
+        System.out.println(airline);
         String icao = icaos.get(airline);
         return airlines.get(icao);
 

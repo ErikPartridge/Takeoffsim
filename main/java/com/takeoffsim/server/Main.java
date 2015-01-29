@@ -60,7 +60,7 @@ public class Main extends Application {
         Thread serialization = new SerializeThread();
         serialization.setDaemon(true);
         serialization.setName("Serialization thread");
-        serialization.start();
+        //serialization.start();
         ThreadManager.submit(RouteDemand::launch);
         view = new WebView();
         engine = view.getEngine();
@@ -129,6 +129,10 @@ public class Main extends Application {
             return entries.get(index + 1).getUrl();
         }else
             return index == entries.size() - 1 && entries.size() > 1 ? entries.get(index - 1).getUrl() : "http://localhost:40973/index.html";
+    }
+
+    public static void goBack(){
+        load(back());
     }
 
     private static class StringChangeListener implements ChangeListener<String> {
