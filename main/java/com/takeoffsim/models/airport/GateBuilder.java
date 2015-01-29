@@ -22,7 +22,7 @@ import java.util.Collection;
 class GateBuilder implements Serializable {
 
     @NonNull
-    private final Airport airport;
+    private Airport airport;
 
     private int gateNumber = 1;
 
@@ -31,7 +31,9 @@ class GateBuilder implements Serializable {
         this.airport = apt;
     }
 
-
+    public GateBuilder(){
+        airport = null;
+    }
     /**
      *
      * @param number how many gates to make

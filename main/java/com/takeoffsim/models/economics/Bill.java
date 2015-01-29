@@ -13,14 +13,13 @@ import org.joda.money.Money;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDateTime;
 
 
 /**
  * @author Erik
  */
 @Data
-public class Bill implements Serializable, Comparable {
+public class Bill implements Serializable, Comparable<Bill> {
     static final long serialVersionUID = -561935192013L;
     private final String description;
 
@@ -67,10 +66,8 @@ public class Bill implements Serializable, Comparable {
     }
 
     @Override
-    public int compareTo(@org.jetbrains.annotations.NotNull Object o) {
-        if(o instanceof ChronoLocalDateTime )
-            return getTime().compareTo(((Bill) o).getTime());
-        else
-            return -1;
+    public int compareTo(Bill o) {
+        return getTime().compareTo(o.getTime());
     }
+
 }

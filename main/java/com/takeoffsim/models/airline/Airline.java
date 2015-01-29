@@ -267,6 +267,10 @@ public class Airline extends Company implements Serializable {
         return amount;
     }
 
+    public synchronized Money getValue(){
+        return valueOfAssets().plus(getCash());
+    }
+
 
     @Override
     public String toString() {

@@ -11,7 +11,9 @@ package com.takeoffsim.models.world;
 import lombok.extern.apachecommons.CommonsLog;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -37,6 +39,12 @@ public final class Countries {
 
     public static void put(Country country){
         putCountry(country.getIso(), country);
+    }
+
+    public static List<Country> countryList(){
+        ArrayList<Country> countryList = new ArrayList<>();
+        countries.values().forEach(countryList::add);
+        return countryList;
     }
 
     public static Country getCountry(String s) {

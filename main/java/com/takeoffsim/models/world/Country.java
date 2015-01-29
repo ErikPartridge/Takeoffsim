@@ -45,6 +45,10 @@ class Country implements Serializable {
         RegistrationThread.setRegistrations(this);
     }
 
+    public Country(){
+
+    }
+
     public void addCity(City city){
         cities.add(city);
     }

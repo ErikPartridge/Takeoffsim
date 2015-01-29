@@ -4,7 +4,9 @@
 
 package com.takeoffsim.models.airline;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,6 +16,12 @@ public final class Alliances {
     private static Map<String, Alliance> alliances = new ConcurrentHashMap<>();
 
     private Alliances() {
+    }
+
+    public static List<Alliance> allianceList(){
+        ArrayList<Alliance> list = new ArrayList<>();
+        alliances.values().forEach(list::add);
+        return list;
     }
 
     public static Alliance getAlliance(String alliance) {

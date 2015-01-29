@@ -57,9 +57,9 @@ public class Main extends Application {
             log.fatal("Web support is not enabled in this version of JavaFX");
             System.exit(-1);
         }
-        Thread serialization = new SerializeThread();
-        serialization.setDaemon(true);
-        serialization.setName("Serialization thread");
+        //Thread serialization = new SerializeThread();
+       // serialization.setDaemon(true);
+        //serialization.setName("Serialization thread");
         //serialization.start();
         ThreadManager.submit(RouteDemand::launch);
         view = new WebView();

@@ -31,7 +31,7 @@ class Fleet implements Serializable {
     //An arraylist of subfleet and a name, plus access methods
     static final long serialVersionUID = 4034349989L;
 
-    private final Airline airline;
+    private Airline airline;
 
     private List<Subfleet> fleet = Collections.synchronizedList(new ArrayList<>());
 
@@ -42,6 +42,10 @@ class Fleet implements Serializable {
     public Fleet(String aln, Collection<Subfleet> fleet) {
         this.airline = Airlines.getAirline(aln);
         this.fleet.addAll(fleet);
+    }
+
+    public Fleet(){
+        this.airline = null;
     }
 
     /**

@@ -10,7 +10,9 @@ package com.takeoffsim.models.manufacturers;
 
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -25,6 +27,11 @@ public final class AircraftManufacturers implements Serializable {
     private AircraftManufacturers() {
     }
 
+    public static List<AircraftManufacturer> listManufacturers(){
+        ArrayList<AircraftManufacturer> mans = new ArrayList<>();
+        manufacturers().forEach(mans::add);
+        return mans;
+    }
     public static Collection<AircraftManufacturer> manufacturers(){
         return manufacturers.values();
     }

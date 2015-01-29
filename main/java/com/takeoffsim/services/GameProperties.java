@@ -8,11 +8,13 @@
 
 package com.takeoffsim.services;
 
+import java.io.Serializable;
+
 /**
  * @author Erik
  */
 @SuppressWarnings("StaticNonFinalField")
-public final class GameProperties {
+public final class GameProperties implements Serializable {
 
 
     private static String nameOfSim;

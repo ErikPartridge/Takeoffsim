@@ -296,6 +296,9 @@ public class Company implements Serializable, Entity {
         return Collections.unmodifiableList(subsidiaries);
     }
 
+    public Money getPaid(){
+        return costs;
+    }
 
     @SuppressWarnings("InstanceMethodNamingConvention")
     public void pay(Money money){

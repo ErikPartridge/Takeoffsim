@@ -7,6 +7,8 @@ package com.takeoffsim.models.economics;
 import com.takeoffsim.models.world.Time;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.PriorityBlockingQueue;
 
@@ -21,6 +23,12 @@ public class Bills implements Serializable {
         while(bills.peek().getTime().compareTo(Time.currentTime) <= 0){
             bills.poll().execute();
         }
+    }
+
+    public static List<Bill> billList(){
+        ArrayList<Bill> list = new ArrayList<>();
+        bills.stream().forEach(list::add);
+        return list;
     }
 
     public static void clear(){

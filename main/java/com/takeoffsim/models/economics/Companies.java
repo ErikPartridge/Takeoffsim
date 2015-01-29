@@ -14,6 +14,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
@@ -37,6 +38,12 @@ public final class Companies implements Serializable {
     public static void update(){
         Stream<Company> companyStream = companies.values().stream();
         companyStream.parallel().forEach(Companies::bill);
+    }
+
+    public static List<Company> companyList(){
+        ArrayList<Company> comps = new ArrayList<>();
+        companies.values().forEach(comps::add);
+        return comps;
     }
 
     public static Map<String, Company> getCompanies(){

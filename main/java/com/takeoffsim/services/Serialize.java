@@ -5,14 +5,14 @@
 
 package com.takeoffsim.services;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
 import com.jcabi.aspects.Cacheable;
 import com.jcabi.aspects.RetryOnFailure;
 import com.takeoffsim.models.aircraft.AircraftType;
 import com.takeoffsim.models.aircraft.AircraftTypes;
-import com.takeoffsim.models.airline.Airline;
-import com.takeoffsim.models.airline.Airlines;
-import com.takeoffsim.models.airline.GlobalRoute;
-import com.takeoffsim.models.airline.GlobalRoutes;
+import com.takeoffsim.models.airline.*;
 import com.takeoffsim.models.airport.Airport;
 import com.takeoffsim.models.airport.Airports;
 import com.takeoffsim.models.economics.Bill;
@@ -23,31 +23,43 @@ import com.takeoffsim.models.manufacturers.AircraftManufacturer;
 import com.takeoffsim.models.manufacturers.AircraftManufacturers;
 import com.takeoffsim.models.world.Countries;
 import com.takeoffsim.models.world.Country;
+import de.javakaffee.kryoserializers.SynchronizedCollectionsSerializer;
 import lombok.Data;
 import lombok.extern.apachecommons.CommonsLog;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
+import org.apache.commons.compress.compressors.gzip.GzipCompressorOutputStream;
+import org.joda.money.Money;
 
 import java.io.*;
-import java.util.Collection;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.BlockingQueue;
+import java.util.TimeZone;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 @CommonsLog
 public class Serialize {
 
-
     private Serialize() {
     }
 
     public static void write(String file) {
-
+        Kryo kryo = new Kryo();
+        kryo.setReferences(true);
+        kryo.register(Money.class, new MoneySerializer());
+        SynchronizedCollectionsSerializer.registerSerializers(kryo);
+        kryo.register(TimeZone.class, new TimeZoneSerializer());
+        kryo.register(ZoneId.class, new ZoneIdSerializer());
+        kryo.register(ZoneOffset.class, new ZoneOffsetSerializer());
         try {
             long time = System.nanoTime();
-            FileOutputStream out = new FileOutputStream(new File(homeDirectory() + "saves/" + file));
-            ObjectOutputStream outputStream = new ObjectOutputStream(out);
-            outputStream.writeObject(new World());
+            GzipCompressorOutputStream out = new GzipCompressorOutputStream(new FileOutputStream(new File(homeDirectory() + "saves/" + file)));
+            Output output = new Output(out);
+            kryo.writeClassAndObject(output, new World());
+            output.flush();
+            output.close();
             out.close();
-            outputStream.close();
             time = System.nanoTime() - time;
             System.out.println("Serialization took:" + time);
         } catch (IOException e) {
@@ -66,12 +78,18 @@ public class Serialize {
 
     public static void read(String file){
         World world = null;
+        Kryo kryo = new Kryo();
+        kryo.setReferences(true);
+        kryo.register(Money.class, new MoneySerializer());
+        SynchronizedCollectionsSerializer.registerSerializers(kryo);
+        kryo.register(TimeZone.class, new TimeZoneSerializer());
+        kryo.register(ZoneId.class, new ZoneIdSerializer());
+        kryo.register(ZoneOffset.class, new ZoneOffsetSerializer());
         try {
-            FileInputStream in = new FileInputStream(new File(homeDirectory() + "saves/" + file));
-            ObjectInputStream obj = new ObjectInputStream(in);
-            world = (World) obj.readObject();
-            in.close();
-            obj.close();
+            GzipCompressorInputStream in = new GzipCompressorInputStream(new FileInputStream(new File(homeDirectory() + "saves/" + file)));
+            Input input = new Input(in);
+            String result = "";
+            world = (World) kryo.readClassAndObject(input);
         }catch (Exception e){
             log.fatal(e);
             log.fatal(e.getCause());
@@ -88,6 +106,7 @@ public class Serialize {
         AircraftManufacturers.clear();
         Bills.clear();
         AircraftTypes.clear();
+        Alliances.clear();
         world.getAirlines().forEach(Airlines::put);
         world.getAirports().forEach(Airports::put);
         world.getRoutes().forEach(GlobalRoutes::put);
@@ -96,6 +115,9 @@ public class Serialize {
         world.getManufacturers().forEach(AircraftManufacturers::put);
         world.getAircraftTypes().forEach(AircraftTypes::put);
         world.getBills().forEach(Bills::add);
+        world.getAlliances().forEach(Alliances::put);
+        GameProperties.setNameOfSim(Config.nameOfSim);
+        GameProperties.setInvestorDifficulty(world.getDifficulty());
     }
 
 
@@ -158,21 +180,26 @@ public class Serialize {
 @Data
 class World implements Serializable{
 
-    private Collection<Airport> airports = Airports.getAirports().values();
+    private List<Airport> airports = Airports.sortedValuesList();
 
-    private Collection<Airline> airlines = Airlines.getMap().values();
+    private List<Airline> airlines = Airlines.cloneAirlines();
 
-    private Collection<Company> companies = Companies.getCompanies().values();
+    private List<Company> companies = Companies.companyList();
 
-    private Collection<AircraftManufacturer> manufacturers = AircraftManufacturers.manufacturers();
+    private List<AircraftManufacturer> manufacturers = AircraftManufacturers.listManufacturers();
 
-    private Collection<Country> countries = Countries.getCountries().values();
+    private List<Country> countries = Countries.countryList();
 
-    private BlockingQueue<Bill> bills = Bills.bills;
+    private List<Bill> bills = Bills.billList();
 
-    private Collection<GlobalRoute> routes = GlobalRoutes.globalRoutes.values();
+    private List<GlobalRoute> routes = GlobalRoutes.listRoutes();
 
-    private Collection<AircraftType> aircraftTypes = AircraftTypes.getMap().values();
+    private List<AircraftType> aircraftTypes = AircraftTypes.listTypes();
+
+    private List<Alliance> alliances = Alliances.allianceList();
+
+    private int difficulty = GameProperties.getInvestorDifficulty();
 
     public World(){}
+
 }

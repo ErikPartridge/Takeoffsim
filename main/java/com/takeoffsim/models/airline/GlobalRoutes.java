@@ -12,6 +12,8 @@ import com.takeoffsim.models.airport.Airport;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -47,6 +49,11 @@ public final class GlobalRoutes {
         return sum;
     }
 
+    public static List<GlobalRoute> listRoutes(){
+        ArrayList<GlobalRoute> rtes = new ArrayList<>();
+        globalRoutes.values().forEach(rtes::add);
+        return rtes;
+    }
 
     @Nullable
     public static GlobalRoute get(@NotNull Airport dept, @NotNull Airport arr) {

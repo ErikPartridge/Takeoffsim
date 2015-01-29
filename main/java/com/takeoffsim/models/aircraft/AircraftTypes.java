@@ -45,11 +45,16 @@ public final class AircraftTypes implements Serializable {
     private AircraftTypes() {
     }
 
+    public static List<AircraftType> listTypes(){
+        ArrayList<AircraftType> typeArrayList = new ArrayList<>();
+        aircraftTypes.values().forEach(typeArrayList::add);
+        return typeArrayList;
+    }
+
     /**
      * @param acfType the icao code of the aircraft type you are looking for
      * @return the found aircraft type else, null
      */
-
     @Nullable
     public static AircraftType getAcfType(String acfType) {
         return aircraftTypes.get(acfType);

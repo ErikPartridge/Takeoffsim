@@ -64,6 +64,10 @@ public class Runway implements Serializable{
         this.available = true;
     }
 
+    public Runway(){
+
+    }
+
     public void tick(){
         this.available = true;
     }

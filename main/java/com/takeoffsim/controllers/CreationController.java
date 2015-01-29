@@ -71,7 +71,7 @@ public class CreationController{
         }
         MersenneTwisterRNG rand = new MersenneTwisterRNG();
         int numInvestors = rand.nextInt(7) + 2;
-        double investment = 105000000.0 - 5000000 * GameProperties.getInvestorDifficulty();
+        double investment = getInvestmentAmount();
         double median = investment / numInvestors;
         Collection<Investor> investors = new ArrayList<>();
         Money totalInvestment = Money.zero(CurrencyUnit.USD);
@@ -96,6 +96,10 @@ public class CreationController{
         context.put("airlineName", airline);
         Airlines.humanAirline().setCash(totalInvestment);
         return PebbleManager.getInputStream(file, context);
+    }
+
+    public static double getInvestmentAmount(){
+        return 105000000.0 - 5000000 * GameProperties.getInvestorDifficulty();
     }
 
     private static void buildCeo(Map<String, String> params){

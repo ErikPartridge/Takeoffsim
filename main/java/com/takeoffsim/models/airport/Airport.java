@@ -46,7 +46,7 @@ public class Airport implements Serializable, Comparable<Airport> {
     private double delayFactor = 0;
     private double demandBonus = 0;
     @NonNull
-    private ZoneId timeZone;
+    private TimeZone timeZone;
     @NotNull
     @NonNull
     private final List<Region> regions = new ArrayList<>();
@@ -112,7 +112,7 @@ public class Airport implements Serializable, Comparable<Airport> {
         this.setCountry(country);
         this.setDelayFactor(delayFactor);
         this.setDemandBonus(demandBonus);
-        this.setTimeZone(timeZone);
+        this.setTimeZone(TimeZone.getTimeZone(timeZone));
         setBuilder(new GateBuilder(this));
         getBuilder().makeGates(gs).forEach(gates::add);
     }
@@ -216,11 +216,11 @@ public class Airport implements Serializable, Comparable<Airport> {
         this.demandBonus = demandBonus;
     }
 
-    synchronized ZoneId getTimeZone() {
+    synchronized TimeZone getTimeZone() {
         return timeZone;
     }
 
-    synchronized void setTimeZone(ZoneId timeZone) {
+    synchronized void setTimeZone(TimeZone timeZone) {
         this.timeZone = timeZone;
     }
 
