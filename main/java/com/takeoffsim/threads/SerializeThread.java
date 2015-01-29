@@ -23,7 +23,7 @@ public class SerializeThread extends Thread {
     public void run(){
         while(true){
             try {
-                Thread.sleep(1000);
+                Thread.sleep(60000);
                 executing = false;
             }catch (InterruptedException e){
                 log.debug(e);
