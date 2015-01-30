@@ -25,6 +25,19 @@ public class Server extends NanoHTTPD {
         super(40973);
     }
 
+    private static final String fourofour = "<!DOCTYPE html>\n" +
+            "<html>\n" +
+            "<head lang=\"en\">\n" +
+            "    <meta charset=\"UTF-8\">\n" +
+            "    <title>404</title>\n" +
+            "</head>\n" +
+            "<body>\n" +
+            "    <p>Houston, we have a problem. Something in the theme is screwed up.</p>\n" +
+            "    <p>If you wouldn't mind reporting this at https://takeoffsim.com/bugs/themes I would greatly appreciate it.</p>\n" +
+            "    <p><a href=\"/human/index\">Home</a></p>\n" +
+            "</body>\n" +
+            "</html>";
+
     private Server(int port) {
         super(port);
     }
@@ -60,10 +73,10 @@ public class Server extends NanoHTTPD {
             response = new Response(Response.Status.ACCEPTED, mimeType, getResource(trimmed, files));
         } catch (SecurityException | PebbleException | IOException e) {
             log.error(e);
-            response = new Response(Response.Status.BAD_REQUEST, "text/html","<b>Could not find</b> <a href=\"" + Main.back() + "\">back" + "</a>");
+            response = new Response(Response.Status.BAD_REQUEST, "text/html",fourofour);
         } catch (RuntimeException e){
             log.error(e);
-            response = new Response(Response.Status.NOT_FOUND, "text/html","<b>Could not find</b> <a href=\"" + Main.back() + "\">back" + "</a>");
+            response = new Response(Response.Status.NOT_FOUND, "text/html",fourofour);
         }
         return response;
     }
@@ -103,7 +116,7 @@ public class Server extends NanoHTTPD {
             return new FileInputStream("/home/erik/Takeoffsim/themes/TakeoffSim-Themes/default/" + path);
         }catch (FileNotFoundException e){
             log.error(e);
-            return stringToInputStream("<b>Could not find " + path + "</b> <a href=\"" + Main.back() + "\">back" + "</a>");
+            return stringToInputStream(fourofour);
         }
     }
     /**
