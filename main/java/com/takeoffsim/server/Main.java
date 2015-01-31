@@ -40,7 +40,7 @@ import java.util.concurrent.TimeUnit;
 
 @CommonsLog
 public class Main extends Application {
-    
+
     private static WebView view;
     
     private static WebEngine engine;
