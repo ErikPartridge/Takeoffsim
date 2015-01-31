@@ -8,6 +8,9 @@
 
 package com.takeoffsim.models.airport;
 
+import com.javadocmd.simplelatlng.LatLng;
+import com.javadocmd.simplelatlng.LatLngTool;
+import com.javadocmd.simplelatlng.util.LengthUnit;
 import com.takeoffsim.models.airline.Airline;
 import com.takeoffsim.models.airline.Flight;
 import com.takeoffsim.models.airline.Route;
@@ -115,6 +118,22 @@ public class Airport implements Serializable, Comparable<Airport> {
         this.setTimeZone(TimeZone.getTimeZone(timeZone));
         setBuilder(new GateBuilder(this));
         getBuilder().makeGates(gs).forEach(gates::add);
+    }
+
+    public double distance(Airport a){
+        return distance(a.getLatitude(), a.getLongitude());
+    }
+
+    /**
+     * @param latLng lat lon point
+     * @return distance in miles
+     */
+    public double distance(LatLng latLng){
+        return LatLngTool.distance(new LatLng(latitude, longitude), latLng, LengthUnit.MILE);
+    }
+
+    public double distance(double lat, double lon){
+        return distance(new LatLng(lat, lon));
     }
 
     /*
