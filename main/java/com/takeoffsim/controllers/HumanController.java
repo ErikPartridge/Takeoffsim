@@ -6,6 +6,7 @@ package com.takeoffsim.controllers;
 
 import com.mitchellbosecke.pebble.error.PebbleException;
 import com.takeoffsim.models.airline.Airlines;
+import com.takeoffsim.models.airport.Airports;
 import com.takeoffsim.services.Config;
 import lombok.extern.apachecommons.CommonsLog;
 
@@ -32,11 +33,20 @@ public final class HumanController {
         return is;
     }
 
+    public static InputStream getNewFlightView() throws PebbleException, IOException{
+        File file = new File(Config.themePath() + "human/new-flight.html");
+        Map<String, Object> context = new HashMap<>();
+        context.put("airports", Airports.sortedValuesList());
+        InputStream is = PebbleManager.getInputStream(file, context);
+        return is;
+    }
+
     public static InputStream manage(String url, Map<String, String> params) throws IOException{
         String uri = url.replaceFirst("/human/", "").replaceAll(".html", "");
         try{
             switch(uri){
                 case "index" :return getAirlineIndex();
+                case "new-flight": return getNewFlightView();
             }
         }catch (PebbleException e){
             log.error(e,e);

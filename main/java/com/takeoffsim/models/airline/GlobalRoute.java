@@ -29,9 +29,9 @@ public class GlobalRoute implements Serializable {
 
     private int availableDemand;
 
-    private transient Airport depart;
+    private Airport depart;
 
-    private transient Airport arrive;
+    private Airport arrive;
 
     public GlobalRoute(Airport depart, Airport arrive) {
         this.setDepart(depart);

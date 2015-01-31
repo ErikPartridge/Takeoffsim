@@ -49,6 +49,29 @@ public final class GlobalRoutes {
         return sum;
     }
 
+    public static int getSeats(Airport dept, Airport arr){
+        String name = dept.getIcao() + "-" + arr.getIcao();
+        GlobalRoute g = globalRoutes.get(name);
+        if(g != null){
+            int seats = 0;
+            Iterable<Route> routes = g.getNonstops();
+            for (Route route : routes) {
+                seats += route.getType().getMaxEconomySeats() * countBools(route.getOperates());
+            }
+            return seats;
+        }
+        return 0;
+    }
+
+    private static int countBools(boolean[] array){
+        int sum = 0;
+        for(boolean b: array){
+            if (b)
+                sum ++;
+        }
+        return sum;
+    }
+
     public static List<GlobalRoute> listRoutes(){
         ArrayList<GlobalRoute> rtes = new ArrayList<>();
         globalRoutes.values().forEach(rtes::add);

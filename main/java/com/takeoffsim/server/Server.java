@@ -6,6 +6,7 @@ package com.takeoffsim.server;
 
 import com.jcabi.aspects.Async;
 import com.mitchellbosecke.pebble.error.PebbleException;
+import com.takeoffsim.ajax.AjaxController;
 import com.takeoffsim.controllers.AirlineController;
 import com.takeoffsim.controllers.CreationController;
 import com.takeoffsim.controllers.HumanController;
@@ -97,6 +98,8 @@ public class Server extends NanoHTTPD {
             return HumanController.manage(url, params);
         }else if(url.startsWith("/airline")){
             return AirlineController.manage(url, params);
+        }else if(url.startsWith("/ajax")){
+            return AjaxController.manage(url, params);
         }
         switch(url){
             case "/index.html" : Main.clearAll(); return resourceAtPath("/index.html");
