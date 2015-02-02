@@ -538,6 +538,51 @@
         </fleet>
     </airline>
     <airline>
+        <name>WestJet Encore</name>
+        <iata>WR</iata>
+        <icao>WEN</icao>
+        <founded>2013</founded>
+        <headquarters>CYYC</headquarters>
+        <valuation>USD 0</valuation>
+        <private>true</private>
+        <hubs>CYYC,CYYZ,CYHZ,CYEG,CYVR</hubs>
+        <subsidiaries></subsidiaries>
+        <shares>100000</shares>
+        <ceo>Ferio Pugliese</ceo>
+        <country>CA</country>
+        <subsidiary>true</subsidiary>
+        <regional>true</regional>
+        <earnings>USD 0</earnings>
+        <costs>USD 0</costs>
+        <cash>USD 3000000</cash>
+        <dividends>0.0</dividends>
+        <reputation>20</reputation>
+        <aggressiveness>20</aggressiveness>
+        <faPay>USD 25400</faPay>
+        <mechPay>USD 25400</mechPay>
+        <pilotPay>USD 40000</pilotPay>
+        <codeshares>WSJ</codeshares>
+        <style>Regional,Point-to-Point</style>
+        <alliance>
+            <name></name>
+        </alliance>
+        <fleet>
+            <subfleet>
+                <type>Dash 8 Q400 NextGen</type>
+                <leased>0</leased>
+                <owned>16</owned>
+                <age>3.2</age>
+                <onOrder>24</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>0</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>78</economy>
+                </config>
+            </subfleet>
+        </fleet>
+    </airline>
+    <airline>
         <name>WestJet</name>
         <iata>WS</iata>
         <icao>WJA</icao>
@@ -643,6 +688,310 @@
                     <business>24</business>
                     <ecoPlus>0</ecoPlus>
                     <economy>238</economy>
+                </config>
+            </subfleet>
+        </fleet>
+    </airline>
+    <airline>
+        <name>Air Canada Rouge</name>
+        <iata>RV</iata>
+        <icao>ROU</icao>
+        <founded>2012</founded>
+        <headquarters>CYUL</headquarters>
+        <valuation>USD 0</valuation>
+        <private>true</private>
+        <hubs>CYYC,CYVR,CYUL,CYYZ</hubs>
+        <subsidiaries></subsidiaries>
+        <shares>100000</shares>
+        <ceo>Calin Rovinescu</ceo>
+        <country>CA</country>
+        <subsidiary>true</subsidiary>
+        <regional>false</regional>
+        <earnings>USD 0</earnings>
+        <costs>USD 0</costs>
+        <cash>USD 3000000</cash>
+        <dividends>5.0E-4</dividends>
+        <reputation>40</reputation>
+        <aggressiveness>20</aggressiveness>
+        <faPay>USD 30000</faPay>
+        <mechPay>USD 30000</mechPay>
+        <pilotPay>USD 70000</pilotPay>
+        <codeshares>ACA,JZA,GGN,SKV</codeshares>
+        <style>LCC,Hub</style>
+        <alliance>
+            <name>Star Alliance</name>
+        </alliance>
+        <fleet>
+            <subfleet>
+                <type>Airbus A319-100</type>
+                <leased>0</leased>
+                <owned>20</owned>
+                <age>12.0</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>0</business>
+                    <ecoPlus>12</ecoPlus>
+                    <economy>124</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 767-300ER</type>
+                <leased>0</leased>
+                <owned>8</owned>
+                <age>9.0</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>0</business>
+                    <ecoPlus>24</ecoPlus>
+                    <economy>256</economy>
+                </config>
+            </subfleet>
+        </fleet>
+    </airline>
+    <airline>
+        <name>Air Georgian</name>
+        <iata>ZX</iata>
+        <icao>GGN</icao>
+        <founded>1994</founded>
+        <headquarters>CYYZ</headquarters>
+        <valuation>USD 0</valuation>
+        <private>true</private>
+        <hubs>CYYZ,CYYC,CYUL</hubs>
+        <subsidiaries></subsidiaries>
+        <shares>100000</shares>
+        <ceo>Eric Edmundson</ceo>
+        <country>CA</country>
+        <subsidiary>true</subsidiary>
+        <regional>true</regional>
+        <earnings>USD 0</earnings>
+        <costs>USD 0</costs>
+        <cash>USD 30000000</cash>
+        <dividends>0.005</dividends>
+        <reputation>30</reputation>
+        <aggressiveness>30</aggressiveness>
+        <faPay>USD 31000</faPay>
+        <mechPay>USD 31000</mechPay>
+        <pilotPay>USD 49000</pilotPay>
+        <codeshares></codeshares>
+        <style>Regional,Point-to-Point</style>
+        <alliance>
+            <name></name>
+        </alliance>
+        <fleet>
+            <subfleet>
+                <type>Bombardier CRJ100ER</type>
+                <leased>6</leased>
+                <owned>0</owned>
+                <age>21.0</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>0</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>50</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Beechcraft 1900D</type>
+                <leased>9</leased>
+                <owned>5</owned>
+                <age>13.1</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>0</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>19</economy>
+                </config>
+            </subfleet>
+        </fleet>
+    </airline>
+    <airline>
+        <name>Air Canada</name>
+        <iata>AC</iata>
+        <icao>ACA</icao>
+        <founded>1936</founded>
+        <headquarters>CYUL</headquarters>
+        <valuation>USD 11000000000</valuation>
+        <private>true</private>
+        <hubs>CYYZ,CYUL,CYYC,CYVR,CYHZ</hubs>
+        <subsidiaries>GGN,JZA,SKV,ROU</subsidiaries>
+        <shares>9000000000</shares>
+        <ceo>Calin Rovinescu</ceo>
+        <country>CA</country>
+        <subsidiary>false</subsidiary>
+        <regional>false</regional>
+        <earnings>USD 12600000000</earnings>
+        <costs>USD 12000000000</costs>
+        <cash>USD -1280000000</cash>
+        <dividends>0.0076</dividends>
+        <reputation>88</reputation>
+        <aggressiveness>40</aggressiveness>
+        <faPay>USD 65000</faPay>
+        <mechPay>USD 65000</mechPay>
+        <pilotPay>USD 90000</pilotPay>
+        <codeshares>ETD</codeshares>
+        <style>Hub,Legacy</style>
+        <alliance>
+            <name>Star Alliance</name>
+        </alliance>
+        <fleet>
+            <subfleet>
+                <type>Airbus A319-100</type>
+                <leased>0</leased>
+                <owned>17</owned>
+                <age>18.2</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>14</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>106</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Airbus A320-200</type>
+                <leased>0</leased>
+                <owned>41</owned>
+                <age>16.7</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>14</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>132</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Airbus A321-200</type>
+                <leased>0</leased>
+                <owned>10</owned>
+                <age>12.0</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>14</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>169</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Airbus A330-300</type>
+                <leased>4</leased>
+                <owned>4</owned>
+                <age>8.0</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>37</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>228</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 737 MAX 8</type>
+                <leased>0</leased>
+                <owned>33</owned>
+                <age>0.0</age>
+                <onOrder>33</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>14</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>132</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 737 MAX 9</type>
+                <leased>0</leased>
+                <owned>0</owned>
+                <age>0.0</age>
+                <onOrder>28</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>20</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>154</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 767-300ER</type>
+                <leased>21</leased>
+                <owned>0</owned>
+                <age>10.0</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>24</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>187</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 777-200LR</type>
+                <leased>0</leased>
+                <owned>6</owned>
+                <age>8.0</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>42</first>
+                    <business>0</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>228</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 777-300ER</type>
+                <leased>17</leased>
+                <owned>0</owned>
+                <age>5.0</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>42</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>307</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 787-8</type>
+                <leased>7</leased>
+                <owned>0</owned>
+                <age>0.5</age>
+                <onOrder>8</onOrder>
+                <config>
+                    <first>20</first>
+                    <business>21</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>210</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 787-9</type>
+                <leased>0</leased>
+                <owned>0</owned>
+                <age>0.0</age>
+                <onOrder>22</onOrder>
+                <config>
+                    <first>30</first>
+                    <business>21</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>247</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Embraer 190</type>
+                <leased>20</leased>
+                <owned>25</owned>
+                <age>9.0</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>9</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>88</economy>
                 </config>
             </subfleet>
         </fleet>
