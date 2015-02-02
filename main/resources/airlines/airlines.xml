@@ -3,11 +3,13 @@
 <!--
   ~ Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
   -->
+
 <root>
     <airline>
         <name>Delta Air Lines</name>
         <iata>DL</iata>
         <icao>DAL</icao>
+        <founded>1924</founded>
         <headquarters>KATL</headquarters>
         <valuation>USD 41510000000</valuation>
         <private>false</private>
@@ -17,6 +19,7 @@
         <ceo>Richard H. Anderson</ceo>
         <country>US</country>
         <subsidiary>false</subsidiary>
+        <regional>false</regional>
         <earnings>USD 10540000000</earnings>
         <costs>USD 7140000000</costs>
         <cash>USD 11643000000</cash>
@@ -39,8 +42,8 @@
                 <age>12.4</age>
                 <onOrder>0</onOrder>
                 <config>
-                    <first>12</first>
-                    <business>0</business>
+                    <first>0</first>
+                    <business>12</business>
                     <ecoplus>18</ecoplus>
                     <economy>96</economy>
                 </config>
@@ -52,8 +55,8 @@
                 <age>19.3</age>
                 <onOrder>0</onOrder>
                 <config>
-                    <first>12</first>
-                    <business>0</business>
+                    <first>0</first>
+                    <business>12</business>
                     <ecoplus>18</ecoplus>
                     <economy>120</economy>
                 </config>
@@ -65,8 +68,8 @@
                 <age>12.4</age>
                 <onOrder>45</onOrder>
                 <config>
-                    <first>20</first>
-                    <business>0</business>
+                    <first>0</first>
+                    <business>20</business>
                     <ecoplus>23</ecoplus>
                     <economy>149</economy>
                 </config>
@@ -104,8 +107,8 @@
                 <age>12.6</age>
                 <onOrder>0</onOrder>
                 <config>
-                    <first>12</first>
-                    <business>0</business>
+                    <first>0</first>
+                    <business>12</business>
                     <ecoplus>15</ecoplus>
                     <economy>83</economy>
                 </config>
@@ -117,8 +120,8 @@
                 <age>5.4</age>
                 <onOrder>0</onOrder>
                 <config>
-                    <first>12</first>
-                    <business>0</business>
+                    <first>0</first>
+                    <business>12</business>
                     <ecoplus>18</ecoplus>
                     <economy>94</economy>
                 </config>
@@ -130,8 +133,8 @@
                 <age>13.4</age>
                 <onOrder>0</onOrder>
                 <config>
-                    <first>16</first>
-                    <business>0</business>
+                    <first>0</first>
+                    <business>16</business>
                     <ecoplus>18</ecoplus>
                     <economy>126</economy>
                 </config>
@@ -143,8 +146,8 @@
                 <age>0.5</age>
                 <onOrder>73</onOrder>
                 <config>
-                    <first>20</first>
-                    <business>0</business>
+                    <first>0</first>
+                    <business>20</business>
                     <ecoplus>21</ecoplus>
                     <economy>139</economy>
                 </config>
@@ -169,8 +172,8 @@
                 <age>20.0</age>
                 <onOrder>0</onOrder>
                 <config>
-                    <first>26</first>
-                    <business>0</business>
+                    <first>0</first>
+                    <business>26</business>
                     <ecoplus>26</ecoplus>
                     <economy>132</economy>
                 </config>
@@ -182,8 +185,8 @@
                 <age>11.3</age>
                 <onOrder>0</onOrder>
                 <config>
-                    <first>24</first>
-                    <business>0</business>
+                    <first>0</first>
+                    <business>24</business>
                     <ecoplus>26</ecoplus>
                     <economy>184</economy>
                 </config>
@@ -195,8 +198,8 @@
                 <age>23.4</age>
                 <onOrder>0</onOrder>
                 <config>
-                    <first>30</first>
-                    <business>0</business>
+                    <first>0</first>
+                    <business>30</business>
                     <ecoplus>28</ecoplus>
                     <economy>203</economy>
                 </config>
@@ -273,8 +276,8 @@
                 <age>24.0</age>
                 <onOrder>0</onOrder>
                 <config>
-                    <first>16</first>
-                    <business>0</business>
+                    <first>0</first>
+                    <business>16</business>
                     <ecoplus>15</ecoplus>
                     <economy>118</economy>
                 </config>
@@ -286,8 +289,8 @@
                 <age>17.4</age>
                 <onOrder>0</onOrder>
                 <config>
-                    <first>16</first>
-                    <business>0</business>
+                    <first>0</first>
+                    <business>16</business>
                     <ecoplus>15</ecoplus>
                     <economy>129</economy>
                 </config>
@@ -325,6 +328,7 @@
         <name>United Airlines</name>
         <iata>UA</iata>
         <icao>UAL</icao>
+        <founded>1926</founded>
         <headquarters>KORD</headquarters>
         <valuation>USD 26610000000</valuation>
         <private>false</private>
@@ -347,5 +351,300 @@
         <alliance>
             <name>Star Alliance</name>
         </alliance>
+        <fleet>
+            <subfleet>
+                <type>Airbus A319-100</type>
+                <leased>0</leased>
+                <owned>55</owned>
+                <age>13.5</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>8</business>
+                    <ecoplus>40</ecoplus>
+                    <economy>72</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Airbus A320-200</type>
+                <leased>44</leased>
+                <owned>53</owned>
+                <age>17.2</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>12</business>
+                    <ecoplus>42</ecoplus>
+                    <economy>96</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Airbus A350-1000</type>
+                <leased>0</leased>
+                <owned>0</owned>
+                <age>0</age>
+                <onOrder>32</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>34</business>
+                    <ecoplus>98</ecoplus>
+                    <economy>214</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type></type>
+            </subfleet>
+        </fleet>
+    </airline>
+    <airline>
+        <name>Fiji Airways</name>
+        <iata>FJ</iata>
+        <icao>FJI</icao>
+        <founded>1947</founded>
+        <headquarters>NFFN</headquarters>
+        <valuation>USD 0</valuation>
+        <private>true</private>
+        <hubs>NFFN</hubs>
+        <subsidiaries></subsidiaries>
+        <shares>100000</shares>
+        <ceo>Nalin Patel</ceo>
+        <country>FJ</country>
+        <subsidiary>false</subsidiary>
+        <regional>false</regional>
+        <earnings>USD 0</earnings>
+        <costs>USD 0</costs>
+        <cash>USD 90000000</cash>
+        <dividends>0.0089</dividends>
+        <reputation>28</reputation>
+        <aggressiveness>30</aggressiveness>
+        <faPay>USD 28000</faPay>
+        <mechPay>USD 40000</mechPay>
+        <pilotPay>USD 75000</pilotPay>
+        <codeshares>SOL</codeshares>
+        <style>Hybrid</style>
+        <alliance>
+            <name>OneWorld</name>
+        </alliance>
+        <fleet><subfleet>
+            <type>Airbus A330-300</type>
+            <leased>0</leased>
+            <owned>0</owned>
+            <age>0.0</age>
+            <onOrder>1</onOrder>
+            <config>
+                <first>0</first>
+                <business>24</business>
+                <ecoPlus>0</ecoPlus>
+                <economy>289</economy>
+            </config>
+        </subfleet>
+            <subfleet>
+                <type>Airbus A330-200</type>
+                <leased>3</leased>
+                <owned>0</owned>
+                <age>2.3</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>24</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>249</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 737-700</type>
+                <leased>1</leased>
+                <owned>0</owned>
+                <age>2.5</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>8</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>110</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 737-800</type>
+                <leased>3</leased>
+                <owned>0</owned>
+                <age>2.6</age>
+                <onOrder>2</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>8</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>154</economy>
+                </config>
+            </subfleet>
+        </fleet>
+    </airline>
+    <airline>
+        <name>Solomon Airlines</name>
+        <iata>IE</iata>
+        <icao>SOL</icao>
+        <founded>1962</founded>
+        <headquarters>AGGH</headquarters>
+        <valuation>USD 0</valuation>
+        <private>true</private>
+        <hubs>AGGH</hubs>
+        <subsidiaries></subsidiaries>
+        <shares>100000</shares>
+        <ceo>Ron Sumsum</ceo>
+        <country>SB</country>
+        <subsidiary>false</subsidiary>
+        <regional>false</regional>
+        <earnings>USD 0</earnings>
+        <costs>USD 0</costs>
+        <cash>USD 30000000</cash>
+        <dividends>7.0E-4</dividends>
+        <reputation>3</reputation>
+        <aggressiveness>20</aggressiveness>
+        <faPay>USD 31000</faPay>
+        <mechPay>USD 45000</mechPay>
+        <pilotPay>USD 55000</pilotPay>
+        <codeshares>FJI</codeshares>
+        <style>Legacy</style>
+        <alliance>
+            <name></name>
+        </alliance>
+        <fleet>
+            <subfleet>
+                <type>A320-200</type>
+                <leased>1</leased>
+                <owned>0</owned>
+                <age>5.4</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>20</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>132</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Dash 8-100</type>
+                <leased>0</leased>
+                <owned>1</owned>
+                <age>40.5</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>0</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>37</economy>
+                </config>
+            </subfleet>
+        </fleet>
+    </airline>
+    <airline>
+        <name>WestJet</name>
+        <iata>WS</iata>
+        <icao>WJA</icao>
+        <founded>1996</founded>
+        <headquarters>CYYC</headquarters>
+        <valuation>USD 125873900000</valuation>
+        <private>false</private>
+        <hubs>CYYC,CYYZ,CYVR</hubs>
+        <subsidiaries>WEN</subsidiaries>
+        <shares>4010000000</shares>
+        <ceo>Gregg Saretsky</ceo>
+        <country>CA</country>
+        <subsidiary>false</subsidiary>
+        <regional>false</regional>
+        <earnings>USD 8002000000</earnings>
+        <costs>USD 7600000000</costs>
+        <cash>USD 1200000000</cash>
+        <dividends>0.0023</dividends>
+        <reputation>65</reputation>
+        <aggressiveness>70</aggressiveness>
+        <faPay>USD 35038</faPay>
+        <mechPay>USD 31000</mechPay>
+        <pilotPay>USD 82000</pilotPay>
+        <codeshares>AFR,AAL,BAW,CPA,DAL,JAL,KAL,KLM,QFA,CAL,CES,CSN</codeshares>
+        <style>LCC,Continental</style>
+        <alliance>
+            <name></name>
+        </alliance>
+        <fleet>
+            <subfleet>
+                <type>Boeing 737-600</type>
+                <leased>0</leased>
+                <owned>12</owned>
+                <age>9.8</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>0</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>119</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 737-700</type>
+                <leased>25</leased>
+                <owned>40</owned>
+                <age>7.8</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>0</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>136</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 737-800</type>
+                <leased>0</leased>
+                <owned>30</owned>
+                <age>6.5</age>
+                <onOrder>5</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>0</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>174</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 737 MAX 7</type>
+                <leased>0</leased>
+                <owned>0</owned>
+                <age>0.0</age>
+                <onOrder>25</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>0</business>
+                    <ecoPlus>10</ecoPlus>
+                    <economy>116</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 737 MAX 8</type>
+                <leased>0</leased>
+                <owned>0</owned>
+                <age>0.0</age>
+                <onOrder>40</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>0</business>
+                    <ecoPlus>18</ecoPlus>
+                    <economy>144</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Boeing 767-300ER</type>
+                <leased>4</leased>
+                <owned>0</owned>
+                <age>0.1</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>24</business>
+                    <ecoPlus>0</ecoPlus>
+                    <economy>238</economy>
+                </config>
+            </subfleet>
+        </fleet>
     </airline>
 </root>
