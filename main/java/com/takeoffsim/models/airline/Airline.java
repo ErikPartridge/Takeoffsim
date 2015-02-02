@@ -13,6 +13,8 @@ actually do anything beyond that.
 package com.takeoffsim.models.airline;
 
 import com.takeoffsim.controllers.CreationController;
+import com.takeoffsim.models.aircraft.AircraftType;
+import com.takeoffsim.models.aircraft.Airplane;
 import com.takeoffsim.models.airline.enums.*;
 import com.takeoffsim.models.airport.Airport;
 import com.takeoffsim.models.economics.Company;
@@ -249,6 +251,18 @@ public class Airline extends Company implements Serializable {
 
     public synchronized Alliance getAlliance() {
         return alliance;
+    }
+
+    public synchronized List<Airplane> aircraftList(){
+        final List<Airplane> planes = new ArrayList<>();
+        fleet.getFleet().forEach(sf -> planes.addAll(sf.getAircraft().values()));
+        return planes;
+    }
+
+    public synchronized List<AircraftType> types(){
+        List<AircraftType> types = new ArrayList<>();
+        fleet.getFleet().forEach(sf -> types.add(sf.getAcfType()));
+        return types;
     }
 
     public synchronized void setAlliance(Alliance alliance) {

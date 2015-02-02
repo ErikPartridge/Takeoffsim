@@ -9,12 +9,11 @@
 package com.takeoffsim.services.demand;
 
 import com.takeoffsim.models.airline.GlobalRoute;
+import com.takeoffsim.models.airline.GlobalRoutes;
 import com.takeoffsim.models.airport.Airport;
 import com.takeoffsim.models.airport.Airports;
 import com.takeoffsim.models.world.Cities;
 import com.takeoffsim.models.world.City;
-import com.takeoffsim.threads.AllocateDemandThread;
-import com.takeoffsim.threads.ThreadManager;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,17 +30,16 @@ public class DemandCreator {
      * allocates demand and puts it on routes
      */
     public void createAllDemand() {
-        for(int i = 0; i < 6; i++){
-            ThreadManager.submit(new AllocateDemandThread());
-        }
+        demandAllocation();
+        GlobalRoutes.listRoutes().parallelStream().forEach(g -> g.setAvailableDemand(g.getAvailableDemand() + createDemandOnRoute(g)));
     }
 
     /**
      * @param route the global route to create the demand for
      * @return demand on this route
      */
-    public synchronized double createDemandOnRoute(@NotNull GlobalRoute route) {
-        return RouteDemand.demand(route.getDepart(), route.getArrive());
+    public synchronized int createDemandOnRoute(@NotNull GlobalRoute route) {
+        return Math.toIntExact(Math.round(RouteDemand.demand(route.getDepart(), route.getArrive())));
     }
 
     public void demandAllocation(){

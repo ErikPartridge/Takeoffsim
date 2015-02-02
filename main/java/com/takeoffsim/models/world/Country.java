@@ -9,7 +9,7 @@
 package com.takeoffsim.models.world;
 
 import com.neovisionaries.i18n.CountryCode;
-import com.takeoffsim.threads.RegistrationThread;
+import com.takeoffsim.services.threads.RegistrationThread;
 import lombok.Data;
 import lombok.extern.apachecommons.CommonsLog;
 import org.jetbrains.annotations.NotNull;

@@ -38,6 +38,10 @@ public final class Airports implements Serializable {
     private Airports() {
     }
 
+    public static Airport get(String icao){
+        return airports.get(icao);
+    }
+
     public static void put(Airport a){
         airports.put(a.getIcao(), a);
     }

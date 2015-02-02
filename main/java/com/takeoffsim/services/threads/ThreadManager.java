@@ -2,7 +2,7 @@
  * Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
  */
 
-package com.takeoffsim.threads;
+package com.takeoffsim.services.threads;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

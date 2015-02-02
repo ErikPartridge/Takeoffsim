@@ -4,6 +4,10 @@
 
 package com.takeoffsim.ajax;
 
+import com.takeoffsim.models.aircraft.Airplane;
+import com.takeoffsim.models.airline.Airline;
+import com.takeoffsim.models.airline.Airlines;
+import com.takeoffsim.models.airline.Flight;
 import com.takeoffsim.models.airline.GlobalRoutes;
 import com.takeoffsim.models.airport.Airport;
 import com.takeoffsim.models.airport.Airports;
@@ -14,7 +18,11 @@ import org.apache.commons.math3.distribution.NormalDistribution;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
+import java.util.stream.Stream;
 
 /**
  * @since version 0.3-alpha. (c) Erik Partridge 2015
@@ -26,6 +34,7 @@ public class AjaxController {
         switch (url.replaceAll("/ajax/", "")){
             case "airports.json": return airportJson();
             case "researchRoute.json": return forecastedOD(params);
+            case "planesForType.json": return planesForType(params);
         }
         throw new IOException();
     }
@@ -34,10 +43,29 @@ public class AjaxController {
         throw new IOException();
     }
 
+    public static InputStream planesForType(Map<String, String> params) throws IOException{
+        Airport apt1 = Airports.getAirport(params.get("departs").trim());
+        Airport apt2 = Airports.getAirport(params.get("arrives").trim());
+        Airline airline = Airlines.humanAirline();
+        final List<Airplane> planes = new ArrayList<>();
+        airline.aircraftList().stream().filter(new Predicate<Airplane>() {
+            @Override
+            public boolean test(Airplane airplane) {
+                Stream<Flight> stream = airplane.getFlights().stream().filter(f -> f.getRoute().getArrives().equals(apt1));
+                return stream.count() > 1 || airplane.getFlights().size() == 0;
+            }
+        }).forEach(planes::add);
+        String res = "[";
+        for(Airplane p : planes){
+            res += "'" + p.getRegistration() + " - " + p.getFlights().size() + " flights',";
+        }
+        return Server.stringToInputStream(res.substring(0, res.length() -1) + "]");
+    }
+
     public static InputStream forecastedOD(Map<String, String> params) throws IOException{
         //Get the requested airports
-        Airport apt1 = Airports.getAirport(params.get("depart"));
-        Airport apt2 = Airports.getAirport(params.get("arrive"));
+        Airport apt1 = Airports.getAirport(params.get("depart").split(" ")[0].trim());
+        Airport apt2 = Airports.getAirport(params.get("arrive").split(" ")[0].trim());
         double actual = RouteDemand.demand(apt1, apt2);
         NormalDistribution nd = new NormalDistribution(.94, .2);
         int skewed = (int)Math.round(Math.abs(actual * nd.sample()));

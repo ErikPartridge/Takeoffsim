@@ -145,13 +145,9 @@ public final class Airlines implements Serializable {
         return airlines.values().stream().filter(Airline::isHuman).collect(Collectors.toList());
     }
 
-    @Cacheable(lifetime = 5, unit = TimeUnit.SECONDS)
+    @Cacheable(lifetime = 30, unit = TimeUnit.SECONDS)
     public static Airline humanAirline(){
-        for(Airline a: airlines.values()){
-            if(a.isHuman())
-                return a;
-        }
-        return null;
+        return airlines.values().stream().filter(Airline::isHuman).distinct().findFirst().get();
     }
     /**
      *

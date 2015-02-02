@@ -29,12 +29,12 @@ import java.util.List;
 @SuppressWarnings({"AccessingNonPublicFieldOfAnotherObject", "TypeMayBeWeakened"})
 @CommonsLog
 public class Company implements Serializable, Entity {
-    static final long serialVersionUID = -606077089004L;
+    static final long serialVersionUID = -606077089003L;
 
     private static final RandomGenerator RANDOM = new MersenneTwister();
 
     @NotNull
-    private ArrayList<Stock> holdings = new ArrayList<>();
+    private final ArrayList<Stock> holdings = new ArrayList<>();
 
     private final double factor = (RANDOM.nextGaussian() / 2) + 1;
 
@@ -57,6 +57,8 @@ public class Company implements Serializable, Entity {
     private Money costs = Money.zero(CurrencyUnit.USD);
 
     private Money cash = Money.zero(CurrencyUnit.USD);
+
+    private final Collection<FinancialRecord> financialRecords = Collections.synchronizedList(new ArrayList<>());
 
     private double earningsPerShare;
 
@@ -319,6 +321,10 @@ public class Company implements Serializable, Entity {
     public void pay(double amount){
         cash.minus(amount);
         costs.plus(amount);
+    }
+
+    public void logFinances(){
+
     }
 
     @Deprecated

@@ -30,7 +30,7 @@ import java.util.ArrayList;
  */
 @CommonsLog
 @Data
-public class Airplane implements Serializable, Comparable {
+public class Airplane implements Serializable, Comparable<Airplane> {
 
     static final long serialVersionUID = 314214341233L;
     private final int msn;
@@ -166,69 +166,6 @@ public class Airplane implements Serializable, Comparable {
         this.cCheck = cCheck;
     }
 
-    @Override
-    public int compareTo(@NotNull Object o) {
-        if(! (o instanceof Airline))
-            return -1;
-        else {
-            Airplane a = (Airplane) o;
-            int comp = this.getType() != a.getType() ? this.getType().getName().compareTo(a.getType().getName()) : (int) Math.round(a.getAge() - this.getAge() * 1000);
-            return comp;
-        }
-    }
-
-    /*
-    public void onReceive(Object o) throws Exception {
-        if(o instanceof TakeoffMessage){
-            TakeoffMessage tm = (TakeoffMessage) o;
-            if(location == null){
-                unhandled(tm);
-            }else if(!location.equals(tm.getAirport())){
-                unhandled(tm);
-            }else{
-                Object result = Await.result(Patterns.ask(location.getSelf(), new TryTakeoff(this, location), 1000), new FiniteDuration(1, TimeUnit.SECONDS));
-                Boolean b = (Boolean) result;
-                if(b){
-                    tm.getFlight().depart(Time.getDateTimeInstance());
-                    this.setActiveFlight(tm.getFlight());
-                }else{
-                    unhandled(tm);
-                }
-            }
-        }else if(o instanceof MaintenanceMessage){
-            MaintenanceMessage mm = (MaintenanceMessage) o;
-
-            if(location == null){
-                unhandled(mm);
-            }else if(!this.operator.getHubs().contains(location)){
-                unhandled(mm);
-            }else{
-                switch(mm.getType()){
-                    case "A": executeACheck(); break;
-                    case "B": executeBCheck(); break;
-                    case "C": executeCCheck(); break;
-                }
-            }
-        }else if(o instanceof LandingMessage){
-            LandingMessage lm = (LandingMessage) o;
-            if(location != null){
-                unhandled(lm);
-            }else if(!lm.getFlight().equals(activeFlight) || !lm.getArrival().equals(activeFlight.getRoute().getArrives())){
-                unhandled(lm);
-            }else{
-                Object result = Await.result(Patterns.ask(lm.getArrival().getSelf(), new TryLanding(this, location), 1000), new FiniteDuration(1, TimeUnit.SECONDS));
-                Boolean b = (Boolean) result;
-                if(b){
-                    lm.getFlight().arrive(Time.getDateTimeInstance());
-                    this.setActiveFlight(null);
-                }else{
-                    unhandled(lm);
-                }
-            }
-        }
-    }
-    */
-
     public void executeACheck() {
         final AircraftTypeMaintenance mp = this.getType().getMaintenanceProfile();
         this.operator.pay(mp.getPriceA());
@@ -248,6 +185,13 @@ public class Airplane implements Serializable, Comparable {
         this.operator.pay(mp.getPriceC());
         until = Time.getDateTimeInstance().plusHours(mp.getHoursC());
         this.setcCheck(0.0d);
+    }
+
+    @Override
+    public int compareTo(Airplane o) {
+        Airplane a = o;
+        int comp = this.getType() != a.getType() ? this.getType().getName().compareTo(a.getType().getName()) : (int) Math.round(a.getAge() - this.getAge() * 1000);
+        return comp;
     }
 }
 
