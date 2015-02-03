@@ -1558,4 +1558,101 @@
             </subfleet>
         </fleet>
     </airline>
+    <airline>
+        <name>JetBlue Airways</name>
+        <iata>B6</iata>
+        <icao>JBU</icao>
+        <founded>1998</founded>
+        <headquarters>KJFK</headquarters>
+        <valuation>USD 16000000000</valuation>
+        <private>false</private>
+        <hubs>KJFK,KFLL,TJSJ,KMCO,KLGB</hubs>
+        <subsidiaries></subsidiaries>
+        <shares>800000000</shares>
+        <ceo>Robin Hayes</ceo>
+        <country>US</country>
+        <subsidiary>false</subsidiary>
+        <regional>false</regional>
+        <earnings>USD 5441000000</earnings>
+        <costs>USD 5100000000</costs>
+        <cash>USD 900000000</cash>
+        <dividends>0.009</dividends>
+        <reputation>77</reputation>
+        <aggressiveness>77</aggressiveness>
+        <faPay>USD 55000</faPay>
+        <mechPay>USD 55000</mechPay>
+        <pilotPay>USD 76000</pilotPay>
+        <codeshares>TSO,THY,SIA,EIN,CCA,AVA,AAR,BAW,CPA,KAP,CAL,MSR,ELY,UAE,ETD,CHH,HAL,IBE,ICE,JAL,JAI,KAL,LOT,DLH,LIA,LAN,QTR,RAM,SBS,SIL,SAA,TAM</codeshares>
+        <style>LCC,Continental,Hybrid</style>
+        <alliance>
+            <name></name>
+        </alliance>
+        <fleet>
+            <subfleet>
+                <type>Airbus A320-200</type>
+                <leased>80</leased>
+                <owned>50</owned>
+                <age>6.7</age>
+                <onOrder>0</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>0</business>
+                    <ecoPlus>42</ecoPlus>
+                    <economy>108</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Airbus A320neo</type>
+                <leased>0</leased>
+                <owned>0</owned>
+                <age>0.0</age>
+                <onOrder>30</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>0</business>
+                    <ecoPlus>42</ecoPlus>
+                    <economy>108</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Airbus A321-200</type>
+                <leased>10</leased>
+                <owned>4</owned>
+                <age>4.4</age>
+                <onOrder>24</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>16</business>
+                    <ecoPlus>41</ecoPlus>
+                    <economy>102</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Airbus A321neo</type>
+                <leased>0</leased>
+                <owned>0</owned>
+                <age>0.0</age>
+                <onOrder>30</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>16</business>
+                    <ecoPlus>41</ecoPlus>
+                    <economy>102</economy>
+                </config>
+            </subfleet>
+            <subfleet>
+                <type>Embraer 190</type>
+                <leased>10</leased>
+                <owned>50</owned>
+                <age>6.5</age>
+                <onOrder>24</onOrder>
+                <config>
+                    <first>0</first>
+                    <business>0</business>
+                    <ecoPlus>16</ecoPlus>
+                    <economy>84</economy>
+                </config>
+            </subfleet>
+        </fleet>
+    </airline>
 </root>
