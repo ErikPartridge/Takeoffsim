@@ -21,6 +21,7 @@ import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -37,6 +38,8 @@ public class Company implements Serializable, Entity {
     private final ArrayList<Stock> holdings = new ArrayList<>();
 
     private final double factor = (RANDOM.nextGaussian() / 2) + 1;
+
+    private LocalDate founded;
 
     private Stock corporateStock;
 
@@ -99,6 +102,10 @@ public class Company implements Serializable, Entity {
         this.cash = cash;
         this.earnings = earnings;
         this.gatesOwned = new ArrayList<>();
+    }
+
+    public void setFounded(String string){
+        this.founded = LocalDate.ofYearDay(Integer.parseInt(string), 1);
     }
 
     public void setSharesOfCorporate(int shares) {

@@ -49,7 +49,7 @@ class FleetManager {
             return 1;
         }
 
-        if ((funds / fleet >= 7000000) && getOnOrder() < (airline.getFleet().getFleet().size() / 3) && airline.getCash().getAmountMajorInt() > 0) {
+        if ((funds / fleet >= 7000000) && getOnOrder() < (airline.getFleet().getFleet().size() / 3) && airline.getCash().getAmountMajorLong() > 0) {
             return 2;
         }
 
@@ -83,11 +83,11 @@ class FleetManager {
     double[] getData() {
         AircraftType[] types = (AircraftType[]) AircraftTypes.getMap().values().toArray();
         double[] array = new double[25];
-        array[0] = airline.getCash().getAmountMajorInt();
+        array[0] = airline.getCash().getAmountMajorLong();
         array[1] = airline.getAggressiveness();
         array[2] = airline.getHubPercent();
         array[3] = airline.getHubs().size();
-        array[4] = airline.getEarnings().getAmountMajorInt();
+        array[4] = airline.getEarnings().getAmountMajorLong();
         array[5] = airline.getFleet().getFleet().size();
         array[6] = airline.getRoutes().size();
         double totalDistance = 0;

@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -142,12 +141,22 @@ public final class Airlines implements Serializable {
     }
 
     public static List<Airline> humanAirlines(){
-        return airlines.values().stream().filter(Airline::isHuman).collect(Collectors.toList());
+        List<Airline> humanAirlines = new ArrayList<>();
+        for(Airline a: airlines.values()){
+            if(a.isHuman()){
+                humanAirlines.add(a);
+            }
+        }
+        return humanAirlines;
     }
 
     @Cacheable(lifetime = 30, unit = TimeUnit.SECONDS)
     public static Airline humanAirline(){
-        return airlines.values().stream().filter(Airline::isHuman).distinct().findFirst().get();
+        for(Airline a: airlines.values()){
+            if(a.isHuman())
+                return a;
+        }
+        return null;
     }
     /**
      *
