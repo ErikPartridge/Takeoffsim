@@ -34,7 +34,7 @@ public class Server extends NanoHTTPD {
             "</head>\n" +
             "<body>\n" +
             "    <p>Houston, we have a problem. Something in the theme is screwed up.</p>\n" +
-            "    <p>If you wouldn't mind reporting this at https://takeoffsim.com/bugs/themes I would greatly appreciate it.</p>\n" +
+            "    <p>If you wouldn't mind reporting this <a href=\"https://takeoffsim.com/bugs/themes\">here</a> I would greatly appreciate it.</p>\n" +
             "    <p><a href=\"/human/index\">Home</a></p>\n" +
             "</body>\n" +
             "</html>";
@@ -103,7 +103,6 @@ public class Server extends NanoHTTPD {
         }
         switch(url){
             case "/index.html" : Main.clearAll(); return resourceAtPath("/index.html");
-            case "/back": Main.goBack();
             case "/exit" :Serialize.writeAll();System.exit(3);
         }
         return resourceAtPath(url);

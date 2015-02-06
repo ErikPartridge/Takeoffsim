@@ -14,6 +14,6 @@ import java.io.Serializable;
  * @author Erik
  * @since 0.3 alpha
  */
-class Booking implements Serializable {
+final class Booking implements Serializable {
 
 }

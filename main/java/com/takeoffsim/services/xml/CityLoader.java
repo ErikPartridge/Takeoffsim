@@ -4,6 +4,7 @@
 
 package com.takeoffsim.services.xml;
 
+import com.takeoffsim.models.world.Cities;
 import com.takeoffsim.models.world.City;
 import com.takeoffsim.models.world.Countries;
 import com.takeoffsim.models.world.Country;
@@ -22,7 +23,7 @@ import java.util.function.Consumer;
  * Created by Erik .
  */
 @CommonsLog
-class CityLoader {
+public class CityLoader {
 
 
     public void loadCities() {
@@ -44,7 +45,6 @@ class CityLoader {
 
     void loadFromList(Iterable<Element> e){
         e.forEach(new ElementConsumer());
-
     }
 
     private static class ElementConsumer implements Consumer<Element> {
@@ -58,6 +58,7 @@ class CityLoader {
                 int population = Integer.parseInt(t.getChildTextTrim("population"));
                 Country country = Countries.getCountry(t.getChildTextTrim("country"));
                 City city = new City(name, latitude, longitude, population, country);
+                Cities.putCity(city);
                 try {
                     country.addCity(city);
                 } catch (NullPointerException ignored) {

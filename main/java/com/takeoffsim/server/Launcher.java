@@ -4,15 +4,23 @@
 
 package com.takeoffsim.server;
 
-import javafx.application.Application;
+import java.io.IOException;
 
 /**
  * @since version 0.3-alpha. (c) Erik Partridge 2015
  */
 public class Launcher {
 
-    public static void main(String[] args){
-        Application.launch(Main.class);
-        System.out.println("Exited");
+    public static void main(String[] args) throws IOException {
+        Thread t = new Thread(() -> new Main().start());
+        t.setDaemon(false);
+        t.start();
+        while(true){
+            try {
+                Thread.sleep(Long.MAX_VALUE);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

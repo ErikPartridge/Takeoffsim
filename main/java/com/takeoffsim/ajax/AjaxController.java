@@ -64,13 +64,16 @@ public class AjaxController {
 
     public static InputStream forecastedOD(Map<String, String> params) throws IOException{
         //Get the requested airports
-        Airport apt1 = Airports.getAirport(params.get("depart").split(" ")[0].trim());
-        Airport apt2 = Airports.getAirport(params.get("arrive").split(" ")[0].trim());
+        Airport apt1 = Airports.getAirport(params.get("depart").split("-")[0].trim());
+        Airport apt2 = Airports.getAirport(params.get("arrive").split("-")[0].trim());
         double actual = RouteDemand.demand(apt1, apt2);
+        System.out.println(actual);
+        System.out.println(apt1.getAllocatedDemand());
+        System.out.println(apt2.getAllocatedDemand());
         NormalDistribution nd = new NormalDistribution(.94, .2);
         int skewed = (int)Math.round(Math.abs(actual * nd.sample()));
         int seats  = GlobalRoutes.getSeats(apt1, apt2);
-        String res = "[" + skewed + "," + seats + "]";
+        String res = "[{ \"key\":\"Overview\", \"values\":[{ \"label\": \"Approximate PDEW\", \"value\":" + skewed + "},{ \"label\": \"Current Seats Daily\", \"value\":" + seats + "}]}]";
         return Server.stringToInputStream(res);
     }
 }

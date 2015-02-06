@@ -14,10 +14,12 @@ import com.takeoffsim.models.airport.Airport;
 import com.takeoffsim.models.airport.Airports;
 import com.takeoffsim.models.world.Cities;
 import com.takeoffsim.models.world.City;
+import com.takeoffsim.models.world.Regions;
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -43,31 +45,32 @@ public class DemandCreator {
     }
 
     public void demandAllocation(){
-        Stream<City> cities = Cities.cityStream().parallel();
-        Stream<Airport> airports = Airports.cloneAirports().stream();
-        cities.forEach(c -> allocateDemand(airports.filter(new DistancePredicate(c).invoke()),c));
+        List<City> cities = Cities.getCities();
+        List<Airport> airports = Airports.cloneAirports();
+        cities.stream().parallel().forEach(c -> allocateDemand(airports.stream().filter(new DistancePredicate(c).invoke()), c));
+        Regions.getRegionsList().parallelStream().forEach(r -> r.getPoints().forEach(c -> allocateDemand(airports.stream().filter(new DistancePredicate(c).invoke()), c)));
     }
+
+    private double mich = 0;
 
     /**
      * @param inRegion list of airports in the region
      * @param city     the city from which to allocate the demand
      */
-    public synchronized void allocateDemand(@NotNull Stream<Airport> inRegion, @NotNull final City city) {
+    public void allocateDemand(@NotNull Stream<Airport> inRegion, @NotNull final City city) {
         ArrayList<AirportScore> scores = new ArrayList<>();
-        double sumOfScores = 0;
+        double sumOfScores = 0.0d;
 
         for (Airport a : inRegion.toArray(Airport[]::new)) {
-            double score = a.getNumFlights() / Math.pow(a.distance(city.getLatitude(), city.getLongitude()), 2);
+            double score = (a.getNumFlights() + 3) * 1000 / Math.pow(a.distance(city.getLatitude(), city.getLongitude()), 2);
             sumOfScores += score;
             scores.add(new AirportScore(a, score));
         }
-
         for (AirportScore s : scores) {
             Airport apt = s.getAirport();
-            double add = (s.getScore() / sumOfScores) * city.getPopulation() * 1.7 / 365.0;
+            double add = (s.getScore() / sumOfScores) * city.getPopulation() * 1.7 * 2;
             apt.setAllocatedDemand(apt.getAllocatedDemand() + add);
         }
-
     }
 
     private class DistancePredicate {
@@ -102,5 +105,9 @@ class AirportScore{
 
     public void add(double amount){
         score += amount;
+    }
+
+    public String toString(){
+        return airport.getIcao() + "-" + score;
     }
 }

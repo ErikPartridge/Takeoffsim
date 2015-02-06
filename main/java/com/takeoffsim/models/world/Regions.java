@@ -11,6 +11,7 @@ package com.takeoffsim.models.world;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -41,7 +42,7 @@ public final class Regions {
         }
     }
 
-    public static Iterable<Region> getRegionsList(){
+    public static Collection<Region> getRegionsList(){
         return regions.values();
     }
 
