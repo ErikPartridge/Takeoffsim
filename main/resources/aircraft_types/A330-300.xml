@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
+  -->
+
+<Airplane>
+    <!--- Prices in USD, units are ft or lbs or nm -->
+    <Name>Airbus A330-300</Name>
+    <Icao>A333</Icao>
+    <Manufacturer>Airbus</Manufacturer>
+    <ListPrice>USD 245600000</ListPrice>
+    <IntroToService>01-01-1994</IntroToService>
+    <Exit>null</Exit>
+    <MaxPaxCapacity>440</MaxPaxCapacity>
+    <CargoCapacity>5750</CargoCapacity>
+    <OEW>274500</OEW>
+    <MZFW>381400</MZFW>
+    <MLW>412000</MLW>
+    <MTOW>534000</MTOW>
+    <Fuel>12100</Fuel>
+    <Range>7200</Range>
+    <DeptRunway>9090</DeptRunway>
+    <ArrRunway>7800</ArrRunway>
+    <Production>2</Production>
+    <TurnTime>45</TurnTime>
+    <Winglets>true</Winglets>
+    <Speed>470</Speed>
+    <Engines number="2">
+        <Engine>CF6-80E1A2</Engine>
+        <Engine>CF6-80E1A4</Engine>
+        <Engine>PW4168</Engine>
+        <Engine>PW4168A</Engine>
+        <Engine>Trent 772-60</Engine>
+        <Engine>Trent 768-60</Engine>
+    </Engines>
+</Airplane>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
+  -->
+
+<Airplane>
+    <!--- Prices in USD, units are ft or lbs or nm -->
+    <Name>Airbus A318-100</Name>
+    <Icao>A318</Icao>
+    <Manufacturer>Airbus</Manufacturer>
+    <ListPrice>USD 71900000</ListPrice>
+    <IntroToService>15-01-2002</IntroToService>
+    <Exit>null</Exit>
+    <MaxPaxCapacity>136</MaxPaxCapacity>
+    <CargoCapacity>749</CargoCapacity>
+    <OEW>87100</OEW>
+    <MZFW>120200</MZFW>
+    <MLW>127200</MLW>
+    <MTOW>149900</MTOW>
+    <Fuel>4115</Fuel>
+    <Range>3100</Range>
+    <DeptRunway>5997</DeptRunway>
+    <ArrRunway>2245</ArrRunway>
+    <Production>1</Production>
+    <TurnTime>30</TurnTime>
+    <Winglets>true</Winglets>
+    <Speed>444</Speed>
+    <Engines number="2">
+        <Engine>CFM56-5B8</Engine>
+        <Engine>PW6122A</Engine>
+    </Engines>
+</Airplane>

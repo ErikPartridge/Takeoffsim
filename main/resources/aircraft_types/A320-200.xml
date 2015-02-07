@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
+  -->
+
+<Airplane>
+    <!--- Prices in USD, units are ft or lbs or nm -->
+    <Name>Airbus A320-200</Name>
+    <Icao>A320</Icao>
+    <Manufacturer>Airbus</Manufacturer>
+    <ListPrice>USD 110100000</ListPrice>
+    <IntroToService>11-3-93</IntroToService>
+    <Exit>null</Exit>
+    <MaxPaxCapacity>180</MaxPaxCapacity>
+    <CargoCapacity>1321</CargoCapacity>
+    <OEW>93900</OEW>
+    <MZFW>137800</MZFW>
+    <MLW>146000</MLW>
+    <MTOW>172000</MTOW>
+    <Fuel>5250</Fuel>
+    <Range>3100</Range>
+    <DeptRunway>6860</DeptRunway>
+    <ArrRunway>4750</ArrRunway>
+    <Production>6</Production>
+    <TurnTime>35</TurnTime>
+    <Winglets>true</Winglets>
+    <Speed>444</Speed>
+    <Engines number="2">
+        <Engine>CFM56-5A1</Engine>
+        <Engine>CFM56-5A3</Engine>
+        <Engine>CFM56-5B4</Engine>
+        <Engine>IAE V2500</Engine>
+        <Engine>IAE V2527</Engine>
+    </Engines>
+</Airplane>
