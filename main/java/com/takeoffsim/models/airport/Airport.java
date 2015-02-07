@@ -9,13 +9,12 @@
 package com.takeoffsim.models.airport;
 
 import com.javadocmd.simplelatlng.LatLng;
-import com.javadocmd.simplelatlng.LatLngTool;
-import com.javadocmd.simplelatlng.util.LengthUnit;
 import com.takeoffsim.models.airline.Airline;
 import com.takeoffsim.models.airline.Flight;
 import com.takeoffsim.models.airline.Route;
 import com.takeoffsim.models.world.Country;
 import com.takeoffsim.models.world.Region;
+import com.takeoffsim.services.GreatCircle;
 import lombok.NonNull;
 import lombok.extern.apachecommons.CommonsLog;
 import org.jetbrains.annotations.NotNull;
@@ -129,11 +128,11 @@ public class Airport implements Serializable, Comparable<Airport> {
      * @return distance in miles
      */
     public double distance(LatLng latLng){
-        return LatLngTool.distance(new LatLng(latitude, longitude), latLng, LengthUnit.MILE);
+        return distance(latLng.getLatitude(), latLng.getLongitude());
     }
 
     public double distance(double lat, double lon){
-        return distance(new LatLng(lat, lon));
+        return new GreatCircle().distance(this.latitude, this.longitude, lat, lon);
     }
 
     /*
