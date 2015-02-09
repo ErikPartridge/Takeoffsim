@@ -33,7 +33,7 @@ import java.util.List;
  */
 
 @CommonsLog @Data
-public class AircraftType implements Serializable, Comparable {
+public class AircraftType implements Serializable, Comparable<AircraftType> {
 
     static final long serialVersionUID = -4014513L;
 
@@ -72,8 +72,6 @@ public class AircraftType implements Serializable, Comparable {
 
     private final int fuelBurn;
 
-    private final int fuelCapacity;
-
     private final int mtow;
 
     private final int mlw;
@@ -84,6 +82,9 @@ public class AircraftType implements Serializable, Comparable {
 
     private final int turntime;
 
+    private final int cargoCapacity;
+    
+    private boolean wingletsAvailable;
 
 
     @Override
@@ -105,7 +106,6 @@ public class AircraftType implements Serializable, Comparable {
                 ", manufacturer=" + manufacturer +
                 ", maintenanceProfile=" + maintenanceProfile +
                 ", fuelBurn=" + fuelBurn +
-                ", fuelCapacity=" + fuelCapacity +
                 ", mtow=" + mtow +
                 ", mlw=" + mlw +
                 ", oew=" + oew +
@@ -115,10 +115,7 @@ public class AircraftType implements Serializable, Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
-        if(! (o instanceof AircraftType))
-            return -1;
-        AircraftType type = (AircraftType) o;
+    public int compareTo(AircraftType o) {
         return ((AircraftType) o).toString().compareTo(this.toString());
     }
 }

@@ -17,12 +17,12 @@ public class AircraftTypeBuilder {
     private LocalDate entry;
     private AircraftTypeMaintenance maintenanceProfile;
     private int fuelBurn;
-    private int fuelCapacity;
     private int mtow;
     private int mlw;
     private int oew;
     private int mzfw;
     private int turntime;
+    private int cargoCapacity;
 
     public AircraftTypeBuilder setIcao(String icao) {
         this.icao = icao;
@@ -74,11 +74,6 @@ public class AircraftTypeBuilder {
         return this;
     }
 
-    public AircraftTypeBuilder setFuelCapacity(int fuelCapacity) {
-        this.fuelCapacity = fuelCapacity;
-        return this;
-    }
-
     public AircraftTypeBuilder setMtow(int mtow) {
         this.mtow = mtow;
         return this;
@@ -104,7 +99,12 @@ public class AircraftTypeBuilder {
         return this;
     }
 
+    public AircraftTypeBuilder setCargoCapacity(int cargoCapacity) {
+        this.cargoCapacity = cargoCapacity;
+        return this;
+    }
+
     public AircraftType createAircraftType() {
-        return new AircraftType(icao, numberOfEngines, name, cruiseSpeed, departureRunway, arrivalRunway, range, entry, maintenanceProfile, fuelBurn, fuelCapacity, mtow, mlw, oew, mzfw, turntime);
+        return new AircraftType(icao, numberOfEngines, name, cruiseSpeed, departureRunway, arrivalRunway, range, entry, maintenanceProfile, fuelBurn, mtow, mlw, oew, mzfw, turntime, cargoCapacity);
     }
 }

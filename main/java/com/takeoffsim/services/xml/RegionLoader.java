@@ -25,10 +25,14 @@ public class RegionLoader {
 
     public void createRegions() {
         InputStream is = getClass().getClassLoader().getResourceAsStream("regions/USRegions.xml");
-        Regions.putAllRegions(makeRegions(is));
+        Regions.putAllRegions(makeRegions(is, "US"));
+        InputStream fr = getClass().getClassLoader().getResourceAsStream("regions/france.xml");
+        Regions.putAllRegions(makeRegions(fr, "FR"));
+        InputStream de = getClass().getClassLoader().getResourceAsStream("regions/germany.xml");
+        Regions.putAllRegions(makeRegions(de, "DE"));
     }
 
-    Iterable<Region> makeRegions(InputStream is) {
+    Iterable<Region> makeRegions(InputStream is, String country) {
         Document doc = null;
         try {
             doc = new SAXBuilder().build(is);
@@ -44,7 +48,7 @@ public class RegionLoader {
         for (Element e : list) {
             String name = e.getChildTextTrim("Name");
             Region region = new Region(name);
-            region.addPoints(citiesInRegion(e));
+            region.addPoints(citiesInRegion(e, country));
             regions.add(region);
         }
 
@@ -52,7 +56,7 @@ public class RegionLoader {
 
     }
 
-    Collection<City> citiesInRegion(Element element) {
+    Collection<City> citiesInRegion(Element element, String country) {
         List<Element> elements = element.getChildren();
         Collection<City> cities = new ArrayList<>();
         elements.stream().filter(e -> !e.getName().equals("Name")).forEach(e -> {
@@ -60,7 +64,7 @@ public class RegionLoader {
             int population = Integer.parseInt(e.getChildTextTrim("Population"));
             double latitude = Double.parseDouble(e.getChildTextTrim("Latitude"));
             double longitude = Double.parseDouble(e.getChildTextTrim("Longitude"));
-            City c = new City(name, latitude, longitude, population, Countries.getCountry("US"));
+            City c = new City(name, latitude, longitude, population, Countries.getCountry(country));
             cities.add(c);
         });
         return cities;

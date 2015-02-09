@@ -51,7 +51,7 @@ public class CityLoader {
         @Override
         public void accept(Element t) {
 
-            if (!t.getChild("country").getTextTrim().equals("US")) {
+            if (!t.getChild("country").getTextTrim().equals("US") && !t.getChild("country").equals("FR") && ! t.getChild("country").equals("DE")) {
                 String name = t.getChild("name").getTextTrim();
                 double latitude = Double.parseDouble(t.getChildTextTrim("latitude"));
                 double longitude = Double.parseDouble(t.getChildTextTrim("longitude"));

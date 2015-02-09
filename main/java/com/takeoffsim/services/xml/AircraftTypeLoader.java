@@ -45,26 +45,32 @@ public class AircraftTypeLoader {
         }
         Element root = doc.getRootElement();
         AircraftTypeBuilder builder = new AircraftTypeBuilder();
-        builder.setName(root.getChildTextTrim("name"));
-        builder.setCruiseSpeed(Integer.parseInt(root.getChildTextTrim("speed")));
-        builder.setArrivalRunway(Integer.parseInt(root.getChildTextTrim("arrival")));
-        builder.setDepartureRunway(Integer.parseInt(root.getChildTextTrim("departure")));
+        builder.setName(root.getChildTextTrim("Name"));
+        builder.setCruiseSpeed(Integer.parseInt(root.getChildTextTrim("Speed")));
+        builder.setArrivalRunway(Integer.parseInt(root.getChildTextTrim("ArrRunway")));
+        builder.setDepartureRunway(Integer.parseInt(root.getChildTextTrim("DeptRunway")));
         builder.setNumberOfEngines(Integer.parseInt(root.getChild("engines").getAttributeValue("number")));
-        builder.setFuelCapacity(Integer.parseInt(root.getChildTextTrim("production")));
         builder.setFuelBurn(Integer.parseInt(root.getChildTextTrim("fuelBurn")));
-        builder.setMlw(Integer.parseInt(root.getChildTextTrim("mlw")));
-        builder.setOew(Integer.parseInt(root.getChildTextTrim("oew")));
-        builder.setMtow(Integer.parseInt(root.getChildTextTrim("mtow")));
-        builder.setMzfw(Integer.parseInt(root.getChildTextTrim("mzfw")));
-        builder.setRange(Integer.parseInt(root.getChildTextTrim("range")));
-        builder.setIcao(root.getChildTextTrim("icao"));
+        builder.setMlw(Integer.parseInt(root.getChildTextTrim("MLW")));
+        builder.setOew(Integer.parseInt(root.getChildTextTrim("OEW")));
+        builder.setMtow(Integer.parseInt(root.getChildTextTrim("MTOW")));
+        builder.setMzfw(Integer.parseInt(root.getChildTextTrim("MZFW")));
+        builder.setRange(Integer.parseInt(root.getChildTextTrim("Range")));
+        builder.setCargoCapacity(Integer.parseInt(root.getChildTextTrim("CargoCapacity")));
+        builder.setTurntime(Integer.parseInt(root.getChildTextTrim("TurnTime")));
+        builder.setIcao(root.getChildTextTrim("Icao"));
         builder.setMaintenanceProfile(new AircraftTypeMaintenance());
-        builder.setEntry(LocalDate.parse(root.getChildTextTrim("eis")));
+        builder.setEntry(LocalDate.parse(root.getChildTextTrim("IntroToService")));
         AircraftType type = builder.createAircraftType();
-        type.setManufacturer(AircraftManufacturers.get(root.getChildTextTrim("manufacturer")));
+        type.setManufacturer(AircraftManufacturers.get(root.getChildTextTrim("Manufacturer")));
         type.setPrice(Money.parse(root.getChildTextTrim("price")));
+        type.setWingletsAvailable(Boolean.parseBoolean(root.getChildTextTrim("Winglets")));
         type.setMaxEconomySeats(Integer.parseInt(root.getChildTextTrim("seats")));
-        type.setStop(null);
+        if(root.getChildTextTrim("Exit").equals("null")){
+            type.setStop(null);
+        }else{
+            type.setStop(LocalDate.parse(root.getChildTextTrim("Exit")));
+        }
         type.setProductionRate(Integer.parseInt(root.getChildTextTrim("rate")));
         AircraftTypes.put(type);
     }
