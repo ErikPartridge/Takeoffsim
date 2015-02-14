@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
+  -->
+
+<Airplane>
+    <!--- Prices in USD, units are ft or lbs or nm -->
+    <Name>Airbus A340-300</Name>
+    <Icao>A343</Icao>
+    <Manufacturer>Airbus</Manufacturer>
+    <ListPrice>USD 238000000</ListPrice>
+    <IntroToService>25-10-1991</IntroToService>
+    <Exit>01-01-2011</Exit>
+    <MaxPaxCapacity>440</MaxPaxCapacity>
+    <CargoCapacity>5750</CargoCapacity>
+    <OEW>287000</OEW>
+    <MZFW>392423</MZFW>
+    <MLW>414469</MLW>
+    <MTOW>609600</MTOW>
+    <Fuel>5250</Fuel>
+    <Range>7400</Range>
+    <DeptRunway>10200</DeptRunway>
+    <ArrRunway>8800</ArrRunway>
+    <Production>2</Production>
+    <TurnTime>65</TurnTime>
+    <Winglets>true</Winglets>
+    <Speed>489</Speed>
+    <Engines number="4">
+        <Engine>CFM56-5C2</Engine>
+        <Engine>CFM56-5C3</Engine>
+        <Engine>CFM56-5C4</Engine>
+    </Engines>
+</Airplane>

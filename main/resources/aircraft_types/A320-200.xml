@@ -9,7 +9,7 @@
     <Icao>A320</Icao>
     <Manufacturer>Airbus</Manufacturer>
     <ListPrice>USD 110100000</ListPrice>
-    <IntroToService>11-3-93</IntroToService>
+    <IntroToService>11-03-1993</IntroToService>
     <Exit>null</Exit>
     <MaxPaxCapacity>180</MaxPaxCapacity>
     <CargoCapacity>1321</CargoCapacity>
