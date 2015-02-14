@@ -47,6 +47,7 @@ public class AircraftController {
 
     public static InputStream list() throws PebbleException, IOException{
         Map<String, Object> context = new HashMap<>();
+        System.out.println(AircraftTypes.listTypes().size());
         context.put("types", AircraftTypes.listTypes());
         File file = new File(path(), "list.html");
         return PebbleManager.getInputStream(file, context);

@@ -15,8 +15,8 @@ import com.takeoffsim.models.people.Investor;
 import com.takeoffsim.server.Main;
 import com.takeoffsim.services.Config;
 import com.takeoffsim.services.GameProperties;
+import com.takeoffsim.services.xml.AircraftTypeLoader;
 import com.takeoffsim.services.xml.AirlineLoader;
-import com.takeoffsim.services.xml.RegionLoader;
 import lombok.extern.apachecommons.CommonsLog;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
@@ -121,7 +121,7 @@ public class CreationController{
     }
 
     private static void buildAirline(Map<String, String> params){
-        new RegionLoader().createRegions();
+        new AircraftTypeLoader().makeAircraftTypes();
         new AirlineLoader().createAirlines();
 
         Airline mine = new Airline();

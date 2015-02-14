@@ -48,6 +48,12 @@ public final class AircraftTypes implements Serializable {
     public static List<AircraftType> listTypes(){
         ArrayList<AircraftType> typeArrayList = new ArrayList<>();
         aircraftTypes.values().forEach(typeArrayList::add);
+        Collections.sort(typeArrayList, new Comparator<AircraftType>() {
+            @Override
+            public int compare(AircraftType o1, AircraftType o2) {
+                return o1.getIcao().compareTo(o2.getIcao());
+            }
+        });
         return typeArrayList;
     }
 
@@ -87,6 +93,7 @@ public final class AircraftTypes implements Serializable {
     }
 
     public static void put(AircraftType type){
+        log.debug(type.getIcao());
         aircraftTypes.put(type.getIcao(), type);
     }
 

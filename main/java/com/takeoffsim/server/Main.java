@@ -27,6 +27,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.concurrent.ForkJoinPool;
 
 @CommonsLog
 public class Main {
@@ -39,13 +40,14 @@ public class Main {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-            new CountryLoader().createCountries();
-            new TAPAirport().createAirports();
-            new RegionLoader().createRegions();
-            new CityLoader().loadCities();
-            new DemandCreator().demandAllocation();
-            log.trace(Config.themePath());
-            diagnostics();
+        new CountryLoader().createCountries();
+        new TAPAirport().createAirports();
+        new RegionLoader().createRegions();
+        new CityLoader().loadCities();
+        ForkJoinPool pool = ForkJoinPool.commonPool();
+        pool.submit(() -> new DemandCreator().createAllDemand());
+        log.trace(Config.themePath());
+        pool.submit(this::diagnostics);
         try {
             SERVER.start();
         } catch (IOException e) {

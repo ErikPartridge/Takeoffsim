@@ -16,11 +16,11 @@ import org.jdom2.JDOMException;
 import org.jdom2.input.SAXBuilder;
 import org.joda.money.Money;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.time.LocalDate;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @since version 0.3-alpha. (c) Erik Partridge 2015
@@ -33,10 +33,27 @@ public class AircraftTypeLoader {
     }
 
     public void makeAircraftTypes(){
-        ExecutorService pool = Executors.newFixedThreadPool(5);
+        URL url = getClass().getClassLoader().getResource("aircraft_types/");
+        File file = null;
+        try {
+            file = new File(url.toURI());
+        } catch (URISyntaxException e) {
+            log.error(e);
+        }
+        assert file != null;
+        System.out.println(file);
+        for(File f : file.listFiles()){
+            System.out.println(f.getPath());
+            try {
+                makeAircraftTypeFromStream(new FileInputStream(f));
+            } catch (FileNotFoundException e) {
+                log.error(e);
+            }
+        }
     }
 
     void makeAircraftTypeFromStream(InputStream is){
+        final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         Document doc = null;
         try{
             doc = new SAXBuilder().build(is);
@@ -49,8 +66,8 @@ public class AircraftTypeLoader {
         builder.setCruiseSpeed(Integer.parseInt(root.getChildTextTrim("Speed")));
         builder.setArrivalRunway(Integer.parseInt(root.getChildTextTrim("ArrRunway")));
         builder.setDepartureRunway(Integer.parseInt(root.getChildTextTrim("DeptRunway")));
-        builder.setNumberOfEngines(Integer.parseInt(root.getChild("engines").getAttributeValue("number")));
-        builder.setFuelBurn(Integer.parseInt(root.getChildTextTrim("fuelBurn")));
+        builder.setNumberOfEngines(Integer.parseInt(root.getChild("Engines").getAttributeValue("number")));
+        builder.setFuelBurn(Integer.parseInt(root.getChildTextTrim("Fuel")));
         builder.setMlw(Integer.parseInt(root.getChildTextTrim("MLW")));
         builder.setOew(Integer.parseInt(root.getChildTextTrim("OEW")));
         builder.setMtow(Integer.parseInt(root.getChildTextTrim("MTOW")));
@@ -60,18 +77,19 @@ public class AircraftTypeLoader {
         builder.setTurntime(Integer.parseInt(root.getChildTextTrim("TurnTime")));
         builder.setIcao(root.getChildTextTrim("Icao"));
         builder.setMaintenanceProfile(new AircraftTypeMaintenance());
-        builder.setEntry(LocalDate.parse(root.getChildTextTrim("IntroToService")));
+        builder.setEntry(LocalDate.parse(root.getChildTextTrim("IntroToService"), formatter));
         AircraftType type = builder.createAircraftType();
         type.setManufacturer(AircraftManufacturers.get(root.getChildTextTrim("Manufacturer")));
-        type.setPrice(Money.parse(root.getChildTextTrim("price")));
+        type.setPrice(Money.parse(root.getChildTextTrim("ListPrice")));
         type.setWingletsAvailable(Boolean.parseBoolean(root.getChildTextTrim("Winglets")));
-        type.setMaxEconomySeats(Integer.parseInt(root.getChildTextTrim("seats")));
+        type.setMaxEconomySeats(Integer.parseInt(root.getChildTextTrim("MaxPaxCapacity")));
         if(root.getChildTextTrim("Exit").equals("null")){
             type.setStop(null);
         }else{
-            type.setStop(LocalDate.parse(root.getChildTextTrim("Exit")));
+            type.setStop(LocalDate.parse(root.getChildTextTrim("Exit"),formatter));
         }
-        type.setProductionRate(Integer.parseInt(root.getChildTextTrim("rate")));
+        type.setProductionRate(Integer.parseInt(root.getChildTextTrim("Production")));
         AircraftTypes.put(type);
+        System.out.println();
     }
 }

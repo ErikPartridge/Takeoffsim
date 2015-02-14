@@ -16,6 +16,7 @@ import com.takeoffsim.models.world.Cities;
 import com.takeoffsim.models.world.City;
 import com.takeoffsim.models.world.Regions;
 import lombok.Data;
+import lombok.extern.apachecommons.CommonsLog;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import java.util.stream.Stream;
 /**
  * @author Erik
  */
+@CommonsLog
 public class DemandCreator {
 
     /**
@@ -49,6 +51,7 @@ public class DemandCreator {
         List<Airport> airports = Airports.cloneAirports();
         cities.stream().parallel().forEach(c -> allocateDemand(airports.stream().filter(new DistancePredicate(c).invoke()), c));
         Regions.getRegionsList().parallelStream().forEach(r -> r.getPoints().forEach(c -> allocateDemand(airports.stream().filter(new DistancePredicate(c).invoke()), c)));
+        log.fatal("Done");
     }
 
     private double mich = 0;

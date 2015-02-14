@@ -32,6 +32,11 @@ public class RegionLoader {
         Regions.putAllRegions(makeRegions(de, "DE"));
     }
 
+    /**
+     * @param is the inputstream
+     * @param country their country code
+     * @return a set of regions
+     */
     Iterable<Region> makeRegions(InputStream is, String country) {
         Document doc = null;
         try {
