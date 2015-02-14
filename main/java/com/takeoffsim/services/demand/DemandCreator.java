@@ -30,12 +30,18 @@ import java.util.stream.Stream;
 @CommonsLog
 public class DemandCreator {
 
+    
+    public static volatile boolean wait = false;
     /**
      * allocates demand and puts it on routes
      */
     public void createAllDemand() {
+        System.out.println("Started demanding");
+        wait = true;
         demandAllocation();
         GlobalRoutes.listRoutes().parallelStream().forEach(g -> g.setAvailableDemand(g.getAvailableDemand() + createDemandOnRoute(g)));
+        wait = false;
+        System.out.println("Finished demanding");
     }
 
     /**
@@ -84,7 +90,11 @@ public class DemandCreator {
         }
 
         public Predicate<Airport> invoke() {
-            return airport -> airport.distance(city.getLatitude(), city.getLongitude()) < 150;
+            if(city.getLongitude() < 170){
+                return airport -> airport.distance(city.getLatitude(), city.getLongitude()) < 150;
+            }else{
+                return airport -> airport.fastDistance(city.getLatitude(), city.getLongitude()) < 155;
+            }
         }
     }
 }

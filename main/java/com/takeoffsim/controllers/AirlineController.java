@@ -7,6 +7,7 @@ package com.takeoffsim.controllers;
 import com.mitchellbosecke.pebble.error.PebbleException;
 import com.takeoffsim.models.airline.Airlines;
 import com.takeoffsim.services.Config;
+import com.takeoffsim.services.demand.DemandCreator;
 import lombok.extern.apachecommons.CommonsLog;
 
 import java.io.File;
@@ -43,6 +44,14 @@ public class AirlineController {
         if(Airlines.getAirline(icao) == null){
             throw new InvalidParameterException("Airline could not be found with icao " + icao);
         }else{
+            while(DemandCreator.wait){
+                try {
+                    Thread.sleep(50);
+                    System.out.println("waiting");
+                } catch (InterruptedException e) {
+                    log.error(e);
+                }
+            }
             Map<String, Object> context = new HashMap<>();
             context.put("online", Config.isWebConnected());
             context.put("airline", Airlines.getAirline(icao));

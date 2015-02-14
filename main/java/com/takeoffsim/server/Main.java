@@ -13,7 +13,7 @@ import com.takeoffsim.models.world.Cities;
 import com.takeoffsim.models.world.Countries;
 import com.takeoffsim.models.world.Regions;
 import com.takeoffsim.services.Config;
-import com.takeoffsim.services.demand.DemandCreator;
+import com.takeoffsim.services.threads.DemandCreatorThread;
 import com.takeoffsim.services.threads.SerializeThread;
 import com.takeoffsim.services.xml.CityLoader;
 import com.takeoffsim.services.xml.CountryLoader;
@@ -45,7 +45,7 @@ public class Main {
         new RegionLoader().createRegions();
         new CityLoader().loadCities();
         ForkJoinPool pool = ForkJoinPool.commonPool();
-        pool.submit(() -> new DemandCreator().createAllDemand());
+        new DemandCreatorThread().start();
         log.trace(Config.themePath());
         pool.submit(this::diagnostics);
         try {

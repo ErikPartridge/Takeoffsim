@@ -132,8 +132,15 @@ public class Airport implements Serializable, Comparable<Airport> {
     }
 
     public double distance(double lat, double lon){
-        return new GreatCircle().distance(this.latitude, this.longitude, lat, lon);
+        return GreatCircle.distance(this.latitude, this.longitude, lat, lon);
     }
+    public double fastDistance(double lat, double lon){
+        return GreatCircle.fastDistance(this.latitude, this.longitude, lat, lon);
+    }
+
+
+
+
 
     /*
     * @returns number of flights

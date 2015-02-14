@@ -31,7 +31,7 @@ public class History<T> implements Serializable, Comparable{
 
     private final LocalDateTime timeStamp;
 
-    private History(T item){
+    public History(T item){
         final Cloner cloner = new Cloner();
         this.object = cloner.shallowClone(item);
         if(!(item instanceof Serializable)){
@@ -40,7 +40,7 @@ public class History<T> implements Serializable, Comparable{
         timeStamp = Time.getDateTimeInstance();
     }
 
-    private History(T item, LocalDateTime time){
+    public History(T item, LocalDateTime time){
         final Cloner cloner = new Cloner();
         this.object = cloner.shallowClone(item);
         if(!(item instanceof Serializable)){
@@ -50,7 +50,7 @@ public class History<T> implements Serializable, Comparable{
 
     }
 
-    private History(T item, LocalDateTime time, boolean test){
+    public History(T item, LocalDateTime time, boolean test){
         this.object = item;
         this.timeStamp = time;
 
