@@ -60,11 +60,8 @@ public final class HumanController {
 
     private static InputStream finishFlightView(Map<String, String> params) throws PebbleException, IOException{
         final Map<String, String> map = params;
-        System.out.println(map);
         String dep = map.remove("depart");
-        System.out.println(dep);
         String arr = map.remove("arrive");
-        System.out.println(arr);
         dep = dep.split(" ")[0].trim();
         arr = arr.split(" ")[0].trim();
         final String auto = map.remove("auto-gates");

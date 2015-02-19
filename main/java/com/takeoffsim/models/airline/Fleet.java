@@ -61,7 +61,7 @@ class Fleet implements Serializable {
                 return s;
             }
         }
-        throw new IllegalArgumentException("This airline does not have this type");
+        return null;
     }
 
     public int getSize(){

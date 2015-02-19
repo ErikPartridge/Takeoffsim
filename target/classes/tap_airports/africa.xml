@@ -1,7 +1,7 @@
 
 
 <!--
-  ~ Copyright (c) Erik Malmstrom-Partridge 2014. Do not distribute, edit, or modify in anyway, without direct written consent of Erik Malmstrom-Partridge.
+  ~ Copyright (c) Erik Partridge 2015. All rights reserved, program is for TakeoffSim.com
   -->
 
 <!--must be placed in \data\addons\airports-->
@@ -3804,20 +3804,6 @@
       <runway name="17/35" length="3144" surface="Asphalt" />
     </runways>
   </airport>
-  <airport name="Moyo Airport" icao="" iata="OYG" type="Domestic" season="All_Year">
-    <town town="Moyo" country="261" GMT="03:00:00" DST="00:00:00" />
-    <coordinates>
-      <latitude value="003°38'39''N" />
-      <longitude value="031°45'45''E" />
-    </coordinates>
-    <size value="Smallest" pax="2" />
-    <terminals>
-      <terminal name="Terminal A" gates="2" />
-    </terminals>
-    <runways>
-      <runway name="02/20" length="1300" surface="Asphalt" />
-    </runways>
-  </airport>
   <!--Malawi (FW**)-->
   <airport name="Chileka International Airport" icao="FWCL" iata="BLZ" type="Regional" season="All_Year">
     <town town="Blantyre" country="286" GMT="02:00:00" DST="00:00:00" />
@@ -4038,20 +4024,6 @@
     </terminals>
     <runways>
       <runway name="17/35" length="3144" surface="Asphalt" />
-    </runways>
-  </airport>
-  <airport name="Moyo Airport" icao="" iata="OYG" type="Domestic" season="All_Year">
-    <town town="Moyo" country="270" GMT="03:00:00" DST="00:00:00" />
-    <coordinates>
-      <latitude value="003°38'39''N" />
-      <longitude value="031°45'45''E" />
-    </coordinates>
-    <size value="Smallest" pax="2" />
-    <terminals>
-      <terminal name="Terminal A" gates="2" />
-    </terminals>
-    <runways>
-      <runway name="02/20" length="1300" surface="Asphalt" />
     </runways>
   </airport>
   <!--Cape Verde(GV**)-->

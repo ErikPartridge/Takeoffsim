@@ -4,12 +4,10 @@
 
 package com.takeoffsim.models.economics;
 
-import com.takeoffsim.services.history.History;
-import org.apache.commons.math3.random.MersenneTwister;
 import org.joda.money.CurrencyUnit;
 import org.joda.money.Money;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.HashMap;
 
 /*
@@ -27,8 +25,7 @@ import java.util.ArrayList;
 /**
  * @author Erik
  */
-@Deprecated
-final class StockMarket {
+public final class StockMarket implements Serializable {
     
     private static final HashMap<String, Stock> stocks = new HashMap<>();
 
@@ -48,31 +45,6 @@ final class StockMarket {
         return Money.of(CurrencyUnit.USD, oil.getIndex());
     }
     
+    public static Index getDow(){return dow;}
 }
 
-final class Index{
-    
-    private final MersenneTwister random = new MersenneTwister();
-    
-    private double value;
-    
-    private transient static ArrayList<History<Index>> histories = new ArrayList<>();
-    
-    public Index(double val){
-        this.value = val;
-    }
-
-    /**
-     * Should be called once a minute 
-     */
-    public void tick(){
-        double factor  = random.nextDouble() / 1200 - (0.00041666666);
-        value *= 1 + factor;
-        histories.add(new History<>(this));
-    }
-    
-    public double getIndex(){
-        return value;
-    }
-    
-}

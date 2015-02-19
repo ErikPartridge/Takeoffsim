@@ -9,6 +9,9 @@
 package com.takeoffsim.models.aircraft;
 
 
+import com.takeoffsim.models.airline.Airline;
+import com.takeoffsim.models.airline.Airlines;
+import com.takeoffsim.models.airline.Subfleet;
 import com.takeoffsim.models.manufacturers.AircraftManufacturer;
 import lombok.Data;
 import lombok.extern.apachecommons.CommonsLog;
@@ -87,6 +90,17 @@ public class AircraftType implements Serializable, Comparable<AircraftType> {
     private boolean wingletsAvailable;
 
 
+    public int numberInExistence(){
+        int sum = 0;
+        for (Airline airline : Airlines.cloneAirlines()) {
+            Subfleet  f = airline.getFleet().getSubFleet(icao);
+            if(f != null){
+                sum += f.getAircraft().values().size();
+            }
+        }
+        return sum;
+    }
+    
     @Override
     public String toString() {
         return "AircraftType{" +
@@ -114,6 +128,7 @@ public class AircraftType implements Serializable, Comparable<AircraftType> {
                 '}';
     }
 
+    
     @Override
     public int compareTo(AircraftType o) {
         return ((AircraftType) o).toString().compareTo(this.toString());
