@@ -26,6 +26,12 @@ public final class HumanController {
     private HumanController() {
     }
 
+    /**
+     *
+     * @return the page for the human airline
+     * @throws PebbleException
+     * @throws IOException
+     */
     public static InputStream getAirlineIndex() throws PebbleException, IOException{
         File file = new File(Config.themePath() + "human/index.html");
         Map<String,Object> context = new HashMap<>();
@@ -34,6 +40,9 @@ public final class HumanController {
         return is;
     }
 
+    /**
+     * The view to create a new flight
+     */
     public static InputStream getNewFlightView() throws PebbleException, IOException{
         File file = new File(Config.themePath() + "human/new-flight.html");
         Map<String, Object> context = new HashMap<>();
@@ -44,6 +53,13 @@ public final class HumanController {
         return is;
     }
 
+    /**
+     *
+     * @param url the page requested
+     * @param params any POST/GET Data
+     * @return InputStream to write
+     * @throws IOException
+     */
     public static InputStream manage(String url, Map<String, String> params) throws IOException{
         String uri = url.replaceFirst("/human/", "").replaceAll(".html", "");
         try{
@@ -58,6 +74,10 @@ public final class HumanController {
         throw new IOException();
     }
 
+    /**
+     *
+     * the last step of the flight view
+     */
     private static InputStream finishFlightView(Map<String, String> params) throws PebbleException, IOException{
         final Map<String, String> map = params;
         String dep = map.remove("depart");
@@ -78,6 +98,9 @@ public final class HumanController {
 
 }
 
+/**
+ * The partial flight data from the first view
+ */
 class TempFlightData{
 
     public static TempFlightData data = null;

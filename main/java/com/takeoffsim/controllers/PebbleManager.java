@@ -22,6 +22,14 @@ class PebbleManager {
 
     private static PebbleEngine engine;
 
+    /**
+     *
+     * @param file the file to render
+     * @param context the map of values
+     * @return an input stream to the rendering
+     * @throws PebbleException
+     * @throws IOException
+     */
     static InputStream getInputStream(File file, Map<String, Object> context) throws PebbleException, IOException {
         StringLoader loader = new StringLoader();
         String result = Files.toString(file, Charsets.UTF_8);

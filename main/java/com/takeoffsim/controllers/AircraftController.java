@@ -20,6 +20,13 @@ import java.util.Map;
  */
 public class AircraftController {
 
+    /**
+     *
+     * @param url the page requested
+     * @param params any POST/GET Data
+     * @return InputStream to write
+     * @throws IOException
+     */
     public static InputStream manage(String url, Map<String, String> params) throws IOException {
         String uri = url.replaceFirst("/aircraft/", "").replaceAll(".html", "");
         String[] split = uri.split("/");
@@ -34,6 +41,14 @@ public class AircraftController {
         throw new IOException("Nothing found");
     }
 
+
+    /**
+     *
+     * @param icao the icao code for the aircraft type
+     * @return the response to be shown
+     * @throws PebbleException if something goes wrong rendering
+     * @throws IOException if there's a different error
+     */
     public static InputStream overview(String icao) throws PebbleException, IOException{
         if(AircraftTypes.getAcfType(icao) != null){
             throw new InvalidParameterException("Airline could not be found with icao " + icao);
@@ -45,6 +60,12 @@ public class AircraftController {
         }
     }
 
+    /**
+     *
+     * @return a list of the aircraft types in stream format
+     * @throws PebbleException
+     * @throws IOException
+     */
     public static InputStream list() throws PebbleException, IOException{
         Map<String, Object> context = new HashMap<>();
         System.out.println(AircraftTypes.listTypes().size());

@@ -32,6 +32,13 @@ import java.util.stream.Stream;
 @CommonsLog
 public class AjaxController {
 
+    /**
+     *
+     * @param url the page requested
+     * @param params any POST/GET Data
+     * @return InputStream to write
+     * @throws IOException
+     */
     public static InputStream manage(String url, Map<String, String> params) throws IOException {
         switch (url.replaceAll("/ajax/", "")) {
             case "airports.json":
@@ -44,10 +51,21 @@ public class AjaxController {
         throw new IOException();
     }
 
+    /**
+     *  THIS DOESNT WORK
+     * @return
+     * @throws IOException
+     */
     public static InputStream airportJson() throws IOException {
         throw new IOException();
     }
 
+    /**
+     *
+     * @param params the session parameters
+     * @return the response
+     * @throws IOException
+     */
     public static InputStream planesForType(Map<String, String> params) throws IOException {
         Airport apt1 = Airports.getAirport(params.get("depart").split("-")[0].trim());
         Airport apt2 = Airports.getAirport(params.get("arrive").split("-")[0].trim());
@@ -67,6 +85,12 @@ public class AjaxController {
         return Server.stringToInputStream(res.substring(0, res.length() - 1) + "]");
     }
 
+    /**
+     *
+     * @param params session parameters
+     * @return the response
+     * @throws IOException
+     */
     public static InputStream forecastedOD(Map<String, String> params) throws IOException {
         //Get the requested airports
         Airport apt1 = Airports.getAirport(params.get("depart").split("-")[0].trim());

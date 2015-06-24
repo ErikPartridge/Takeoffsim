@@ -33,6 +33,13 @@ import java.util.*;
 @CommonsLog
 public class CreationController{
 
+    /**
+     *
+     * @param url the page requested
+     * @param params any POST/GET Data
+     * @return InputStream to write
+     * @throws IOException
+     */
     public static InputStream manage(String url, Map<String, String> params) throws IOException{
         String uri = url.replaceFirst("/creation/", "").replaceAll(".html", "");
         System.out.println(uri);

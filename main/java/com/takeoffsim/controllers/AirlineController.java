@@ -23,6 +23,13 @@ import java.util.Map;
 @CommonsLog
 public class AirlineController {
 
+    /**
+     *
+     * @param url the page requested
+     * @param params any POST/GET Data
+     * @return InputStream to write
+     * @throws IOException
+     */
     public static InputStream manage(String url, Map<String, String> params) throws IOException{
         String uri = url.replaceFirst("/airline/", "").replaceAll(".html", "");
         String[] split = uri.split("/");
@@ -40,6 +47,13 @@ public class AirlineController {
         return Config.themePath() + "airline/";
     }
 
+    /**
+     *
+     * @param icao the airline's icao code
+     * @return an overview of the aircraft type
+     * @throws PebbleException
+     * @throws IOException
+     */
     public static InputStream view(String icao) throws PebbleException, IOException{
         if(Airlines.getAirline(icao) == null){
             throw new InvalidParameterException("Airline could not be found with icao " + icao);
